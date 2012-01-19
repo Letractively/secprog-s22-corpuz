@@ -1,0 +1,14 @@
+body{
+			background:url(Images/uHeader.png) repeat-x;
+                        background-color:#f8f8f8;
+			font-family:Verdana,sans-serif;
+			color:#111111;
+			font-size:9px;
+
+		}
+
+                a{
+                        color:#111111;
+                        text-decoration:none;
+                        font-weight:bold;
+                }

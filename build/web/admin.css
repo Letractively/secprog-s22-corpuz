@@ -1,0 +1,76 @@
+                body{
+			background:url(Images/uHeader.png) repeat-x;
+                        background-color:#f8f8f8;
+			font-family:Verdana,sans-serif;
+			color:#111111;
+			font-size:9px;
+                }
+
+                a{
+                        color:#111111;
+                        text-decoration:none;
+                        font-weight:bold;
+                }
+
+                input.createButton{
+			font-size:9px;
+			font-family:Verdana,sans-serif;
+			text-align:center;
+                        font-weight:bold;
+			color:#ffffff;
+			width:80px;
+			height:24px;
+			background-color:#2981b8;
+			border-top-style:solid;
+			border-top-color:#004262;
+			border-top-width:1px;
+			border-bottom-style:solid;
+			border-bottom-color:#004262;
+			border-bottom-width:1px;
+			border-left-style:solid;
+			border-left-color:#004262;
+			border-left-width:1px;
+			border-right-style:solid;
+			border-right-color:#004262;
+			border-right-width:1px;
+		}
+
+                table{
+                        border-collapse:collapse;
+                }
+                table td{
+                    font-family:Verdana;
+                    font-size:9px;
+                    border:1px solid #7ec61c;
+                    padding:3px 7px 2px 7px;
+                }
+
+                table th{
+                    font-family:Verdana;
+                    font-size:9px;
+                    border:1px solid #7ec61c;
+                    background-color:#7ec61c;
+                }
+
+                input.linkButton{
+			font-size:9px;
+			font-family:Verdana,sans-serif;
+			text-align:center;
+                        font-weight:bold;
+			color:#ffffff;
+			width:55px;
+			height:18px;
+			background-color:#2981b8;
+			border-top-style:solid;
+			border-top-color:#004262;
+			border-top-width:1px;
+			border-bottom-style:solid;
+			border-bottom-color:#004262;
+			border-bottom-width:1px;
+			border-left-style:solid;
+			border-left-color:#004262;
+			border-left-width:1px;
+			border-right-style:solid;
+			border-right-color:#004262;
+			border-right-width:1px;
+		}
