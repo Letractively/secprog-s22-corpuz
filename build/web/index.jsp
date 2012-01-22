@@ -27,7 +27,7 @@
             <td>
                 <div class="login">
                     
-                    <form name="loginForm" onsubmit="">
+                    <form name="loginForm" method ="post" action ="login_controller">
                         
                         Username: <input type="text" name="username"><br>
                         Password: <input type="password" name="password"><br>
