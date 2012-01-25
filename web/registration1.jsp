@@ -26,7 +26,7 @@
                 <div class="registration">
                 
                     <h2>Log-in Information:</h2><br>
-                    <form name="loginForm" method ="post" action="registration2.jsp">
+                    <form name="regForm1" method ="post" action="registration2.jsp">
                         
                         Username: <input type="text" name="username"><br>
                         Password: <input type="password" name="password"><br>

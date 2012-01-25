@@ -26,12 +26,12 @@
                 <div class="registration">
                 
                     <h2>Credit Card Information:</h2><br>
-                    <form name="loginForm" method ="post" action="index.jsp">
+                    <form name="regForm2" method ="post" action="index.jsp">
                        
                         Name on Card: <input type="text" name="firstName" size="7"> <input type="text" name="middleName" size="7"> <input type="text" name="lastName" size="7"><br>
-                        Credit Card #: <input type="text" name="email"><br>
-                        Type: <input type="text" name="email"><br>
-                        Expiry Date: <input type="text" name="email"><br><br><hr>
+                        Credit Card #: <input type="text" name="ccNo"><br>
+                        Type: <input type="text" name="ccType"><br>
+                        Expiry Date: <input type="text" name="ccDate"><br><br><hr>
                         
                     <h2>Billing Information</h2><br>    
                         Home #: <input type="text" name="billHomeNo" size="7"><br>
