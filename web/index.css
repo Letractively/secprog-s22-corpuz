@@ -4,9 +4,18 @@
 			font-family:Verdana,sans-serif;
 			color:#111111;
 			font-size:9px;
+                        
 
 		}
 
+                ::selection {
+                        background: #d2ebaf; /* Safari */
+                }
+                
+                ::-moz-selection {
+                        background: #d2ebaf; /* Firefox */
+                }
+                
 		h1{
 			font-family:Verdana,sans-serif;
 			color:#111111;
@@ -29,18 +38,13 @@
 
                 a{
                         color:#2981b8;
-                        text-decoration:underline;
-                        -webkit-transition: color .5s linear;
-                        -moz-transition: color .5s linear;
-                        -o-transition: color .5s linear;
+                        text-decoration: none;
                         
                 }
                 
                 a:hover{
-                        color:pink;
-                        -webkit-transition: color .5s linear;
-                        -moz-transition: color .5s linear;
-                        -o-transition: color .5s linear;
+                        color:#7ec61c;
+                        font-weight: bold;
                 }
 
                 input.loginButton{
@@ -66,28 +70,6 @@
 			border-right-width:1px;
 		}
 
-                input.registerButton{
-			font-size:9px;
-			font-family:Verdana,sans-serif;
-			text-align:center;
-                        font-weight:bold;
-			color:#ffffff;
-			width:55px;
-			height:18px;
-			background-color:#2981b8;
-			border-top-style:solid;
-			border-top-color:#004262;
-			border-top-width:1px;
-			border-bottom-style:solid;
-			border-bottom-color:#004262;
-			border-bottom-width:1px;
-			border-left-style:solid;
-			border-left-color:#004262;
-			border-left-width:1px;
-			border-right-style:solid;
-			border-right-color:#004262;
-			border-right-width:1px;
-		}
 
                 iframe{
                     border:0px;
@@ -110,7 +92,7 @@
                 
                 div.login{
                     width:240px;
-                    height:85px;
+                    height:110px;
                     background-color: white;
                     overflow-y: none;
                     text-align: right;
