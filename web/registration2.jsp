@@ -30,8 +30,14 @@
                        
                         Name on Card: <input type="text" name="firstName" size="7"> <input type="text" name="middleName" size="7"> <input type="text" name="lastName" size="7"><br>
                         Credit Card #: <input type="text" name="ccNo"><br>
-                        Type: <input type="text" name="ccType"><br>
-                        Expiry Date: <input type="text" name="ccDate"><br><br><hr>
+                        Type: <select name="ccType">
+                            <option value="visa">Visa</option>
+                            <option value="mastercard">MasterCard</option>
+                            <option value="americanex">American Express</option>
+                            <option value="jcb">JCB</option>
+                        </select><br>
+                        Expiry Date: <input type="">
+                                            <br><br><hr>
                         
                     <h2>Billing Information</h2><br>    
                         Home #: <input type="text" name="billHomeNo" size="7"><br>
