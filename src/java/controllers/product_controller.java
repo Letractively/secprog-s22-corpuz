@@ -42,13 +42,16 @@ public class product_controller extends HttpServlet {
             Statement select = conn.createStatement();
             
             String dropdowned = request.getParameter("type");
-            String stringed = request.getParameter("SearchBox");
+            String stringed = request.getParameter("searchBox");
             
-            if(stringed.matches("book"))
+            if(dropdowned.matches("book"))
             {
-               
+            //  ResultSet result = select.executeQuery("SELECT * from products");
+             ResultSet result = select.executeQuery("SELECT prod_title, prod_syn from PRODUCTS where prod_type = 'BOOK' AND prod_title LIKE "+"'%"+""+stringed+""+"%'");
+             request.setAttribute("Result",result);
+             request.getRequestDispatcher("index.jsp").forward(request,response);
             }
-            if(stringed.matches("magazine"))
+            if(dropdowned.matches("magazine"))
             {
                 
             }
