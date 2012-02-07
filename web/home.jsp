@@ -48,6 +48,8 @@
                     </select>
                     <input type="text" size="40" value="Search..." name="searchBox" autocomplete="off"><input type="submit" class="registerButton" name="searchButton" value="Search">
                 </form>
+            Search Results:<br>
+            No Results Found.
             </div><br>
         </div>
         

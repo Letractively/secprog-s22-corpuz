@@ -48,7 +48,8 @@
                         <option value="cd">Audio CDs</option>
                         <option value="dvd">DVDs</option>
                     </select>
-                    <input type="text" size="40" value="Search..." name="searchBox" autocomplete="off"> <input type="submit" class="loginButton" name="searchButton" value="Search"> 
+                    <input type="text" size="40" value="Search..." name="searchBox" autocomplete="off"> 
+                    <input type="submit" class="loginButton" name="searchButton" value="Search"> 
                 </form>
             </div><br>
                 
