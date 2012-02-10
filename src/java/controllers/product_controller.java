@@ -44,24 +44,32 @@ public class product_controller extends HttpServlet {
             String dropdowned = request.getParameter("type");
             String stringed = request.getParameter("searchBox");
             
+            out.println(dropdowned);
+            
             if(dropdowned.matches("book"))
             {
             //  ResultSet result = select.executeQuery("SELECT * from products");
-             ResultSet result = select.executeQuery("SELECT prod_title, prod_syn from PRODUCTS where prod_type = 'BOOK' AND prod_title LIKE "+"'%"+""+stringed+""+"%'");
+             ResultSet result = select.executeQuery("SELECT prod_title, prod_syn, prod_price from PRODUCTS where prod_type = 'BOOK' AND prod_title LIKE "+"'%"+""+stringed+""+"%'");
              request.setAttribute("Result",result);
              request.getRequestDispatcher("index.jsp").forward(request,response);
             }
             if(dropdowned.matches("magazine"))
             {
-                
+             ResultSet result = select.executeQuery("SELECT prod_title, prod_syn, prod_price from PRODUCTS where prod_type = 'MAGAZINE' AND prod_title LIKE "+"'%"+""+stringed+""+"%'");
+             request.setAttribute("Result",result);
+             request.getRequestDispatcher("index.jsp").forward(request,response);
             }
-            if(stringed.matches("cd"))
+            if(dropdowned.matches("cd"))
             {
-                
+            ResultSet result = select.executeQuery("SELECT prod_title, prod_syn, prod_price from PRODUCTS where prod_type = 'AUDIO CD' AND prod_title LIKE "+"'%"+""+stringed+""+"%'");
+             request.setAttribute("Result",result);
+             request.getRequestDispatcher("index.jsp").forward(request,response);
             }
-            if(stringed.matches("dvd"))
+            if(dropdowned.matches("dvd"))
             {
-                
+             ResultSet result = select.executeQuery("SELECT prod_title, prod_syn, prod_proce from PRODUCTS where prod_type = 'DVD' AND prod_title LIKE "+"'%"+""+stringed+""+"%'");
+             request.setAttribute("Result",result);
+             request.getRequestDispatcher("index.jsp").forward(request,response);
             }
             
             
