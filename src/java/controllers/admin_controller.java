@@ -56,7 +56,7 @@ public class admin_controller {
         return result;
         }
     
-    public ArrayList getAccount()
+    public ArrayList getAccount(String Position)
     {
        // String[] name = new String[100];
         
@@ -69,7 +69,11 @@ public class admin_controller {
             Connection conn = myFactory.getConnection();
                        
             //SQL Query
-            PreparedStatement pstmt = conn.prepareStatement("SELECT staff_id FROM staff");
+            if(!(Position.contentEquals("Customer")))
+            {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM staff where position = ?");
+            
+            pstmt.setString(1, Position);
             
             ResultSet rs = pstmt.executeQuery();
 
@@ -80,7 +84,25 @@ public class admin_controller {
             
              //close DB connection
             conn.close();
+            }
+            
+            if((Position.contentEquals("Customer")))
+             {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM customer");
+            
+           
+            
+            ResultSet rs = pstmt.executeQuery();
 
+                while(rs.next())
+                    {
+                        name.add(rs.getString("cust_id"));
+                    }
+            
+             //close DB connection
+            conn.close();
+            }
+                
             
         }
         catch(SQLException ex)
@@ -89,12 +111,12 @@ public class admin_controller {
             }
             return name;
         }
-         
+        
     public ArrayList checkAccountParameters(staff newStaff, String rePass)
     {
                
         ArrayList name = new ArrayList();
-        boolean result = new admin_controller().searchAccount(newStaff);
+     //   boolean result = new admin_controller().searchAccount(newStaff);
         
         if(newStaff.getStaff_id().isEmpty() || newStaff.getPassword().isEmpty() || rePass.isEmpty() || newStaff.getEmail().isEmpty() || newStaff.getFname().isEmpty() || newStaff.getMname().isEmpty() || newStaff.getLname().isEmpty() || newStaff.getPosition().isEmpty())
             name.add("Please Supply ALL Fields.");
@@ -110,7 +132,7 @@ public class admin_controller {
             name.add("Please Supply Middle Name Field.");
         if(newStaff.getLname().isEmpty())
             name.add("Please Supply Last Name Field.");
-        if(!(newStaff.getPosition().contentEquals("A-AM") || newStaff.getPosition().contentEquals("B-ACM") || newStaff.getPosition().contentEquals("B-BM") || newStaff.getPosition().contentEquals("B-DM") || newStaff.getPosition().contentEquals("B-BM") || newStaff.getPosition().contentEquals("B-MM"))) 
+        if(!(newStaff.getPosition().contentEquals("A-AM") || newStaff.getPosition().contentEquals("B-ACM") ||  newStaff.getPosition().contentEquals("B-DM") || newStaff.getPosition().contentEquals("B-BM") || newStaff.getPosition().contentEquals("B-MM"))) 
             name.add("Position Input is not Valid.");
         if(searchAccount(newStaff) == true)
             name.add("Username is already Taken.");
@@ -118,7 +140,25 @@ public class admin_controller {
         return name;
         }
     
-    public boolean updateState(staff newStaff)
+     public ArrayList checkLockParameters(staff newStaff, String Position)
+    {
+               
+        ArrayList name = new ArrayList();
+     //   boolean result = new admin_controller().searchAccount(newStaff);
+        
+        if(newStaff.getStaff_id().isEmpty() || Position.isEmpty() || newStaff.getState().isEmpty())
+            name.add("Please Supply ALL Fields.");
+        if(!(Position.contentEquals("Accounting Manager") || Position.contentEquals("Audio CD Manager") || Position.contentEquals("Book Manager") || Position.contentEquals("DVD Manager") || Position.contentEquals("Magazine Manager") ||  Position.contentEquals("Customer"))) 
+            name.add("Position Input is not Valid.");
+        if(!(newStaff.getState().contentEquals("Lock") || newStaff.getState().contentEquals("UnLock") )) 
+            name.add("State Input is not Valid.");
+        if(searchAccount(newStaff) == false)
+            name.add("Username is not exist.");
+
+        return name;
+        }
+    
+    public boolean updateState(staff newStaff, String positionName)
     {
         boolean result = false;
 
@@ -126,7 +166,9 @@ public class admin_controller {
             //opens DB Connection
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
-
+            
+            if(!(positionName.contentEquals("Customer")))
+            {
             //include parameters
             int i = 1;
             
@@ -144,6 +186,36 @@ public class admin_controller {
             conn.close();
 
             result = true;
+            }
+            
+             if(positionName.contentEquals("Customer"))
+            {
+                
+                int stateNum = 0;
+                
+                if(newStaff.getState().contentEquals("Lock"))
+                {
+                    stateNum = 1;
+                }
+                
+            //include parameters
+            int i = 1;
+            
+            //SQL Query
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE customer SET state = ? WHERE cust_id = ?");
+         
+            pstmt.setInt(i++, stateNum);
+         
+            pstmt.setString(i++, newStaff.getStaff_id());
+
+            //execute query
+            pstmt.executeUpdate();
+
+            //close DB connection
+            conn.close();
+
+            result = true;
+            }
         }
         catch(SQLException ex)
         {

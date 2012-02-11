@@ -18,57 +18,38 @@
     <body>
         <h1>Welcome Back Administrator!</h1>
         
-        <a href="admin-createaccount.jsp">Create an Account</a><br/>
-        <a href="admin-unlockaccount.jsp">Lock/Unlock an Account</a><br/>
-        
-        <%
-            if(request.getParameter("Submit")!=null)
-            {
-                staff newStaff = new staff();
-                
-                newStaff.setStaff_id(request.getParameter("username"));
-                newStaff.setPassword(request.getParameter("password"));
-                String rePass = request.getParameter("repass");
-                newStaff.setState("unlock");
-                newStaff.setFname(request.getParameter("firstName"));
-                newStaff.setLname(request.getParameter("lastName"));
-                newStaff.setMname(request.getParameter("middleName"));
-                newStaff.setEmail(request.getParameter("email"));
-                newStaff.setAddress(request.getParameter("homeadd"));
-                newStaff.setPosition(request.getParameter("position"));
-              //  out.println(request.getParameter("position"));
-                
-                ArrayList result2 = new admin_controller().checkAccountParameters(newStaff, rePass);
-               // System.out.println("hehe" + result2.size());
-                if(!(result2.isEmpty()))
-                { 
-                    for(int i=0; i<result2.size(); i++)
-                     {
-                        out.println(result2.get(i)+ "<br/>");
-                      //  System.out.println(result2.get(i));
-                     }
+            
+         <%
+            if ((ArrayList) request.getAttribute("resulta") != null) {
+                    ArrayList result23 = (ArrayList) request.getAttribute("resulta");
+                    if (!(result23.isEmpty())) {
+                        for (int i = 0; i < result23.size(); i++) {
+                            out.println(result23.get(i) + "<br/>");
+                            //  System.out.println(result2.get(i));
+                        }
+                    }
                 }
-                else
-                {
-                boolean result = new admin_controller().addAccount(newStaff);
+                   
+              if ((String) request.getAttribute("flagKo") != null )
+                  {
                 
-                
-                 if(result==true)
-                    {
-                        %><script type="text/javascript">alert("Adding Successful!");</script><%
-                       
-                    }
-                    else
-                    {
-                        %><script type="text/javascript">alert("Adding failed!");</script><%
+                        String resultChecker = (String) request.getAttribute("flagKo");
+
+                        if(resultChecker.contentEquals("tama"))
+                        {
+                                %><script type="text/javascript">alert("Adding Successful!");</script><% 
+                        }
+                        else
+                        {
+                                %><script type="text/javascript">alert("Adding failed!");</script><% 
+                        }
+
+                   }
+                    
                         
-                    }
-               }
-             }
-        %>
-        
+         %>
         <h2>Create Account</h2>
-        <form method ="post" action="">
+        <form method ="post" action="admin_reg_controller">
                         
         Username: <input type="text" name="username"><br>
         Password: <input type="password" name="password"><br>
@@ -90,46 +71,94 @@
         
         <br><br>
         
+       
+        
         <%
-            if(request.getParameter("changeState")!=null)
-            {
-                staff newStaff = new staff();
+        
+            
+            if ((String) request.getAttribute("flagKo2") != null )
+                  {
                 
-                newStaff.setStaff_id(request.getParameter("staffID"));
-                newStaff.setState(request.getParameter("choose"));
-                out.println(request.getParameter("staffID"));
-                out.println(request.getParameter("choose"));
-                boolean result = new admin_controller().updateState(newStaff);
-                
-                 if(result==true)
-                    {
-                        %><script type="text/javascript">alert("Changing State Successful!");</script><%
-                       
-                    }
-                    else
-                    {
-                        %><script type="text/javascript">alert("Changing State Failed!");</script><%
-                        
-                    }
-            }
+                        String resultChecker = (String) request.getAttribute("flagKo2");
+
+                        if(resultChecker.contentEquals("tama"))
+                        {
+                                %><script type="text/javascript">alert("Changing State Successful!");</script><% 
+                        }
+                        else
+                        {
+                                %><script type="text/javascript">alert("Changing State Failed!");</script><% 
+                        }
+
+                   }
+            
+            
+            
         %>
         
+        <% 
+         if ((ArrayList) request.getAttribute("resulta1") != null) {
+                    ArrayList result23 = (ArrayList) request.getAttribute("resulta1");
+                    if (!(result23.isEmpty())) {
+                        for (int i = 0; i < result23.size(); i++) {
+                            out.println(result23.get(i) + "<br/>");
+                            //  System.out.println(result2.get(i));
+                        }
+                    }
+                }
+        %>
         <h2>Lock/Unlock Account</h2>
-        <form method ="post" action="">
-                        
-        Username: 
+        
+        <form method ="post" action="admin_accountList_controller">
+         
+            Filter List of Username From: 
+                
+            <select name="position">
+            <option value="A-AM">Accounting Manager</option>
+            <option value="B-ACM">Audio CD Manager</option>
+            <option value="B-BM">Book Manager</option>
+            <option value="B-DM">DVD Manager</option>
+            <option value="B-MM">Magazine Manager</option>
+            <option value="Customer">Customer</option>
+            </select>
+            <input type="submit" name ="filterPosition" value="Filter">
+            <br> <br>
+        </form>
+        
+        
+        
+        <form method ="post" action="admin_lock_controller">
+            <input type="hidden" name="positionName" value = "<%= (String) request.getAttribute("positionName") %>">
+            
+            <h3> List of Username from 
+        <%  if((String) request.getAttribute("positionName") != null)
+            {
+                out.print( (String) request.getAttribute("positionName"));
+            }
+            
+            
+        %>: </h3> Username: 
         <select name="staffID">
-        
-        <% ArrayList result = new admin_controller().getAccount(); 
-        
+           
+            <%
+            
+            if((ArrayList) request.getAttribute("resultSet") != null)
+            {
+                ArrayList result = (ArrayList) request.getAttribute("resultSet");
+            
         for(int counter2 = 0; counter2 < result.size(); counter2++)
                     { %>
                     <option value= <%= result.get(counter2) %>> <%= result.get(counter2) %> </option>
                     <%
                     }
+            }
+           
                     %>
+                  
       </select>
-      <br>
+                    
+                    
+      <br><br>
        Choose:
        <select name="choose">
        <option value="Lock">Lock</option>
