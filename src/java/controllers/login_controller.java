@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 /**
  *
@@ -37,8 +38,10 @@ public class login_controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
         try {
             int i = 1;
             boolean result = false;
@@ -58,7 +61,7 @@ public class login_controller extends HttpServlet {
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
             try {
-                PreparedStatement pstmt = conn.prepareStatement("select * from login where cust_id = ? and password = ?");
+                PreparedStatement pstmt = conn.prepareStatement("select * from customer where cust_id = ? and password = ?");
                 pstmt.setString(i++, newlogin.getCust_id());
                 pstmt.setString(i++, newlogin.getPassword());
                 
@@ -69,9 +72,17 @@ public class login_controller extends HttpServlet {
                 conn.close();
                 
                 if(result == true)
+                {
+                    
+                session.setAttribute("loggedIn", "true");
+                session.setAttribute("user", username);
                 response.sendRedirect("home.jsp");
+                }
                 else
-                response.sendRedirect("index.jsp");
+                {
+                    session.setAttribute("loggedIn", "false");
+                    response.sendRedirect("index.jsp");
+                }
                 System.out.print("PASOK");
                 
             } catch (SQLException ex) {
