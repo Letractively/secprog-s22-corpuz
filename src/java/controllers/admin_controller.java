@@ -124,6 +124,7 @@ public class admin_controller {
             name.add("Two Password Do not Match.");
         if(!(newStaff.getEmail().matches(".*@.*..*")))
             name.add("Not a valid E-mail Address.");
+       
         if(newStaff.getAddress().isEmpty())
             name.add("Please Supply Address Field.");
         if(newStaff.getFname().isEmpty())
@@ -136,7 +137,23 @@ public class admin_controller {
             name.add("Position Input is not Valid.");
         if(searchAccount(newStaff) == true)
             name.add("Username is already Taken.");
-
+        
+        // detecting  HTML tags to prevent XSS 
+         if(newStaff.getStaff_id().matches("  <(\"[^\"]*\"|'[^']*'|[^'\">])*> "))
+             name.add("Script Tags is not allowed in any fields.");
+         if(newStaff.getAddress().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
+             name.add("Script Tags is not allowed in any fields.");
+         if(newStaff.getEmail().matches(" <(\"[^\"]*\"|'[^']*'|[^'\">])*> "))
+             name.add("Script Tags is not allowed in any fields.");
+         if(newStaff.getFname().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
+             name.add("Script Tags is not allowed in any fields.");
+         if(newStaff.getLname().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
+             name.add("Script Tags is not allowed in any fields.");
+         if(newStaff.getMname().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
+             name.add("Script Tags is not allowed in any fields.");
+         if(newStaff.getPassword().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
+             name.add("Script Tags is not allowed in any fields.");
+         
         return name;
         }
     
