@@ -14,6 +14,34 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Administrator</title>
+          <%
+            response.setHeader("Pragma","no-cache");
+            response.setHeader("Cache-Control","no-store");
+            response.setHeader("Expires","0");
+            response.setDateHeader("Expires",-1);
+        %>
+        <%
+            if(session.getAttribute("loggedIn")==null)
+            {
+                %>
+                <center>You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</center>
+                <script type="text/javascript">
+                    var redirect=4;
+                    setInterval(
+                    function()
+                    {
+                        if(redirect<1)
+                        {
+                            window.location='index.jsp';
+                        }
+                            else
+                            {
+                                document.getElementById('redirect').innerHTML = redirect--;
+                            }
+                    }, 1000); 
+               
+                </script>
+              <%  }  else { %>
     </head>
     <body>
         <h1>Welcome Back Administrator!</h1>
@@ -168,6 +196,6 @@
         
         <input type="submit" name ="changeState" value="Submit"><br>
         </form>
-        
+        <% } %>
     </body>
 </html>

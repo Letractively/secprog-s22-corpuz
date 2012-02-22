@@ -14,6 +14,38 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Foobar Bookshop</title>
+        
+        <%
+            response.setHeader("Pragma","no-cache");
+            response.setHeader("Cache-Control","no-store");
+            response.setHeader("Expires","0");
+            response.setDateHeader("Expires",-1);
+        %>
+        <%
+            if(session.getAttribute("loggedIn")==null)
+            {
+                %>
+                <center><font color ="green" size ="10">You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</font></center>
+                <script type="text/javascript">
+                    var redirect=4;
+                    setInterval(
+                    function()
+                    {
+                        if(redirect<1)
+                        {
+                            window.location='index.jsp';
+                        }
+                            else
+                            {
+                                document.getElementById('redirect').innerHTML = redirect--;
+                            }
+                    }, 1000); 
+               
+                </script>
+              <%  } 
+              
+         else 
+            {%>
     </head>
     <body>
         
@@ -33,7 +65,13 @@
                         <%
                         out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
                          out.print( "<b>Welcome " +  session.getAttribute("loggedIn") + "!<br/></b>");
-                      //  Logged in as: <%=  <br> %>
+                      //  Logged in as: <%=  <br> 
+ 
+                          if(request.getAttribute("buySuccessful")!= null)
+                          { %>
+                          <script type="text/javascript">alert("Transaction is Successful!");</script> <%
+                          }
+                        %>
                         <input type="submit" class="loginButton" name="logoutButton" value="Logout"><br><br>
                     </form>
                     
@@ -53,7 +91,18 @@
                         <option value="dvd">DVDs</option>
                     </select>
                     <input type="text" size="40" value="Search..." name="searchBox" autocomplete="off"> 
-                    <input type="submit" class="loginButton" name="searchButton" value="Search"> 
+                    <%
+                        if((String) request.getAttribute("hasBuy")!=null)
+                        { %>
+                                <input type="submit" class="loginButton" name="searchButton1" value="Search"> <%
+                        }
+                         else
+                        { %>
+                                <input type="submit" class="loginButton" name="searchButton" value="Search"> <%
+                        }
+                         
+                    %>
+                     
                 </form>
                 
                 
@@ -99,10 +148,19 @@
                  </table>
                  <br><br><br>
                   <input type="text" size="3" value = "1" name="quantity"> 
-                  <input type="submit" name ="purchase" value="Submit"> <br>
+               <%   if((String) request.getAttribute("hasBuy")!=null)
+                 {
+                  %>      <input type="submit" name ="hasPurchase" value="Add More To Cart"> <br> <%                  
+                 }
+                     else
+                     {                     
+                            %> <input type="submit" name ="purchase" value="Add To Cart"> <br> <%
+                     }
+                 %>
+                
                  </form>
             </div><br>
         </div>
-        
+         <% } %>
     </body>
 </html>

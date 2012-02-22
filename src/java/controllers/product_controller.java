@@ -111,18 +111,24 @@ public class product_controller extends HttpServlet {
                     }
                   
               
+             
               request.setAttribute("productsResult", name);
           //    request.getRequestDispatcher("index.jsp").forward(request,response);
               
-               if(session.getAttribute("loggedIn").equals("true"))
+               if(session.getAttribute("loggedIn") == null)
                {
-                   request.getRequestDispatcher("home.jsp").forward(request,response);
+                   request.getRequestDispatcher("index.jsp").forward(request,response);
                }
-               else if(!(session.getAttribute("loggedIn").equals("true")))
+               else if(request.getParameter("searchButton1") != null)
                {
-                    request.getRequestDispatcher("index.jsp").forward(request,response);
+                    request.setAttribute("hasBuy", "hasBuy");
+                    request.getRequestDispatcher("home.jsp").forward(request,response);
                }
-               else request.getRequestDispatcher("index.jsp").forward(request,response);
+               else
+               {
+                    request.getRequestDispatcher("home.jsp").forward(request,response);
+               }
+            //   else request.getRequestDispatcher("index.jsp").forward(request,response);
         
         }
          finally {            

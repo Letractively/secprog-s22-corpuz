@@ -80,7 +80,7 @@ public class login_controller extends HttpServlet {
                 }
                 else
                 {
-                    session.setAttribute("loggedIn", "false");
+                    session.setAttribute("loggedIn", null);
                     response.sendRedirect("index.jsp");
                 }
                 System.out.print("PASOK");

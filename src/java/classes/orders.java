@@ -11,7 +11,7 @@ import java.sql.Date;
  * @author arvin
  */
 public class orders {
-    private String order_id;
+    private int order_id;
     private String cust_id;
     private Date order_date;
     private String billing;
@@ -24,16 +24,7 @@ public class orders {
     /**
      * @return the order_id
      */
-    public String getOrder_id() {
-        return order_id;
-    }
-
-    /**
-     * @param order_id the order_id to set
-     */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
-    }
+   
 
     /**
      * @return the cust_id
@@ -145,6 +136,20 @@ public class orders {
      */
     public void setExp_date(Date exp_date) {
         this.exp_date = exp_date;
+    }
+
+    /**
+     * @return the order_id
+     */
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    /**
+     * @param order_id the order_id to set
+     */
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
     }
     
 }
