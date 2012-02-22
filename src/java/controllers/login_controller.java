@@ -46,6 +46,18 @@ public class login_controller extends HttpServlet {
             
             if(check_username == true && check_password == true)
             {
+                  HttpSession SessionChecker;
+                  SessionChecker = request.getSession(true);   
+                  
+                  if(SessionChecker.isNew())
+                  {
+                      out.println("This is a New Session.");
+                      SessionChecker.setMaxInactiveInterval(10);   
+                  }
+                  else
+                  {
+                    SessionChecker = request.getSession();
+                  }    
                 
                 response.sendRedirect("home.jsp");
             }
@@ -60,6 +72,10 @@ public class login_controller extends HttpServlet {
             {
                 session.setAttribute("loggedIn", null);
                 response.sendRedirect("index.jsp");
+                    
+                    HttpSession CurrentSession;
+                    CurrentSession = request.getSession();
+                    CurrentSession.invalidate();
             }
             
             
@@ -69,6 +85,7 @@ public class login_controller extends HttpServlet {
         }
     }
 
+   
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP

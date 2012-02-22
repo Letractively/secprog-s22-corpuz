@@ -3,6 +3,15 @@
     Created on : 01 23, 12, 3:27:37 AM
     Author     : arvin
 --%>
+<%
+HttpSession HomeSessionChecker;
+HomeSessionChecker = request.getSession(false);
+String identifier;
+identifier = HomeSessionChecker.getId();
+out.println(identifier);
+%>
+<script language="javascript">alert('Session ID =  <%=identifier%>')</script>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
@@ -60,7 +69,7 @@
             <td>
                 <div class="login">
                     <br>
-                    <form name="loginForm" method="post" action="login_controller">
+                    <form name="loginForm" method="post" action="exit_controller">
                         
                         <%
                         out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
