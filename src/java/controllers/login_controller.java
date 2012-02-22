@@ -4,21 +4,15 @@
  */
 package controllers;
 
-import classes.login;
-import dbconnection.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpSession;
+import security.*;
 
 /**
  *
@@ -41,52 +35,31 @@ public class login_controller extends HttpServlet {
         HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
         try {
-            int i = 1;
-            boolean result = false;
-            String username, password;
-            login newlogin = new login();
+            boolean check_username, check_password;
+            login_temp login_user = new login_temp();
+            login_user.setUsername((String) request.getAttribute("UserName"));
+            login_user.setPassword((String) request.getAttribute("Password"));
+            login_checkUserifFailed temp_check = new login_checkUserifFailed();
+            check_username = temp_check.checkUsername(login_user);
+            check_password = temp_check.checkPassword(login_user);
             
-            username = request.getParameter("username");
-            password = request.getParameter("password");
-           
-            newlogin.setCust_id(username);
-            newlogin.setPassword(password);
-            
-            System.out.print(newlogin.getCust_id());
-            System.out.print(newlogin.getPassword());
-            //newlogin.setState("looged-in");
-            
-            ConnectionFactory myFactory = ConnectionFactory.getFactory();
-            Connection conn = myFactory.getConnection();
-            try {
-                PreparedStatement pstmt = conn.prepareStatement("select * from customer where cust_id = ? and password = ?");
-                pstmt.setString(i++, newlogin.getCust_id());
-                pstmt.setString(i++, newlogin.getPassword());
+            if(check_username == true && check_password == true)
+            {
                 
-                ResultSet rs = pstmt.executeQuery();
-
-                while(rs.next())
-                { result=true;}
-                conn.close();
-                
-                if(result == true)
-                {
-                    
-                session.setAttribute("loggedIn", "true");
-                session.setAttribute("user", username);
                 response.sendRedirect("home.jsp");
-                }
-                else
-                {
-                    session.setAttribute("loggedIn", null);
-                    response.sendRedirect("index.jsp");
-                }
-                System.out.print("PASOK");
+            }
+            else if(check_username == true && check_password == false)
+            {
+                session.setAttribute("loggedIn", "false");
                 
-            } catch (SQLException ex) {
-                Logger.getLogger(login_controller.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("index.jsp");
+                
+            }
+            else
+            {
+                session.setAttribute("loggedIn", null);
+                response.sendRedirect("index.jsp");
             }
             
             

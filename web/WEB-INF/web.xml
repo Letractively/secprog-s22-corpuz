@@ -5,28 +5,31 @@
         <servlet-class>controllers.customer_controller</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>login_controller</servlet-name>
-        <servlet-class>controllers.login_controller</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>product_controller</servlet-name>
         <servlet-class>controllers.product_controller</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>login_controller</servlet-name>
+        <servlet-class>controllers.login_controller</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>customer_controller</servlet-name>
         <url-pattern>/customer_controller</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>login_controller</servlet-name>
-        <url-pattern>/login_controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>product_controller</servlet-name>
         <url-pattern>/product_controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>login_controller</servlet-name>
+        <url-pattern>/login_controller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

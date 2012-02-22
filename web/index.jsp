@@ -8,6 +8,7 @@
 <%@page import = "java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
+<%@page import=" security.*" %>
 
 <!DOCTYPE html>
 <html>
@@ -18,6 +19,7 @@
         <title>Foobar Bookshop</title>
     </head>
     <body>
+        
         <div>
             <table class=""><tr><td>
         
@@ -30,11 +32,41 @@
             
             <td>
                 <div class="login">
+                    <%
+            if(request.getParameter("loginButton")!=null)
+            {
+                
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                
+                //data validation yung kasunod neto lyle, ilagay mo sa loob ng else pag nag pass sa input validation mo :)
+                
+                request.setAttribute("UserName",username);
+                request.setAttribute("Password",password);
+                String strViewPage="login_controller";
+                RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
+                if (dispatcher != null)
+                {
+                    dispatcher.forward(request, response);
+                }
+                %>
+                <script type="text/javascript">document.location="login_controller";</script>
+                <%
+                
+            }
+            if(session.getAttribute("loggedIn") == "false")
+            {
+                %>Incorrect Password<%
+                
+            }
+            
+            
+        %>
                     <br>
-                    <form name="loginForm" method="post" action="login_controller">
+                    <form name="loginForm" method="post" action="">
                         
-                        Username: <input type="text" name="username"><br>
-                        Password: <input type="password" name="password"><br>
+                        Username: <input type="text" name="username">*<br>
+                        Password: <input type="password" name="password">*<br>
                         <input type="submit" class="loginButton" name="loginButton"><br><br>
                         Not a member? <a href="registration1.jsp">Register now!</a>
                     </form>

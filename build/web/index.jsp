@@ -7,6 +7,9 @@
 <%-- Sample Push by Me --%>
 <%@page import = "java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import = "java.util.ArrayList" %>
+<%@page import=" security.*" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,6 +19,7 @@
         <title>Foobar Bookshop</title>
     </head>
     <body>
+        
         <div>
             <table class=""><tr><td>
         
@@ -28,23 +32,54 @@
             
             <td>
                 <div class="login">
+                    <%
+            if(request.getParameter("loginButton")!=null)
+            {
+                
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                
+                //data validation yung kasunod neto lyle, ilagay mo sa loob ng else pag nag pass sa input validation mo :)
+                
+                request.setAttribute("UserName",username);
+                request.setAttribute("Password",password);
+                String strViewPage="login_controller";
+                RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
+                if (dispatcher != null)
+                {
+                    dispatcher.forward(request, response);
+                }
+                %>
+                <script type="text/javascript">document.location="login_controller";</script>
+                <%
+                
+            }
+            if(session.getAttribute("loggedIn") == "false")
+            {
+                %>Incorrect Password<%
+                
+            }
+            
+            
+        %>
                     <br>
-                    <form name="loginForm" method="post" action="login_controller">
+                    <form name="loginForm" method="post" action="">
                         
-                        Username: <input type="text" name="username"><br>
-                        Password: <input type="password" name="password"><br>
+                        Username: <input type="text" name="username">*<br>
+                        Password: <input type="password" name="password">*<br>
                         <input type="submit" class="loginButton" name="loginButton"><br><br>
                         Not a member? <a href="registration1.jsp">Register now!</a>
                     </form>
                     
                 </div>
             </td></tr></table>
-                
+            
             <div align="center">
                 <br><br><br>
                 <form name="searchForm" method="post" action="product_controller">
                     
                     <select name="type">
+                        <option value="all">ALL</option>
                         <option value="book">Books</option>
                         <option value="magazine">Magazines</option>
                         <option value="cd">Audio CDs</option>
@@ -54,59 +89,41 @@
                     <input type="submit" class="loginButton" name="searchButton" value="Search"> 
                 </form>
                 <%
-        String line="";
-        
-        if((ResultSet)request.getAttribute("Result")!=null)
+                
+        if((ArrayList) request.getAttribute("productsResult")!=null)
         {
-          ResultSet receive = (ResultSet)request.getAttribute("Result");
-           ResultSetMetaData transcribe = receive.getMetaData();
-           out.println("Number of rows"+transcribe.getColumnCount()+"\n");
-           
-           int ColumnCount = transcribe.getColumnCount();
-           
-           for(int i=0;i<ColumnCount;i++)
-            {
-                if(i>0)
-                {
-                    line+=",";
-                    
-                }
-                    line +=transcribe.getColumnName(i+1);
-            }
-            
-            out.println(line);
-            out.println("<br>");
-            
-            int rowCount = 0;
-            
-            while(receive.next())
-            {
-                rowCount++;
+                 ArrayList result = (ArrayList) request.getAttribute("productsResult");
+                 %>
+                 <table border ="1">
+                <tr>
                 
-                line="";
-                
-                out.print("Fetching Result Row #: " + rowCount);
-                
-                for(int i=0;i<ColumnCount;i++)
-                {
-                  
-                    if(i>0)
-                    {
-                        line+=",";
+               
+                <th>Product Type</th>
+                <th>Product Name</th>
+                <th>Synopsis</th>
+                <th>Price (PHP)</th>
+                </tr>
+                <%
+                 if (!(result.isEmpty())) {
+                     int i = 0;
+                     //   for (int i = 0; i < result.size(); i++) {
+                        while (i<result.size()){
+                         %>
+                            <tr>
+                                    <% result.get(i); i++; %>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++;%> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                            </tr> <%
+                            //  System.out.println(result2.get(i));
+                        }
                     }
-                    line+=receive.getString(i+1);
-                    
-                    
-                }
-                out.println(" "+line);
-                out.println("<br>");
-                
-            }
-                       }
-          else   
-          out.println("No results thrown.");
+        }
+          
                    
-    %>
+                %>
+                 </table>
             </div><br>
                 
             
