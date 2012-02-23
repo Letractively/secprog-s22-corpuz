@@ -84,7 +84,7 @@ public class addcustomer_controller extends HttpServlet {
                 Logger.getLogger(addcustomer_controller.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
+            response.sendRedirect("registration2.jsp");
             
             
             

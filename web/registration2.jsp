@@ -29,6 +29,10 @@
                     <h2>Credit Card Information:</h2><br>
                     
                     <%
+                    if(request.getParameter("Home")!=null)
+                    {
+                        response.sendRedirect("index.jsp");
+                    }
         if(request.getParameter("submit")!=null)
                {
                 // info_tracker newTracker = new info_tracker();
@@ -138,7 +142,8 @@
                         City: <input type="text" name="billCity"><br>
                         Country: <input type="text" name="billCountry"><br>
                         Postal Code: <input type="text" name="billPostal" size="5"><br><br>
-                        <input type="submit" class="registerButton" name ="submit" value="Next »"><br>
+                        <input type="submit" class="registerButton" name ="Home" value="Home">
+                        <input type="submit" class="registerButton" name ="submit" value="Save »"><br>
                     </form>
                 
                 </div>

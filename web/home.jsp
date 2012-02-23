@@ -38,6 +38,7 @@ else
         <title>Foobar Bookshop</title>
         
         <%
+            session.setAttribute("exists", null);
             response.setHeader("Pragma","no-cache");
             response.setHeader("Cache-Control","no-store");
             response.setHeader("Expires","0");
@@ -87,7 +88,7 @@ else
                         <%
                         out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
                         session.setAttribute("UserName", session.getAttribute("user"));
-                         out.print( "<b>Welcome " +  session.getAttribute("loggedIn") + "!<br/></b>");
+                        
                       //  Logged in as: <%=  <br> 
  
                           if(request.getAttribute("buySuccessful")!= null)
