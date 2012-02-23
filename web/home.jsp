@@ -73,6 +73,7 @@ out.println(identifier);
                         
                         <%
                         out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
+                        session.setAttribute("UserName", session.getAttribute("user"));
                          out.print( "<b>Welcome " +  session.getAttribute("loggedIn") + "!<br/></b>");
                       //  Logged in as: <%=  <br> 
  
@@ -167,6 +168,9 @@ out.println(identifier);
                      }
                  %>
                 
+                 </form>
+                 <form method ="post" action ="changepassword.jsp">
+                     <input type="submit"  class="registerButton" name ="Submit" value="CP"><br>
                  </form>
             </div><br>
         </div>

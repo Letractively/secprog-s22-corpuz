@@ -83,4 +83,100 @@ public class login_checkUserifFailed
         
         return isIdentified;
     }
+    
+    public boolean checkOldPassword(String password)
+    {
+        boolean isIdentified = false;
+        int i = 1;
+        ConnectionFactory myFactory = ConnectionFactory.getFactory();
+        Connection conn = myFactory.getConnection();
+        try 
+        {
+            PreparedStatement pstmt = conn.prepareStatement("select * from oldpass where password = ?");
+            pstmt.setString(i++, password);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if(rs.next())
+            {
+                isIdentified = true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return isIdentified;
+    }
+    public void checkState(login_temp temp)
+    {
+        boolean isIdentified = false;
+        int i = 1;
+        ConnectionFactory myFactory = ConnectionFactory.getFactory();
+        Connection conn = myFactory.getConnection();
+        try 
+        {
+            PreparedStatement pstmt = conn.prepareStatement("select state from customer where cust_id = ?");
+            pstmt.setString(i++, temp.getUsername());
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next())
+            {
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+    }
+    
+    public void changePassword(login_temp temp)
+    {
+        boolean isIdentified = false;
+        int i = 1;
+        ConnectionFactory myFactory = ConnectionFactory.getFactory();
+        Connection conn = myFactory.getConnection();
+        try 
+        {
+            PreparedStatement pstmt = conn.prepareStatement("delete ");
+            pstmt.setString(i++, temp.getUsername());
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next())
+            {
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+    }
 }

@@ -11,6 +11,7 @@ package security;
 public class login_temp {
     private String username;
     private String password;
+    private int state;
 
     /**
      * @return the username
@@ -38,6 +39,20 @@ public class login_temp {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the state
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(int state) {
+        this.state = state;
     }
     
 }

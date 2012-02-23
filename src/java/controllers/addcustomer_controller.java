@@ -6,19 +6,24 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import security.*;
+import classes.customer;
+import classes.info_tracker;
+import dbconnection.ConnectionFactory;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author arvin
  */
-public class login_controller extends HttpServlet {
+public class addcustomer_controller extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,45 +37,62 @@ public class login_controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            boolean check_username, check_password, check_state;
-            login_temp login_user = new login_temp();
-            login_user.setUsername((String) request.getAttribute("UserName"));
-            login_user.setPassword((String) request.getAttribute("Password"));
-            login_checkUserifFailed temp_check = new login_checkUserifFailed();
-            check_username = temp_check.checkUsername(login_user);
-            check_password = temp_check.checkPassword(login_user);
+            customer newCustomer = (customer) request.getAttribute("customer");
             
-            if(check_username == true && check_password == true)
+            
+            int i = 1;
+            int lol = 1;
+            
+            
+            ConnectionFactory myFactory = ConnectionFactory.getFactory();
+            Connection conn = myFactory.getConnection();
+            try 
             {
-                session.setAttribute("loggedIn", "true");
-                session.setAttribute("user", login_user.getUsername());
-                response.sendRedirect("home.jsp");
-            }
-            else if(check_username == true && check_password == false)
-            {
-                session.setAttribute("loggedIn", "false");
-                session.getLastAccessedTime();
                 
-                response.sendRedirect("index.jsp");
                 
-            }
-            else
-            {
-                session.setAttribute("loggedIn", null);
-                session.setAttribute("brute", "set");
-                response.sendRedirect("index.jsp");
+                PreparedStatement pstmt1 = conn.prepareStatement("insert into cust_acct(cust_id, first_name, last_name, middle_name, email_add, billing_add) values (?,?,?,?,?,?)");
+                pstmt1.setString(i++, newCustomer.getCust_id());
+                pstmt1.setString(i++, newCustomer.getFname());
+                pstmt1.setString(i++, newCustomer.getLname());
+                pstmt1.setString(i++, newCustomer.getMname());
+                pstmt1.setString(i++, newCustomer.getEmail());
+                pstmt1.setString(i++, newCustomer.getBilling());
+                pstmt1.executeUpdate();
+                i = 1;
+                PreparedStatement pstmt3 = conn.prepareStatement("insert into oldpass(cust_id, password) values (?,?)");
+                pstmt3.setString(i++, newCustomer.getCust_id());
+                pstmt3.setString(i++, newCustomer.getPassword());
                 
+                pstmt3.executeUpdate();
+                i = 1;
+                
+                PreparedStatement pstmt = conn.prepareStatement("insert into customer(cust_id, password, state) values (?,?,?)");
+                pstmt.setString(i++, newCustomer.getCust_id());
+                pstmt.setString(i++, newCustomer.getPassword());
+                pstmt.setInt(i++, lol);
+                pstmt.executeUpdate();
+                
+                
+               
+                conn.close();
+                
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(addcustomer_controller.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            
+            
             
             
             
         } finally {            
             out.close();
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

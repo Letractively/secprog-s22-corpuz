@@ -6,19 +6,17 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import security.*;
-
 /**
  *
  * @author arvin
  */
-public class login_controller extends HttpServlet {
+public class reset_password extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,41 +30,27 @@ public class login_controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); 
+        HttpSession session = request.getSession(false);
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            boolean check_username, check_password, check_state;
-            login_temp login_user = new login_temp();
-            login_user.setUsername((String) request.getAttribute("UserName"));
-            login_user.setPassword((String) request.getAttribute("Password"));
-            login_checkUserifFailed temp_check = new login_checkUserifFailed();
-            check_username = temp_check.checkUsername(login_user);
-            check_password = temp_check.checkPassword(login_user);
-            
-            if(check_username == true && check_password == true)
+            boolean checkOldPassword;
+            login_checkUserifFailed temp = new login_checkUserifFailed();
+            checkOldPassword = temp.checkOldPassword((String) request.getAttribute("Password"));
+            if(checkOldPassword)
             {
-                session.setAttribute("loggedIn", "true");
-                session.setAttribute("user", login_user.getUsername());
-                response.sendRedirect("home.jsp");
-            }
-            else if(check_username == true && check_password == false)
-            {
-                session.setAttribute("loggedIn", "false");
-                session.getLastAccessedTime();
-                
-                response.sendRedirect("index.jsp");
+                session.setAttribute("exists", "true");
+                response.sendRedirect("changepassword.jsp");
                 
             }
             else
             {
-                session.setAttribute("loggedIn", null);
-                session.setAttribute("brute", "set");
-                response.sendRedirect("index.jsp");
+                login_temp newPass = new login_temp();
+                newPass.setUsername((String) request.getAttribute("UserName"));
+                newPass.setPassword((String) request.getAttribute("nPassword"));
                 
+            
             }
-            
-            
             
         } finally {            
             out.close();

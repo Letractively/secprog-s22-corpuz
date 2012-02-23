@@ -16,6 +16,14 @@
         <servlet-name>exit_controller</servlet-name>
         <servlet-class>controllers.exit_controller</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>addcustomer_controller</servlet-name>
+        <servlet-class>controllers.addcustomer_controller</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>reset_password</servlet-name>
+        <servlet-class>controllers.reset_password</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>customer_controller</servlet-name>
         <url-pattern>/customer_controller</url-pattern>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>exit_controller</servlet-name>
         <url-pattern>/exit_controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addcustomer_controller</servlet-name>
+        <url-pattern>/addcustomer_controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reset_password</servlet-name>
+        <url-pattern>/reset_password</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

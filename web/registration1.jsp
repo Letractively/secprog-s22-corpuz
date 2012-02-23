@@ -47,6 +47,7 @@
                 String shipCity = request.getParameter("shipCity");
                 String shipCountry = request.getParameter("shipCountry");
                 String shipPostal = request.getParameter("shipPostal");
+                newCustomer.setBilling(shipHomeNo + " " + shipStreet + " " + shipCity+ " " + shipCountry + " " + shipPostal);
                 
 
                 String[] errors = new String[100];
@@ -147,8 +148,14 @@
                     }
                  else
                 {
-                                     
-                        %><script type="text/javascript">alert("Next");document.location="registration2.jsp";</script><%
+                        request.setAttribute("customer",newCustomer);
+                        String strViewPage="addcustomer_controller";
+                        RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
+                        if (dispatcher != null)
+                        {
+                            dispatcher.forward(request, response);
+                        }
+                        %><script type="text/javascript">document.location="addcustomer_controller";</script><%
                                            
                 }
 
@@ -169,7 +176,7 @@
                         City: <input type="text" name="shipCity"><br>
                         Country: <input type="text" name="shipCountry"><br>
                         Postal Code: <input type="text" name="shipPostal" size="5"><br><br>
-                        <input type="submit"  class="registerButton" name ="Submit" value="Next >>"><br>
+                        <input type="submit"  class="registerButton" name ="Submit" value="Save>>"><br>
                     </form>
                 
                 </div>
