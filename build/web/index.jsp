@@ -32,15 +32,25 @@
             
             <td>
                 <div class="login">
-                    <%
+            <%
+            int x = 0;
             if(request.getParameter("loginButton")!=null)
             {
+                //anti brute force
+                if(session.getAttribute("brute") == null)
+                {
+                    
+                }
+                if(session.getAttribute("brute")== "set")
+                {
+                    
+                }
                 
+                //code proper
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                
-                //data validation yung kasunod neto lyle, ilagay mo sa loob ng else pag nag pass sa input validation mo :)
-                
+                //data validation
+                //if data validation passed, eto na gagawin niya
                 request.setAttribute("UserName",username);
                 request.setAttribute("Password",password);
                 String strViewPage="login_controller";
@@ -49,6 +59,7 @@
                 {
                     dispatcher.forward(request, response);
                 }
+                
                 %>
                 <script type="text/javascript">document.location="login_controller";</script>
                 <%
@@ -105,16 +116,16 @@
                 </tr>
                 <%
                  if (!(result.isEmpty())) {
-                     int i = 0;
+                     int j = 0;
                      //   for (int i = 0; i < result.size(); i++) {
-                        while (i<result.size()){
+                        while (j<result.size()){
                          %>
                             <tr>
-                                    <% result.get(i); i++; %>
-                                <td> <% out.println(result.get(i)); i++; %> </td>
-                                <td> <% out.println(result.get(i)); i++; %> </td>
-                                <td> <% out.println(result.get(i)); i++;%> </td>
-                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                    <% result.get(j); j++; %>
+                                <td> <% out.println(result.get(j)); j++; %> </td>
+                                <td> <% out.println(result.get(j)); j++; %> </td>
+                                <td> <% out.println(result.get(j)); j++;%> </td>
+                                <td> <% out.println(result.get(j)); j++; %> </td>
                             </tr> <%
                             //  System.out.println(result2.get(i));
                         }

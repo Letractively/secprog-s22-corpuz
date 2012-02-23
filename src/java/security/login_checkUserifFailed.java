@@ -156,15 +156,20 @@ public class login_checkUserifFailed
         Connection conn = myFactory.getConnection();
         try 
         {
-            PreparedStatement pstmt = conn.prepareStatement("delete ");
+            PreparedStatement pstmt = conn.prepareStatement("insert into oldpass values(?,?)");
             pstmt.setString(i++, temp.getUsername());
+            pstmt.setString(i++, temp.getPassword());
+            pstmt.executeUpdate();
             
-            ResultSet rs = pstmt.executeQuery();
+            i = 1;
+            pstmt = conn.prepareStatement("update customer set password = ? where cust_id = ?");
+            pstmt.setString(i++, temp.getPassword());
+            pstmt.setString(i++, temp.getUsername());
+            pstmt.executeUpdate();
             
-            while(rs.next())
-            {
-                
-            }
+            conn.close();
+            
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);

@@ -36,22 +36,23 @@ public class reset_password extends HttpServlet {
         try {
             boolean checkOldPassword;
             login_checkUserifFailed temp = new login_checkUserifFailed();
-            checkOldPassword = temp.checkOldPassword((String) request.getAttribute("Password"));
+            login_temp newPass = new login_temp();
+            System.out.print((String) session.getAttribute("Password"));
+            System.out.print((String) session.getAttribute("UserName"));
+            System.out.print((String) session.getAttribute("nPassword"));
+            checkOldPassword = temp.checkOldPassword((String) session.getAttribute("nPassword"));
             if(checkOldPassword)
             {
                 session.setAttribute("exists", "true");
-                response.sendRedirect("changepassword.jsp");
-                
+                //response.sendRedirect("changepassword.jsp");
+                System.out.println("Password Exists");
             }
             else
             {
-                login_temp newPass = new login_temp();
-                newPass.setUsername((String) request.getAttribute("UserName"));
-                newPass.setPassword((String) request.getAttribute("nPassword"));
-                
-            
+                newPass.setUsername((String) session.getAttribute("UserName"));
+                newPass.setPassword((String) session.getAttribute("nPassword"));
+                temp.changePassword(newPass);
             }
-            
         } finally {            
             out.close();
         }
