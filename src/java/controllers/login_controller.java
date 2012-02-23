@@ -8,10 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import security.*;
 
 /**
@@ -48,6 +45,7 @@ public class login_controller extends HttpServlet {
             {
                 session.setAttribute("loggedIn", "true");
                 session.setAttribute("user", login_user.getUsername());
+                session.setMaxInactiveInterval(120);
                 response.sendRedirect("home.jsp");
             }
             else if(check_username == true && check_password == false)
@@ -68,11 +66,41 @@ public class login_controller extends HttpServlet {
             
             
             
-        } finally {            
+        }
+        finally
+        {            
             out.close();
         }
+        
+      
     }
+   public class setCookie extends HttpServlet
+   {
+    public void doPost( HttpServletRequest request,
+                      HttpServletResponse response)
+                      throws IOException, ServletException {
+    
+    response.setContentType("text/html");
 
+    login_temp login_user = new login_temp();
+    login_user.setUsername((String) request.getAttribute("UserName"));    
+    login_checkUserifFailed cookieAtt = new login_checkUserifFailed();
+    
+    String catcher = cookieAtt.fetchCookieAttributor(login_user);
+    // Get the username from the submitted form page
+    // Create a new cookie
+    Cookie cookie = new Cookie("UserLogging", catcher);
+    
+    // Keep it alive on the client for 30 minutes
+    cookie.setMaxAge(120);
+
+    // Add the cookie as a "Set-Cookie" response header
+    response.addCookie(cookie);
+
+    RequestDispatcher view = request.getRequestDispatcher("displayCookie.jsp");
+    view.forward(request, response);
+  }    
+   }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP

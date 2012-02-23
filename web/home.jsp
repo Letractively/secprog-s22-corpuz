@@ -5,13 +5,26 @@
 --%>
 <%
 HttpSession HomeSessionChecker;
-HomeSessionChecker = request.getSession(false);
+HomeSessionChecker = request.getSession();
 String identifier;
 identifier = HomeSessionChecker.getId();
-out.println(identifier);
-%>
-<script language="javascript">alert('Session ID =  <%=identifier%>')</script>
 
+if(HomeSessionChecker ==null)
+{
+response.sendRedirect("index.jsp");
+%>
+<script language="javascript">alert('You are not allowed to access this system.')</script>
+<%
+}
+else
+{
+%>
+<script language="javascript">alert('Welcome to Foobar Bookstore Management System!')</script> 
+<%
+}
+%>
+<%--<script language="javascript">alert('Welcome to Foobar Bookstore! This is your Session ID for Testing Purposes Only.=  <%=identifier%>')</script>
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
