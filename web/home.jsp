@@ -4,26 +4,28 @@
     Author     : arvin
 --%>
 <%
-HttpSession HomeSessionChecker;
-HomeSessionChecker = request.getSession();
-String identifier;
-identifier = HomeSessionChecker.getId();
+HttpSession HomeSessionChecker, Invalidator;
+HomeSessionChecker = request.getSession(false);
 
-if(HomeSessionChecker ==null)
-{
-response.sendRedirect("index.jsp");
-%>
-<script language="javascript">alert('You are not allowed to access this system.')</script>
-<%
-}
-else
-{
+if(session.getAttribute("flagLoggedIn")!=null&&HomeSessionChecker!=null)  
+{    
 %>
 <script language="javascript">alert('Welcome to Foobar Bookstore Management System!')</script> 
+ <%
+}
+else
+{      
+
+%>
+<script language="javascript">alert('You are now entering Foobar Bookstore Management System. You are not authorized to access this system. Please Register or Log-in.')</script>
+<%--<script type="text/javascript">document.location="index.jsp";</script>--%>
 <%
 }
+
+
+
 %>
-<%--<script language="javascript">alert('Welcome to Foobar Bookstore! This is your Session ID for Testing Purposes Only.=  <%=identifier%>')</script>
+<%-- <script language="javascript">alert('Welcome to Foobar Bookstore! This is your Session ID for Testing Purposes Only.=  <%=identifier%>')</script>
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

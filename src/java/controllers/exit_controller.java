@@ -32,13 +32,17 @@ public class exit_controller extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
+        
+       boolean flagger = false;
+        
+       try {
             HttpSession SessionInvalidator;
             SessionInvalidator = request.getSession();
             
             SessionInvalidator.invalidate();
             SessionInvalidator.setMaxInactiveInterval(0);
-            response.sendRedirect("index.jsp");
+            request.setAttribute("flagLoggedIn",flagger);
+            request.getRequestDispatcher("index.jsp").forward(request,response);
             
             
             /*

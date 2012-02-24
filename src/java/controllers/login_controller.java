@@ -41,16 +41,27 @@ public class login_controller extends HttpServlet {
             check_username = temp_check.checkUsername(login_user);
             check_password = temp_check.checkPassword(login_user);
             
+            int flagger = 0;
+            
             if(check_username == true && check_password == true)
             {
+                
+               flagger = 1;
+                
                 session.setAttribute("loggedIn", "true");
                 session.setAttribute("user", login_user.getUsername());
-                session.setMaxInactiveInterval(120);
-                response.sendRedirect("home.jsp");
+                session.setMaxInactiveInterval(60);
+             
+                session.setAttribute("flagLoggedIn",flagger);
+                request.getRequestDispatcher("home.jsp").forward(request,response);
+                //response.sendRedirect("home.jsp");
             }
             else if(check_username == true && check_password == false)
             {
+           
+                
                 session.setAttribute("loggedIn", "false");
+                session.setAttribute("flagLoggedIn",flagger);
                 session.getLastAccessedTime();
                 
                 response.sendRedirect("index.jsp");
@@ -59,8 +70,9 @@ public class login_controller extends HttpServlet {
             else
             {
                 session.setAttribute("loggedIn", null);
-                session.setAttribute("brute", "set");
+                session.setAttribute("brute", "set");              
                 response.sendRedirect("index.jsp");
+             
                 
             }
             
