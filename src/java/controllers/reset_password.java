@@ -44,14 +44,15 @@ public class reset_password extends HttpServlet {
             if(checkOldPassword)
             {
                 session.setAttribute("exists", "true");
-                //response.sendRedirect("changepassword.jsp");
-                System.out.println("Password Exists");
+                response.sendRedirect("changepassword.jsp");
+               // System.out.println("Password Exists");
             }
             else
             {
                 newPass.setUsername((String) session.getAttribute("UserName"));
                 newPass.setPassword((String) session.getAttribute("nPassword"));
                 temp.changePassword(newPass);
+                response.sendRedirect("home.jsp");
             }
         } finally {            
             out.close();
