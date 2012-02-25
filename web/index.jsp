@@ -9,6 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
 <%@page import=" security.*" %>
+<%@ page language="java" import="security.Captchas" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,6 +20,24 @@
         <title>Foobar Bookshop</title>
     </head>
     <body>
+               <%
+// Construct the captchas object (Default Values)
+Captchas captchas = new security.Captchas(
+  request.getSession(true),     // Ensure session
+  "demo",                       // client
+  "secret"                      // secret
+  );
+// Construct the captchas object (Extended example)
+// CaptchasDotNet captchas = new captchas.CaptchasDotNet(
+//  request.getSession(true),     // Ensure session
+//  "demo",                       // client
+//  "secret",                     // secret
+//  "01",                         // alphabet
+//  16,                           // letters
+//  500,                          // width
+//  80                            // height
+//  );
+%>
         
         <div>
             <table class=""><tr><td>
@@ -77,11 +96,17 @@
                     <form name="loginForm" method="post" action="">
                         
                         Username: <input type="text" name="username">*<br>
-                        Password: <input type="password" name="password">*<br>
+                        Password: <input type="password" name="password">*<br><br>
+                        
+                        Foobar Bookshope ensures you to secure browsing. <br><br>
+                        Enter letters you see here:<br>
+                        <input type="password" size="16"><br>
+                          <%=captchas.image() %> <br>
+                          <a href="<%= captchas.audioUrl() %>">Cannot see image clearly? Click here.</a>
+                          <br>
                         <input type="submit" class="loginButton" name="loginButton"><br><br>
                         Not a member? <a href="registration1.jsp">Register now!</a>
                     </form>
-                    
                 </div>
             </td></tr></table>
             
