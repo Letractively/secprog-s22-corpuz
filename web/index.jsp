@@ -11,6 +11,16 @@
 <%@page import=" security.*" %>
 <%@ page language="java" import="security.Captchas" %>
 
+<% 
+
+ if(session.getAttribute("CaptchaError")==null)
+ {
+ %>
+ <script language="javascript">alert('You may have input the wrong credentials. Please try again, or register if you have not.');</script>
+ <%
+ }
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -100,7 +110,7 @@ Captchas captchas = new security.Captchas(
                         
                         Foobar Bookshope ensures you to secure browsing. <br><br>
                         Enter letters you see here:<br>
-                        <input type="password" size="16"><br>
+                        <input type="text" name="passwordCaptcha" size="16"><br>
                           <%=captchas.image() %> <br>
                           <a href="<%= captchas.audioUrl() %>">Cannot see image clearly? Click here.</a>
                           <br>

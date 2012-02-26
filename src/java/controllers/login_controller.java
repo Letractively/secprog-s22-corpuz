@@ -10,6 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import security.*;
+import security.Captchas;
 
 /**
  *
@@ -41,9 +42,60 @@ public class login_controller extends HttpServlet {
             check_username = temp_check.checkUsername(login_user);
             check_password = temp_check.checkPassword(login_user);
             
-            int flagger = 0;
+            int flagger = 0, correctCaptcha = 0;
             
-            if(check_username == true && check_password == true)
+            //
+            
+            // Construct the captchas object
+            // Use same settings as in query.jsp
+            Captchas captchas = new security.Captchas(
+            request.getSession(true),     // Ensure session
+            "demo",                       // client
+            "secret"                      // secret
+            );
+        // Read the form values
+        
+        String password = request.getParameter("passwordCaptcha");
+
+       // Check captcha
+        String body = null;
+       switch (captchas.check(password)) {
+       case 's':
+           {
+          correctCaptcha = 1;
+       body = "Session seems to be timed out or broken. ";
+       body += "Please try again or report error to administrator.";
+            
+            }
+       case 'm':
+       {
+        correctCaptcha = 2;
+       body = "Every CAPTCHA can only be used once. ";
+       body += "The current CAPTCHA has already been used. ";
+       body += "Please use back button and reload";
+    
+      }
+      case 'w':
+      {
+       correctCaptcha = 3;
+      body = "You entered the wrong password. ";
+      body += "Please use back button and try again. ";
+     
+      }
+     default:
+     {
+   //  correctCaptcha = 8;
+    //body = "Your message was verified to be entered by a human and is \"" + message + "\"";
+     }
+     out.println(body + correctCaptcha);
+}
+
+            
+            
+            
+            
+            
+            if(check_username == true && check_password == true && correctCaptcha == 0)
             {
                 
                flagger = 1;
@@ -53,31 +105,28 @@ public class login_controller extends HttpServlet {
                 session.setMaxInactiveInterval(60);
              
                 session.setAttribute("flagLoggedIn",flagger);
-                request.getRequestDispatcher("home.jsp").forward(request,response);
-                //response.sendRedirect("home.jsp");
+               request.getRequestDispatcher("home.jsp").forward(request,response);
+               response.sendRedirect("home.jsp");
+ 
             }
-            else if(check_username == true && check_password == false)
+            else if(check_username == true && check_password == false && correctCaptcha !=0)
             {
            
                 
                 session.setAttribute("loggedIn", "false");
                 session.setAttribute("flagLoggedIn",flagger);
-                session.getLastAccessedTime();
-                
+                session.getLastAccessedTime(); 
                 response.sendRedirect("index.jsp");
                 
             }
             else
             {
                 session.setAttribute("loggedIn", null);
-                session.setAttribute("brute", "set");              
+                session.setAttribute("brute", "set");  
+                session.setAttribute("CaptchaError",correctCaptcha);
                 response.sendRedirect("index.jsp");
-             
                 
-            }
-            
-            
-            
+            }    
         }
         finally
         {            
