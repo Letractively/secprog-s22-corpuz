@@ -21,7 +21,7 @@
             response.setDateHeader("Expires",-1);
         %>
         <%
-            if(session.getAttribute("loggedIn")==null)
+            if(session.getAttribute("loggedIn_admin")==null)
             {
                 %>
                 <center>You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</center>
@@ -77,7 +77,7 @@
                         
          %>
         <h2>Create Account</h2>
-        <form method ="post" action="admin_reg_controller">
+        <form method ="post" action="">
                         
         Username: <input type="text" name="username"><br>
         Password: <input type="password" name="password"><br>

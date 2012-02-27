@@ -31,6 +31,10 @@
                     <h2>Log-in Information:</h2><br>
                     
        <%
+       if(request.getParameter("Home")!=null)
+                    {
+                        response.sendRedirect("index.jsp");
+                    }
         if(request.getParameter("Submit")!=null)
                {
                 customer newCustomer = new customer();
@@ -150,14 +154,18 @@
                 {
                         request.setAttribute("customer",newCustomer);
                         String strViewPage="addcustomer_controller";
+                        String strViewPage1="registration2.jsp";
                         RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
-                        if (dispatcher != null)
+                        RequestDispatcher dispatcher1 = request.getRequestDispatcher(strViewPage1);
+                        if (dispatcher != null || dispatcher1 != null)
                         {
                             dispatcher.forward(request, response);
+                            dispatcher1.forward(request, response);
                         }
                         %><script type="text/javascript">document.location="addcustomer_controller";</script><%
                                            
                 }
+                
 
             }
         %>
@@ -176,6 +184,7 @@
                         City: <input type="text" name="shipCity"><br>
                         Country: <input type="text" name="shipCountry"><br>
                         Postal Code: <input type="text" name="shipPostal" size="5"><br><br>
+                        <input type="submit" class="registerButton" name ="Home" value="<<Back">
                         <input type="submit"  class="registerButton" name ="Submit" value="Save>>"><br>
                     </form>
                 

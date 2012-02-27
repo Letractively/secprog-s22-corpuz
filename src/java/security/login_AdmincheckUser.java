@@ -16,38 +16,36 @@ import java.util.logging.Logger;
  *
  * @author arvin
  */
-public class login_checkUserifFailed 
-{
+public class login_AdmincheckUser {
     
-    public String fetchCookieAttributor(login_temp temp)
+    public boolean checkUsername(login_temp temp)
     {
-        String isIdentified = null;
-        
+        boolean isIdentified = false;
         int i = 1;
-        
+        ConnectionFactory myFactory = ConnectionFactory.getFactory();
+        Connection conn = myFactory.getConnection();
         try 
         {
-            ConnectionFactory myFactory = ConnectionFactory.getFactory();
-            Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("select email_add from cust_acct where cust_id = ?");
+            PreparedStatement pstmt = conn.prepareStatement("select * from staff where staff_id = ?");
             pstmt.setString(i++, temp.getUsername());
             
             ResultSet rs = pstmt.executeQuery();
             
             if(rs.next())
             {
-           
-             isIdentified = rs.getString("email_add");      
+              isIdentified = true;
             }
-          
             
-            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
         return isIdentified;
@@ -57,63 +55,36 @@ public class login_checkUserifFailed
     {
         boolean isIdentified = false;
         int i = 1;
-        
+        ConnectionFactory myFactory = ConnectionFactory.getFactory();
+        Connection conn = myFactory.getConnection();
         try 
         {
-            ConnectionFactory myFactory = ConnectionFactory.getFactory();
-            Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("select * from customer where password = ?");
+            PreparedStatement pstmt = conn.prepareStatement("select * from staff where password = ?");
             pstmt.setString(i++, temp.getPassword());
             
             ResultSet rs = pstmt.executeQuery();
             
             if(rs.next())
             {
+                
                 isIdentified = true;
             }
-            conn.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
         return isIdentified;
     }
     
-    public boolean checkUsername(login_temp temp)
-    {
-        boolean isIdentified = false;
-        int i = 1;
-        
-        try 
-        {
-            ConnectionFactory myFactory = ConnectionFactory.getFactory();
-            Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("select * from customer where cust_id = ?");
-            pstmt.setString(i++, temp.getUsername());
-            
-            ResultSet rs = pstmt.executeQuery();
-            
-            if(rs.next())
-            {
-              isIdentified = true;
-            }
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        
-        
-        return isIdentified;
-    }
-
-  
     public boolean checkOldPassword(String password)
     {
         boolean isIdentified = false;
@@ -182,11 +153,10 @@ public class login_checkUserifFailed
     {
         boolean isIdentified = false;
         int i = 1;
-        
+        ConnectionFactory myFactory = ConnectionFactory.getFactory();
+        Connection conn = myFactory.getConnection();
         try 
         {
-            ConnectionFactory myFactory = ConnectionFactory.getFactory();
-            Connection conn = myFactory.getConnection();
             PreparedStatement pstmt = conn.prepareStatement("insert into oldpass values(?,?)");
             pstmt.setString(i++, temp.getUsername());
             pstmt.setString(i++, temp.getPassword());
@@ -205,7 +175,13 @@ public class login_checkUserifFailed
         } catch (SQLException ex) {
             Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+        
+        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
        
     }

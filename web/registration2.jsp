@@ -29,19 +29,20 @@
                     <h2>Credit Card Information:</h2><br>
                     
                     <%
+                    
+                    System.out.print(request.getAttribute("customer"));
                     if(request.getParameter("Home")!=null)
                     {
                         response.sendRedirect("index.jsp");
                     }
         if(request.getParameter("submit")!=null)
                {
-                // info_tracker newTracker = new info_tracker();
+                info_tracker newTracker = new info_tracker();
                
-                String FirstName = request.getParameter("firstName");
-                String MiddleName = request.getParameter("middleName");
-               String LastName = request.getParameter("lastName");
+                newTracker.setCard_name(request.getParameter("firstName") + " " + request.getParameter("middleName") + " " + request.getParameter("lastName"));
+               
               
-                 String billHomeNo = request.getParameter("billHomeNo");
+                String billHomeNo = request.getParameter("billHomeNo");
                 String billStreet = request.getParameter("billStreet");
                 String billCity = request.getParameter("billCity");
                 String billCountry = request.getParameter("billCountry");
@@ -52,27 +53,11 @@
                 
                 
                 
-                 if (FirstName.length() < 1)
-                {
-                    errors[counter] = "You did not input a First name";
-                    counter++;
-                }
-                
-                else if (MiddleName.length() < 1)
-                {
-                    errors[counter] = "You did not input a Middle name";
-                    counter++;
-                }
-                
-                else if (LastName.length() < 1)
-                {
-                    errors[counter] = "You did not input a Last name";
-                    counter++;
-                }
+                 
                 
                
 
-                  else if (billHomeNo.length() < 1)
+                 if (billHomeNo.length() < 1)
                 {
                     errors[counter] = "You did not input a Home No.";
                     counter++;
