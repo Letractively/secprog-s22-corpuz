@@ -100,13 +100,13 @@ public class login_controller extends HttpServlet {
                 
                flagger = 1;
                 
-                session.setAttribute("loggedIn", "true");
-                session.setAttribute("user", login_user.getUsername());
-                session.setMaxInactiveInterval(60);
+               session.setAttribute("loggedIn", "true");
+               session.setAttribute("user", login_user.getUsername());
+               session.setMaxInactiveInterval(60);
              
-                session.setAttribute("flagLoggedIn",flagger);
+               session.setAttribute("flagLoggedIn",flagger);
                request.getRequestDispatcher("home.jsp").forward(request,response);
-               response.sendRedirect("home.jsp");
+               
  
             }
             else if(check_username == true && check_password == false && correctCaptcha !=0)
@@ -123,7 +123,7 @@ public class login_controller extends HttpServlet {
             {
                 session.setAttribute("loggedIn", null);
                 session.setAttribute("brute", "set");  
-                session.setAttribute("CaptchaError",correctCaptcha);
+                session.setAttribute("CaptchaError","true");
                 response.sendRedirect("index.jsp");
                 
             }    

@@ -24,6 +24,10 @@
         <servlet-name>reset_password</servlet-name>
         <servlet-class>controllers.reset_password</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>admin_login_controller</servlet-name>
+        <servlet-class>controllers.admin_login_controller</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>customer_controller</servlet-name>
         <url-pattern>/customer_controller</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>reset_password</servlet-name>
         <url-pattern>/reset_password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>admin_login_controller</servlet-name>
+        <url-pattern>/admin_login_controller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

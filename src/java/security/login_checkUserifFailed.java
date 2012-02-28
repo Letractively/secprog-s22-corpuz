@@ -113,6 +113,36 @@ public class login_checkUserifFailed
         return isIdentified;
     }
 
+     public boolean checkStaff(login_temp temp)
+    {
+        boolean isIdentified = false;
+        int i = 1;
+        
+        try 
+        {
+            ConnectionFactory myFactory = ConnectionFactory.getFactory();
+            Connection conn = myFactory.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("select * from staff where staff_id = ? and password = ?");
+            pstmt.setString(i++, temp.getUsername());
+            pstmt.setString(i++, temp.getPassword());
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if(rs.next())
+            {
+              isIdentified = true;
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+        return isIdentified;
+    }
   
     public boolean checkOldPassword(String password)
     {

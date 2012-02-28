@@ -20,6 +20,20 @@
             response.setHeader("Expires","0");
             response.setDateHeader("Expires",-1);
         %>
+        
+        <form name="loginForm" method="post" action="exit_controller">
+                        
+                        <%
+                        out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
+                  //      session.setAttribute("UserName", session.getAttribute("user"));
+                        
+                      //  Logged in as: <%=  <br> 
+ 
+                          
+                        %>
+                        <input type="submit" class="loginButton" name="logoutButton" value="Logout"><br><br>
+         </form>
+    
         <%
             if(session.getAttribute("loggedIn_admin")==null)
             {
@@ -76,8 +90,11 @@
                     
                         
          %>
+         
+         
+                        
         <h2>Create Account</h2>
-        <form method ="post" action="">
+        <form method ="post" action="admin_reg_controller">
                         
         Username: <input type="text" name="username"><br>
         Password: <input type="password" name="password"><br>

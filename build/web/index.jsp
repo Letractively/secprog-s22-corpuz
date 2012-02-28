@@ -11,15 +11,7 @@
 <%@page import=" security.*" %>
 <%@ page language="java" import="security.Captchas" %>
 
-<% 
 
- if(session.getAttribute("CaptchaError")==null)
- {
- %>
- <script language="javascript">alert('You may have input the wrong credentials. Please try again, or register if you have not.');</script>
- <%
- }
-%>
 
 <!DOCTYPE html>
 <html>
@@ -63,35 +55,39 @@ Captchas captchas = new security.Captchas(
                 <div class="login">
             <%
             int x = 0;
+            
+            if(session.getAttribute("CaptchaError") == "true")
+            {
+                out.println("Wrong captcha");
+            }
             if(request.getParameter("loginButton")!=null)
             {
-                //anti brute force
-                if(session.getAttribute("brute") == null)
-                {
-                    
-                }
-                if(session.getAttribute("brute")== "set")
-                {
-                    
-                }
                 
                 //code proper
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 //data validation
-                //if data validation passed, eto na gagawin niya
-                request.setAttribute("UserName",username);
-                request.setAttribute("Password",password);
-                String strViewPage="login_controller";
-                RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
-                if (dispatcher != null)
-                {
-                    dispatcher.forward(request, response);
-                }
                 
-                %>
-                <script type="text/javascript">document.location="login_controller";</script>
-                <%
+                if(username.matches(" <(\"[^\"]*\"|'[^']*'|[^'\">])*> "))
+                {   System.out.println("malicious");   %>
+                    <script language="javascript">alert('Malicious Input');</script>
+                <% }
+                else
+                {
+                    //if data validation passed, eto na gagawin niya
+                    request.setAttribute("UserName",username);
+                    request.setAttribute("Password",password);
+                    String strViewPage="login_controller";
+                    RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
+                    if (dispatcher != null)
+                    {
+                        dispatcher.forward(request, response);
+                    }
+
+                    %>
+                    <script type="text/javascript">document.location="login_controller";</script>
+                    <%
+                 }
                 
             }
             if(session.getAttribute("loggedIn") == "false")
@@ -106,16 +102,16 @@ Captchas captchas = new security.Captchas(
                     <form name="loginForm" method="post" action="">
                         
                         Username: <input type="text" name="username">*<br>
-                        Password: <input type="password" name="password">*<br><br>
-                        
-                        Foobar Bookshope ensures you to secure browsing. <br><br>
-                        Enter letters you see here:<br>
-                        <input type="text" name="passwordCaptcha" size="16"><br>
+                        Password: <input type="password" name="password">*<br>
+                        Not a member? <a href="registration1.jsp">Register now!</a><br>
+                        <h4>Foobar Bookshop ensures you to secure browsing</h4>. <br>
+                        <h3>Enter letters you see here:</h3><br>
+                        <input type="text" name="passwordCaptcha" size="16">*<br>
                           <%=captchas.image() %> <br>
-                          <a href="<%= captchas.audioUrl() %>">Cannot see image clearly? Click here.</a>
+                          <a href="<%= captchas.audioUrl() %>">Try Audio.</a>
                           <br>
                         <input type="submit" class="loginButton" name="loginButton"><br><br>
-                        Not a member? <a href="registration1.jsp">Register now!</a>
+                        
                     </form>
                 </div>
             </td></tr></table>

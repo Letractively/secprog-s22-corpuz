@@ -44,7 +44,7 @@ public class exit_controller extends HttpServlet {
             request.setAttribute("flagLoggedIn",flagger);
             request.getRequestDispatcher("index.jsp").forward(request,response);
             
-            
+           
             /*
              * TODO output your page here. You may use following sample code.
              
