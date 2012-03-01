@@ -50,7 +50,8 @@ else
             if(session.getAttribute("loggedIn")==null)
             {
                 %>
-                <center><font color ="green" size ="10">You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</font></center>
+                <br><br><br><br><br>
+                <center><div class="redirect"><br>You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</div></center>
                 <script type="text/javascript">
                     var redirect=4;
                     setInterval(

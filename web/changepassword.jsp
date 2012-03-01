@@ -9,8 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Foobar Bookshop | Change Password</title>
         
+        <link rel="stylesheet" type="text/css" href="users.css">       
     </head>
     
     <body>
@@ -41,12 +42,28 @@
             
                        }
     %>
-        <form method ="post" action ="">
-            Old Password: <input type="password" name="password"><br>
-            Retype Password: <input type="password" name="repass"><br>
-            New Password: <input type="password" name="npassword"><br>
-            <input type="submit"  class="registerButton" name ="changePass" value="Change>>"><br>
-            <a href="home.jsp">Back to home page</a>
-        </form>
+    <div>
+            <table class=""><tr><td>
+        
+            <img src="Images/uLogo.png">
+        
+            </td></tr>
+            </table>
+            
+            <center>
+                <div class="changepassword">
+                    <h3>Change Password:</h3>
+                <form method ="post" action ="">
+                    Old Password: <input type="password" name="password"><br>
+                    Retype Password: <input type="password" name="repass"><br>
+                    New Password: <input type="password" name="npassword"><br>
+                    <input type="submit"  class="registerButton" name ="changePass" value="Change"><br>
+                    <hr>
+                    <br><br><br><br><br><br><br>
+                    <p align="right"><a href="home.jsp">Back to home page</a></p>
+                </form>
+                    
+                </div>
+            </center>
     </body>
 </html>
