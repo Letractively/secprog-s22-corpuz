@@ -104,13 +104,13 @@ Captchas captchas = new security.Captchas(
                         Username: <input type="text" name="username">*<br>
                         Password: <input type="password" name="password">*<br>
                         Not a member? <a href="registration1.jsp">Register now!</a><br>
-                        <h4>Foobar Bookshop ensures you to secure browsing</h4>. <br>
+                        <br>
                         <h3>Enter letters you see here:</h3><br>
                         <input type="text" name="passwordCaptcha" size="16">*<br>
                           <%=captchas.image() %> <br>
                           <a href="<%= captchas.audioUrl() %>">Try Audio.</a>
                           <br>
-                        <input type="submit" class="loginButton" name="loginButton"><br><br>
+                        <input type="submit" class="loginButton" name="loginButton" value="Login"><br><br>
                         
                     </form>
                 </div>

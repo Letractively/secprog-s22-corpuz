@@ -28,6 +28,22 @@
                     
                    
                 }
+                
+                div.reLogin{
+                        width:450px; 
+                        height:350px;
+                        background-color: white;
+                        overflow-y: none;
+                        text-align: left;
+                        padding-top: 10px;
+                        padding-left: 5px;
+                        padding-right: 5px;
+                        box-shadow: #000000 2px 3px 10px #121212;
+                        -moz-border-radius: 15px;
+                        border-radius: 5px;
+                    
+                   
+                }
 
                 a{
                         color:#111111;
