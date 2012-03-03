@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import security.*;
 import security.Captchas;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 /**
  *
@@ -33,7 +35,9 @@ public class login_controller extends HttpServlet {
         HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
+        
+        try 
+        {
             boolean check_username, check_password, check_state, isReset;
             login_temp login_user = new login_temp();
             login_user.setUsername((String) request.getAttribute("UserName"));
@@ -45,6 +49,7 @@ public class login_controller extends HttpServlet {
             int flagger = 0, correctCaptcha = 0;
             int RawFiller=0, RetriesCatcher=0, test=0;
             String ValueTransformer = null;
+            
             Integer accessCount = (Integer)session.getAttribute("accessCount");
             
               if(accessCount==null)
@@ -56,8 +61,10 @@ public class login_controller extends HttpServlet {
                    accessCount = new Integer(accessCount.intValue() + 1);
                }
             
-            if(accessCount>=3)
-            {
+           if(accessCount>=3)
+           {
+                
+            /*    
             //
             
             // Construct the captchas object
@@ -102,13 +109,36 @@ public class login_controller extends HttpServlet {
     //body = "Your message was verified to be entered by a human and is \"" + message + "\"";
      }
      out.println(body + correctCaptcha);
-}
-}
+     * 
+}*/
+            try
+            {
+            String remoteAddr = request.getRemoteAddr();
+            ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+            reCaptcha.setPrivateKey("6Lf2Z84SAAAAABPEKVj6o9hz3alo11oyQT8uwyN7");
             
+            String challenge = request.getParameter("recaptcha_challenge_field");
+            String uresponse = request.getParameter("recaptcha_response_field");
+            ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
             
-            
-            
-            
+            if(reCaptchaResponse.isValid())
+            {
+                System.out.print("Answer was entered correctly");
+        
+            }
+            else
+            {
+                System.out.print("Answer is wrong");
+                correctCaptcha=1;
+            }
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+         }
+           
             if((check_username == true && check_password == true))
             {
                          
@@ -117,11 +147,16 @@ public class login_controller extends HttpServlet {
                session.setAttribute("loggedIn", "true");
                session.setAttribute("user", login_user.getUsername());
                
-               if(accessCount!=3)
+                ValueTransformer = Integer.toString(accessCount);   
+                session.setAttribute("accessCount",accessCount);
+                session.setAttribute("Retries",ValueTransformer);
+               
+               if(accessCount<3)
                {
                session.setMaxInactiveInterval(60);
                session.setAttribute("flagLoggedIn",flagger);
                request.getRequestDispatcher("home.jsp").forward(request,response);
+               System.out.print("REDIRECTING");
                }
                else
                {
@@ -131,14 +166,19 @@ public class login_controller extends HttpServlet {
              
                 System.out.print("Visits: "+ accessCount);
               
-                ValueTransformer = Integer.toString(accessCount);   
-                session.setAttribute("accessCount",accessCount);
-                session.setAttribute("Retries",ValueTransformer);
+              
                 
                 session.setMaxInactiveInterval(60);
                 session.setAttribute("flagLoggedIn",flagger);
                 request.getRequestDispatcher("home.jsp").forward(request,response);
            
+               }
+               else
+               {
+                session.setAttribute("loggedIn", null);
+                session.setAttribute("brute", "set");  
+                session.setAttribute("CaptchaError","true");
+                response.sendRedirect("index.jsp");
                }
                
                }
@@ -176,6 +216,11 @@ public class login_controller extends HttpServlet {
                 response.sendRedirect("index.jsp");
             }    
         }
+        catch(Exception ex)
+                {
+                  //  ex.printStackTrace();
+                   
+                }
         finally
         {            
             out.close();
@@ -184,6 +229,7 @@ public class login_controller extends HttpServlet {
     }
    public class setCookie extends HttpServlet
    {
+        @Override
     public void doPost( HttpServletRequest request,
                       HttpServletResponse response)
                       throws IOException, ServletException {

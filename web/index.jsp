@@ -10,6 +10,8 @@
 <%@page import = "java.util.ArrayList" %>
 <%@page import=" security.*" %>
 <%@ page language="java" import="security.Captchas" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptcha "%>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory "%>
 
 
 
@@ -119,18 +121,27 @@ Captchas captchas = new security.Captchas(
                         Password: <input type="password" name="password">*<br>
                         Not a member? <a href="registration1.jsp">Register now!</a><br>
                         <br>
+                       
                         <%
                         if(StringerTransformer>=3)
-                        {
+                        {%>
+                        Oops! Foobar Bookstore detects you can't log-in.
+                        <br>
+                        Please enter the Captcha characters you see below.    
+                        <%    
+                        ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Lf2Z84SAAAAAGsCsIuifS8Md1_sso74SsmwOGkX","6Lf2Z84SAAAAABPEKVj6o9hz3alo11oyQT8uwyN7",false);
+                        out.print(c.createRecaptchaHtml(null,null));        
+                         }
                         %>
+                        
+                        <%--
                         <h3>Enter letters you see here:</h3><br>
                         <input type="text" name="passwordCaptcha" size="16">*<br>
                           <%=captchas.image() %> <br>
                           <a href="<%= captchas.audioUrl() %>">Try Audio.</a>
                           <br>
-                          <%
-                          }
-                          %>
+                          --%>  
+                        
                         <input type="submit" class="loginButton" name="loginButton" value="Login"><br><br>
                         
                     </form>
