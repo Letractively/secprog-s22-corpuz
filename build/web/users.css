@@ -44,6 +44,38 @@
                     
                    
                 }
+                
+                div.changepassword{
+                        width:450px; 
+                        height:250px;
+                        background-color: white;
+                        overflow-y: none;
+                        text-align: left;
+                        padding-top: 10px;
+                        padding-left: 5px;
+                        padding-right: 5px;
+                        box-shadow: #000000 2px 3px 10px #121212;
+                        -moz-border-radius: 15px;
+                        border-radius: 5px;
+                    
+                   
+                }
+                
+                div.redirect{
+                        width:320px;
+                        height:35px;
+                        background-color: white;
+                        overflow-y: none;
+                        text-align: right;
+                        padding-left: 5px;
+                        padding-right: 5px;
+                        box-shadow: #000000 2px 3px 10px #121212;
+                        -moz-border-radius: 15px;
+                        border-radius: 5px;
+                        font-weight: bold;
+                        color: red;
+                    
+                }
 
                 a{
                         color:#111111;

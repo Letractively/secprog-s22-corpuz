@@ -12,6 +12,7 @@ public class login_temp {
     private String username;
     private String password;
     private int state;
+    private int AuthRetries;
 
     /**
      * @return the username
@@ -53,6 +54,16 @@ public class login_temp {
      */
     public void setState(int state) {
         this.state = state;
+    }
+    
+    public int getAuthRetries()
+    {
+        return AuthRetries;
+    }
+    
+    public void setAuthRetries(int AuthRetries)
+    {
+        this.AuthRetries = AuthRetries;
     }
     
 }

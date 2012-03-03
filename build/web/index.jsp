@@ -55,6 +55,20 @@ Captchas captchas = new security.Captchas(
                 <div class="login">
             <%
             int x = 0;
+            String stringer;
+            int StringerTransformer=0;
+            
+            if(session.getAttribute("Retries")==null)
+            {
+             %><script language="javascript">alert('null value')</script>"<%      
+            }
+            else
+            {
+             stringer = (String)session.getAttribute("Retries");      
+             StringerTransformer = Integer.parseInt(stringer);
+             
+             %><script language="javascript">alert(<%=StringerTransformer%>)</script><%
+            }
             
             if(session.getAttribute("CaptchaError") == "true")
             {
@@ -105,11 +119,18 @@ Captchas captchas = new security.Captchas(
                         Password: <input type="password" name="password">*<br>
                         Not a member? <a href="registration1.jsp">Register now!</a><br>
                         <br>
+                        <%
+                        if(StringerTransformer>=3)
+                        {
+                        %>
                         <h3>Enter letters you see here:</h3><br>
                         <input type="text" name="passwordCaptcha" size="16">*<br>
                           <%=captchas.image() %> <br>
                           <a href="<%= captchas.audioUrl() %>">Try Audio.</a>
                           <br>
+                          <%
+                          }
+                          %>
                         <input type="submit" class="loginButton" name="loginButton" value="Login"><br><br>
                         
                     </form>
