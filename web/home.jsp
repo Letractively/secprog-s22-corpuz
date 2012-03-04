@@ -65,7 +65,8 @@ else
                             {
                                 document.getElementById('redirect').innerHTML = redirect--;
                             }
-                    }, 1000); 
+                    }
+                    , 1000); 
                
                 </script>
               <%  } 

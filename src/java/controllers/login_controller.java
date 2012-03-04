@@ -179,6 +179,8 @@ public class login_controller extends HttpServlet {
                 session.setAttribute("brute", "set");  
                 session.setAttribute("CaptchaError","true");
                 response.sendRedirect("index.jsp");
+                
+                
                }
                
                }
@@ -189,6 +191,7 @@ public class login_controller extends HttpServlet {
                
                
                 ValueTransformer = Integer.toString(accessCount);   
+                session.setMaxInactiveInterval(2);
                 session.setAttribute("accessCount",accessCount);
                 session.setAttribute("Retries",ValueTransformer);
                 session.setAttribute("loggedIn", "false");
@@ -207,7 +210,8 @@ public class login_controller extends HttpServlet {
             {  
                 System.out.print("Visits: "+ accessCount);
               
-                ValueTransformer = Integer.toString(accessCount);   
+                ValueTransformer = Integer.toString(accessCount);  
+                session.setMaxInactiveInterval(2);
                 session.setAttribute("accessCount",accessCount);
                 session.setAttribute("Retries",ValueTransformer);
                 session.setAttribute("loggedIn", null);

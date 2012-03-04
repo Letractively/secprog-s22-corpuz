@@ -13,8 +13,30 @@
 <%@ page import="net.tanesha.recaptcha.ReCaptcha "%>
 <%@ page import="net.tanesha.recaptcha.ReCaptchaFactory "%>
 
+<%
+
+ /*
+ HttpSession TestSession;
+ TestSession = request.getSession(false);
+*/
+String testLockout=null;
+int LockoutInt; 
+
+if(session.getAttribute("Retries")!=null)
+{
+ testLockout = (String)session.getAttribute("Retries");
+ LockoutInt = Integer.parseInt(testLockout);
+ 
+
+ if(LockoutInt == 5 || session.getAttribute("FlagLockout")!=null)
+ {
+ response.sendRedirect("banned.jsp");
+ }
+ 
+}
 
 
+%>
 <!DOCTYPE html>
 <html>
     <head>
