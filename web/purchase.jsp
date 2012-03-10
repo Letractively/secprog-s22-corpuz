@@ -49,8 +49,22 @@
                       //  Logged in as: <%=  <br> 
         %>
         
+        
+         <%
+                if( request.getAttribute("clear")!= null)
+                {
+                    out.println("No Pending Order");
+                    
+                }
+               else
+                {
+            %>
+            
         <form method ="post" action="purchase_controller">
-            <input type="hidden" value = "<%=  (String) session.getAttribute("user") %>" name="userId">
+        
+            
+           
+            
         <%
          if((ArrayList) request.getAttribute("purchaseResult")!= null)
         {
@@ -87,11 +101,30 @@
                 %>
                  </table>
           
+                 <% 
+                    if((ArrayList) request.getAttribute("purchaseResult1")!= null)
+                    {
+                        ArrayList result = (ArrayList) request.getAttribute("purchaseResult1");
+                        
+                        for(int i=0; i<result.size();i++)
+                        { 
+                            out.print("<h3><b> TOTAL PRICE: " + result.get(i) + "</h3>");
+                        }
+                    }
+                    
+
+                %>
+                
+          <br><br><br>
+          <input type="submit" name ="removeProd" value="Remove Product"> <br> <br>
+          
+          <hr>
           <input type="submit" name ="buyMore" value="Buy More"> 
           
-          <input type="submit" name ="checkout" value="Check-Out"> <br> <br> <br>
-          <input type="submit" name ="removeProd" value="Remove Product"> <br>
+          <input type="submit" name ="checkout" value="Check-Out"> 
           </form>
-         <% } %>  
+         <% 
+                       }
+     } %>  
     </body>
 </html>

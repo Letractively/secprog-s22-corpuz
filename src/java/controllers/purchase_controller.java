@@ -20,6 +20,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 import classes.*;
 
 /**
@@ -41,7 +42,7 @@ public class purchase_controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session = request.getSession(false);
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
      
@@ -68,66 +69,75 @@ public class purchase_controller extends HttpServlet {
                 out.println("orderID " + orderId);
             }
             */ 
+         
             
             if(request.getParameter("purchase")!=null)
             {
-             
-            String quantity_text = request.getParameter("quantity");
-            int quantity = Integer.parseInt(quantity_text);
+            
+                ArrayList errors = new ArrayList();
+                
+                String quantitytext = request.getParameter("quantity");
+                if(!(quantitytext.matches("^\\d+$")))
+                {
+                    errors.add("Not an Integer Value");
+                    request.setAttribute("errorResult", errors);
+                    request.getRequestDispatcher("home.jsp").forward(request,response);
+                }
+            
+               int quantity = Integer.parseInt(quantitytext);
+               
+               if(quantity < 1)
+               {
+                   errors.add("Quantity should be greater than 0");
+                   request.setAttribute("errorResult", errors);
+                   request.getRequestDispatcher("home.jsp").forward(request,response);
+               }
             
             String choice_prod = request.getParameter("choice");
             
+            if(choice_prod == null)
+            {
+                   errors.add("Please select a product");
+                   request.setAttribute("errorResult", errors);
+                   request.getRequestDispatcher("home.jsp").forward(request,response);
+            }
+            
             Date today1 = Calendar.getInstance().getTime();
             String today = new SimpleDateFormat("yyyy-MM-dd").format(today1);
-            
-            String user = request.getParameter("userId");
+      
+            boolean  hasNull = false;
             
             int orderId = 0;
             float price = 0;
-            
-            
-            
-           
+
             ArrayList name = new ArrayList();
+            ArrayList name1 = new ArrayList();
+         
+            String user1 = session.getAttribute("UserName").toString();
             
-             /*
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet purchase_controller</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet purchase_controller at " + today + "</h1> <br>");
-            out.println("<h1>Servlet purchase_controller at " + choice_prod + "</h1> <br>");
-            out.println("<h1>Servlet purchase_controller at " + user + "</h1 <br>");
-          
-            out.println("</body>");
-            out.println("</html>");
             
-            */
             
              try
-        {
+            {
+           
             //opens DB Connection
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
             
-            
-            PreparedStatement pstmt0 = conn.prepareStatement("SELECT max(order_id) AS E FROM cust_order");
-            
+                        
+            PreparedStatement pstmt0 = conn.prepareStatement("SELECT order_id FROM cust_order WHERE billing_add IS NULL AND cust_id = ?");
+            pstmt0.setString(1, user1);
           
             
             ResultSet rs = pstmt0.executeQuery();
             
                 while(rs.next())
                     {
-                        orderId = rs.getInt("E");
-                       
+                        orderId = rs.getInt("order_id");
+                       hasNull = true;
                     }
-                
-                
-                 orderId = orderId + 1;
-                 
-            
+                System.out.println(orderId);
+
            PreparedStatement pstmt4 = conn.prepareStatement("SELECT prod_price FROM products where prod_id = ?");
            pstmt4.setString(1, choice_prod);
           
@@ -147,18 +157,34 @@ public class purchase_controller extends HttpServlet {
             
             
             
-          
-            //SQL Query
+           if (hasNull == false)
+          {
+              //SQL Query
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO cust_order (cust_id, order_date) VALUES(?,?)");
             
-            pstmt.setString(1, user);
+            pstmt.setString(1, user1);
             pstmt.setString(2, today);
             
           
             //execute query
             pstmt.executeUpdate();
+          }
             
+          //SQL Query
+           PreparedStatement pstmt7 = conn.prepareStatement("SELECT max(order_id) AS E FROM cust_order WHERE cust_id = ?");
+            pstmt7.setString(1, user1);
+          
             
+            ResultSet rs7 = pstmt7.executeQuery();
+            
+                while(rs7.next())
+                    {
+                        orderId = rs7.getInt("E");
+                      
+                    }
+                
+                session.setAttribute("orderIDNum", orderId);
+                
              //SQL Query
             PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?)");
             
@@ -189,6 +215,16 @@ public class purchase_controller extends HttpServlet {
                         
                     }
             
+             PreparedStatement pstmt8 = conn.prepareStatement("select sum(quantity*sell_price) AS F from order_acct where order_id = ?");
+             pstmt8.setInt(1, orderId);
+          
+            
+            ResultSet rs8 = pstmt8.executeQuery();
+
+                while(rs8.next())
+                    {
+                        name1.add(rs8.getFloat("F"));
+                    }
             
                     
              //close DB connection
@@ -204,8 +240,94 @@ public class purchase_controller extends HttpServlet {
             
               
               request.setAttribute("purchaseResult", name);
+              request.setAttribute("purchaseResult1", name1);
               request.getRequestDispatcher("purchase.jsp").forward(request,response); 
          }
+            
+            else if(request.getParameter("viewCart")!= null)
+            {
+                  try
+                    {
+                    
+                    boolean  hasNull = false;
+            
+                    int orderId = 0;
+                      String user1 = session.getAttribute("UserName").toString();
+
+                        ArrayList name = new ArrayList();
+                        ArrayList name1 = new ArrayList();
+           
+            //opens DB Connection
+            ConnectionFactory myFactory = ConnectionFactory.getFactory();
+            Connection conn = myFactory.getConnection();
+            
+                        
+            PreparedStatement pstmt0 = conn.prepareStatement("SELECT order_id FROM cust_order WHERE billing_add IS NULL AND cust_id = ?");
+            pstmt0.setString(1, user1);
+          
+            
+            ResultSet rs = pstmt0.executeQuery();
+            
+                while(rs.next())
+                    {
+                        orderId = rs.getInt("order_id");
+                       hasNull = true;
+                    }
+                
+                
+                if(hasNull == false)
+                {
+                     request.setAttribute("clear", true);
+                     request.getRequestDispatcher("purchase.jsp").forward(request,response);
+                }
+                
+               session.setAttribute("orderIDNum", orderId);
+             PreparedStatement pstmt5 = conn.prepareStatement("select order_acct.prod_id, products.prod_type, products.prod_title, order_acct.quantity, order_acct.sell_price from order_acct inner join products on order_acct.prod_id = products.prod_id where order_id = ?");
+             pstmt5.setInt(1, orderId);
+          
+            
+            ResultSet rs2 = pstmt5.executeQuery();
+
+                while(rs2.next())
+                    {
+                        name.add(rs2.getString("order_acct.prod_id"));
+                        name.add(rs2.getString("products.prod_type"));
+                        name.add(rs2.getString("products.prod_title"));
+                        name.add(rs2.getInt("order_acct.quantity"));
+                        name.add(rs2.getFloat("order_acct.sell_price"));
+                        
+                    }
+            
+             PreparedStatement pstmt8 = conn.prepareStatement("select sum(quantity*sell_price) AS F from order_acct where order_id = ?");
+             pstmt8.setInt(1, orderId);
+          
+            
+            ResultSet rs8 = pstmt8.executeQuery();
+
+                while(rs8.next())
+                    {
+                        name1.add(rs8.getFloat("F"));
+                    }
+            
+                    
+             //close DB connection
+            conn.close();
+                
+              request.setAttribute("purchaseResult", name);
+              request.setAttribute("purchaseResult1", name1);
+              request.getRequestDispatcher("purchase.jsp").forward(request,response); 
+            
+        }
+        catch(SQLException ex)
+            {
+              ex.printStackTrace();
+            }
+         
+ 
+              
+            }
+            
+            
             else if(request.getParameter("buyMore")!= null)
             {
                 request.setAttribute("hasBuy", "hasBuy");
@@ -214,24 +336,48 @@ public class purchase_controller extends HttpServlet {
             }
             else if(request.getParameter("hasPurchase")!= null)
             {
-                 String quantity_text = request.getParameter("quantity");
-            int quantity = Integer.parseInt(quantity_text);
+                
+                ArrayList errors = new ArrayList();
+                  String quantitytext = request.getParameter("quantity");
+                    if(!(quantitytext.matches("^\\d+$")))
+                    {
+                        errors.add("Not an Integer Value");
+                        request.setAttribute("errorResult", errors);
+                        request.getRequestDispatcher("home.jsp").forward(request,response);
+                    }
+
+                int quantity = Integer.parseInt(quantitytext);
+
+                if(quantity < 1)
+                {
+                    errors.add("Quantity should be greater than 0");
+                    request.setAttribute("errorResult", errors);
+                    request.getRequestDispatcher("home.jsp").forward(request,response);
+                }
             
             String choice_prod = request.getParameter("choice");
+            
+            if(choice_prod == null)
+            {
+                   errors.add("Please select a product");
+                   request.setAttribute("errorResult", errors);
+                   request.getRequestDispatcher("home.jsp").forward(request,response);
+            }
             
         //    Date today1 = Calendar.getInstance().getTime();
          //   String today = new SimpleDateFormat("yyyy-MM-dd").format(today1);
             
          //   String user = request.getParameter("userId");
             
-            int orderId = 0;
+            String orderId_text = session.getAttribute("orderIDNum").toString();
+            int orderId = Integer.parseInt(orderId_text);
             float price = 0;
             
             
             
            
             ArrayList name = new ArrayList();
-            
+            ArrayList name1 = new ArrayList();
             
             
              try
@@ -241,20 +387,7 @@ public class purchase_controller extends HttpServlet {
             Connection conn = myFactory.getConnection();
             
             
-            PreparedStatement pstmt0 = conn.prepareStatement("SELECT max(order_id) AS E FROM cust_order");
-            
-          
-            
-            ResultSet rs = pstmt0.executeQuery();
-            
-                while(rs.next())
-                    {
-                        orderId = rs.getInt("E");
-                       
-                    }
-                
-                
-               orderId = orderId + 0;
+         
                  
             
            PreparedStatement pstmt4 = conn.prepareStatement("SELECT prod_price FROM products where prod_id = ?");
@@ -305,6 +438,16 @@ public class purchase_controller extends HttpServlet {
                         
                     }
             
+                 PreparedStatement pstmt8 = conn.prepareStatement("select sum(quantity*sell_price) AS F from order_acct where order_id = ?");
+             pstmt8.setInt(1, orderId);
+          
+            
+            ResultSet rs8 = pstmt8.executeQuery();
+
+                while(rs8.next())
+                    {
+                        name1.add(rs8.getFloat("F"));
+                    }
             
                     
              //close DB connection
@@ -320,17 +463,19 @@ public class purchase_controller extends HttpServlet {
             
               
               request.setAttribute("purchaseResult", name);
+              request.setAttribute("purchaseResult1", name1);
               request.getRequestDispatcher("purchase.jsp").forward(request,response); 
             }
            
             else if(request.getParameter("removeProd")!=null)
             {
-                 int orderId = 0;
-                 
+                 String orderId_text = session.getAttribute("orderIDNum").toString();
+                 int orderId = Integer.parseInt(orderId_text);
                   
                   String remove_prod = request.getParameter("choice");
   
             ArrayList name = new ArrayList();
+            ArrayList name1 = new ArrayList();
             
              try
               {
@@ -339,18 +484,7 @@ public class purchase_controller extends HttpServlet {
             Connection conn = myFactory.getConnection();
             
             
-            PreparedStatement pstmt0 = conn.prepareStatement("SELECT max(order_id) AS E FROM cust_order");
- 
-            ResultSet rs = pstmt0.executeQuery();
             
-                while(rs.next())
-                    {
-                        orderId = rs.getInt("E");
-                       
-                    }
-                
-                
-               orderId = orderId + 0;
                  
             
             
@@ -383,6 +517,17 @@ public class purchase_controller extends HttpServlet {
                         
                     }
             
+                   PreparedStatement pstmt8 = conn.prepareStatement("select sum(quantity*sell_price) AS F from order_acct where order_id = ?");
+             pstmt8.setInt(1, orderId);
+          
+            
+            ResultSet rs8 = pstmt8.executeQuery();
+
+                while(rs8.next())
+                    {
+                        name1.add(rs8.getFloat("F"));
+                    }
+                
             
                     
              //close DB connection
@@ -398,6 +543,7 @@ public class purchase_controller extends HttpServlet {
             
               
               request.setAttribute("purchaseResult", name);
+              request.setAttribute("purchaseResult1", name1);
               request.getRequestDispatcher("purchase.jsp").forward(request,response); 
             }
       
@@ -408,7 +554,7 @@ public class purchase_controller extends HttpServlet {
                     ConnectionFactory myFactory = ConnectionFactory.getFactory();
                     Connection conn = myFactory.getConnection();
                 
-                    String user = request.getParameter("userId");
+                    String user = session.getAttribute("UserName").toString();
                      String billingAdd = "";
                      String card_name = "" ;
                         int card_num = 0;
@@ -416,17 +562,10 @@ public class purchase_controller extends HttpServlet {
                       String card_type = "";                  
                     Date today1 = Calendar.getInstance().getTime();
                     String today = new SimpleDateFormat("yyyy-MM-dd").format(today1);
-                    int orderId = 0;
+                     String orderId_text = session.getAttribute("orderIDNum").toString();
+                    int orderId = Integer.parseInt(orderId_text);
                     
-                     PreparedStatement pstmt = conn.prepareStatement("SELECT max(order_id) AS E FROM cust_order");
- 
-                    ResultSet rs = pstmt.executeQuery();
-
-                        while(rs.next())
-                            {
-                                orderId = rs.getInt("E");
-
-                            }
+                     
                 
                      PreparedStatement pstmt0 = conn.prepareStatement("select billing_add from cust_acct where cust_id = ?");
                      pstmt0.setString(1, user);

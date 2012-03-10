@@ -190,6 +190,11 @@ else
                  <form method ="post" action ="changepassword.jsp">
                      <input type="submit"  class="registerButton" name ="Submit" value="CP"><br>
                  </form>
+                 
+                  <form method ="post" action ="purchase_controller">
+                     <input type="submit"  class="registerButton" name ="viewCart" value="View Cart"><br>
+                 </form>
+                 
             </div><br>
         </div>
          <% } %>
