@@ -15,7 +15,6 @@ public class info_tracker {
     private int card_num;
     private String card_type;
     private Date exp_date;
-    private String billing;
 
     /**
      * @return the card_name
@@ -73,19 +72,7 @@ public class info_tracker {
         this.exp_date = exp_date;
     }
 
-    /**
-     * @return the billing
-     */
-    public String getBilling() {
-        return billing;
-    }
 
-    /**
-     * @param billing the billing to set
-     */
-    public void setBilling(String billing) {
-        this.billing = billing;
-    }
 
     
 }

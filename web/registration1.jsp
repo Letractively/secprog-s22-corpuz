@@ -152,6 +152,7 @@
                     }
                  else
                 {
+                        session.setAttribute("customerID", newCustomer.getCust_id());
                         request.setAttribute("customer",newCustomer);
                         String strViewPage="addcustomer_controller";
                         
