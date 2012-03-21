@@ -38,7 +38,7 @@ public class login_controller extends HttpServlet {
         
         try 
         {
-            boolean check_username, check_password, check_state, isReset;
+            boolean check_username, check_password;
             login_temp login_user = new login_temp();
             login_user.setUsername((String) request.getAttribute("UserName"));
             login_user.setPassword((String) request.getAttribute("Password"));

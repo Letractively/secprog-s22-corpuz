@@ -154,13 +154,13 @@
                 {
                         request.setAttribute("customer",newCustomer);
                         String strViewPage="addcustomer_controller";
-                        String strViewPage1="registration2.jsp";
+                        
                         RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
-                        RequestDispatcher dispatcher1 = request.getRequestDispatcher(strViewPage1);
-                        if (dispatcher != null || dispatcher1 != null)
+                        
+                        if (dispatcher != null)
                         {
                             dispatcher.forward(request, response);
-                            dispatcher1.forward(request, response);
+                            
                         }
                         %><script type="text/javascript">document.location="addcustomer_controller";</script><%
                                            

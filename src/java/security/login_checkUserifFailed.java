@@ -5,6 +5,7 @@
 package security;
 
 import dbconnection.ConnectionFactory;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,21 +54,22 @@ public class login_checkUserifFailed
         return isIdentified;
     }
     
-    public boolean checkPassword(login_temp temp)
+    public boolean checkPassword(login_temp temp) throws NoSuchAlgorithmException
     {
         boolean isIdentified = false;
+        hasher hs = new hasher();
         int i = 1;
-        
+        String passChecksum = hs.setHash(temp.getPassword());
         try 
         {
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
             PreparedStatement pstmt = conn.prepareStatement("select * from customer where password = ?");
-            pstmt.setString(i++, temp.getPassword());
+            pstmt.setString(i++, passChecksum);
             
             ResultSet rs = pstmt.executeQuery();
             
-            if(rs.next())
+            while(rs.next())
             {
                 isIdentified = true;
             }

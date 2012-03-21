@@ -4,12 +4,18 @@
  */
 package classes;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import security.hasher;
+
 /**
  *
  * @author arvin
  */
 public class customer 
 {
+    
     private String cust_id;
     private String password;
     private String fname;
@@ -43,7 +49,10 @@ public class customer
      * @param password the password to set
      */
     public void setPassword(String password) {
-        this.password = password;
+        
+            
+            this.password = password;
+        
     }
 
     /**

@@ -84,14 +84,14 @@ Captchas captchas = new security.Captchas(
             
             if(session.getAttribute("Retries")==null)
             {
-             %><script language="javascript">alert('null value')</script>"<%      
+                System.out.println("null");
             }
             else
             {
              stringer = (String)session.getAttribute("Retries");      
              StringerTransformer = Integer.parseInt(stringer);
              
-             %><script language="javascript">alert(<%=StringerTransformer%>)</script><%
+             System.out.println(StringerTransformer);
             }
             
             if(session.getAttribute("CaptchaError") == "true")

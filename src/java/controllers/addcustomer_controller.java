@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import classes.customer;
 import classes.info_tracker;
 import dbconnection.ConnectionFactory;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import security.hasher;
 
 /**
  *
@@ -41,8 +43,14 @@ public class addcustomer_controller extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             customer newCustomer = (customer) request.getAttribute("customer");
-            
-            
+            hasher hs = new hasher();
+            String password = null;
+            try {
+                password = hs.setHash(newCustomer.getPassword());
+                System.out.println(password);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(addcustomer_controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
             int i = 1;
             int lol = 1;
             
@@ -71,7 +79,7 @@ public class addcustomer_controller extends HttpServlet {
                 
                 PreparedStatement pstmt = conn.prepareStatement("insert into customer(cust_id, password, state) values (?,?,?)");
                 pstmt.setString(i++, newCustomer.getCust_id());
-                pstmt.setString(i++, newCustomer.getPassword());
+                pstmt.setString(i++, password);
                 pstmt.setInt(i++, lol);
                 pstmt.executeUpdate();
                 
