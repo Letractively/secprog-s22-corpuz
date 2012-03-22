@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author arvin
  */
 public class info_tracker {
+    private String customerID;
     private String card_name;
     private int card_num;
     private String card_type;
@@ -70,6 +71,20 @@ public class info_tracker {
      */
     public void setExp_date(Date exp_date) {
         this.exp_date = exp_date;
+    }
+
+    /**
+     * @return the customerID
+     */
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    /**
+     * @param customerID the customerID to set
+     */
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
 

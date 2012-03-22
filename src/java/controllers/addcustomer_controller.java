@@ -72,7 +72,7 @@ public class addcustomer_controller extends HttpServlet {
                 i = 1;
                 PreparedStatement pstmt3 = conn.prepareStatement("insert into oldpass(cust_id, password) values (?,?)");
                 pstmt3.setString(i++, newCustomer.getCust_id());
-                pstmt3.setString(i++, newCustomer.getPassword());
+                pstmt3.setString(i++, password);
                 
                 pstmt3.executeUpdate();
                 i = 1;

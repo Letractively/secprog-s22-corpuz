@@ -4,13 +4,17 @@
     Author     : Loowah
 --%>
 
+
+<%@page import="java.sql.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import=" classes.*" %>
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="users.css">
-        
+        <script language="javaScript" type="text/javascript" src="calendar.js"></script>
+        <link href="calendar.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Foobar Bookshop | Registration</title>
     </head>
@@ -35,18 +39,28 @@
                     {
                         response.sendRedirect("index.jsp");
                     }
-        if(request.getParameter("submit")!=null)
+                if(request.getParameter("submit")!=null)
                {
                 info_tracker newTracker = new info_tracker();
-               
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+  
+                newTracker.setCustomerID((String) session.getAttribute("customerID"));
                 newTracker.setCard_name(request.getParameter("firstName") + " " + request.getParameter("middleName") + " " + request.getParameter("lastName"));
+                newTracker.setCard_num(Integer.parseInt(request.getParameter("ccNo")));
+                newTracker.setCard_type(request.getParameter("ccType"));
+                java.util.Date date = formatter.parse(request.getParameter("datum1"));
                
+                java.sql.Date sqlDate = new Date(date.getTime());
+                newTracker.setExp_date(sqlDate);
+                
+                
               
                 String billHomeNo = request.getParameter("billHomeNo");
                 String billStreet = request.getParameter("billStreet");
                 String billCity = request.getParameter("billCity");
                 String billCountry = request.getParameter("billCountry");
-                String billPostal = request.getParameter("billPostal");             
+                String billPostal = request.getParameter("billPostal");
+                String billing_add = billHomeNo + " " + billStreet + " " + billCity + " " + billCountry + " " + billPostal;                             
 
                 String[] errors = new String[100];
                 int counter = 0;
@@ -100,8 +114,18 @@
                     }
                  else
                 {
-                                     
-                        %><script type="text/javascript">alert("Registration Successful");document.location="index.jsp";</script><%
+                        
+                        request.setAttribute("newTracker", newTracker);
+                        String strViewPage="addcustomer_controller2";
+                        
+                        RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
+                        
+                        if (dispatcher != null)
+                        {
+                            dispatcher.forward(request, response);
+                            
+                        }
+                        %><script type="text/javascript">document.location="addcustomer_controlle2r";</script><%
                                            
                 }
 
@@ -118,8 +142,47 @@
                             <option value="americanex">American Express</option>
                             <option value="jcb">JCB</option>
                         </select><br>
-                        Expiry Date: <input type="">
+                        Expiry Date: <input type="text" name="datum1"><a href="#" onClick="setYears(2012, 2060);
+                                        showCalender(this, 'datum1');">
+                                        <img src="Images/calender.png"></a>
                                             <br><br><hr>
+                        <table id="calenderTable">
+                         <tbody id="calenderTableHead">
+                            <tr>
+            <td colspan="4" align="center">
+	          <select onChange="showCalenderBody(createCalender(document.getElementById('selectYear').value,
+	           this.selectedIndex, false));" id="selectMonth">
+	              <option value="0">Jan</option>
+	              <option value="1">Feb</option>
+	              <option value="2">Mar</option>
+	              <option value="3">Apr</option>
+	              <option value="4">May</option>
+	              <option value="5">Jun</option>
+	              <option value="6">Jul</option>
+	              <option value="7">Aug</option>
+	              <option value="8">Sep</option>
+	              <option value="9">Oct</option>
+	              <option value="10">Nov</option>
+	              <option value="11">Dec</option>
+	          </select>
+            </td>
+            <td colspan="2" align="center">
+			    <select onChange="showCalenderBody(createCalender(this.value, 
+				document.getElementById('selectMonth').selectedIndex, false));" id="selectYear">
+				</select>
+			</td>
+            <td align="center">
+			    <a href="#" onClick="closeCalender();"><font color="#003333" size="+1">X</font></a>
+			</td>
+		  </tr>
+       </tbody>
+       <tbody id="calenderTableDays">
+         <tr style="">
+           <td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td>
+         </tr>
+       </tbody>
+       <tbody id="calender"></tbody>
+    </table>
                         
                     <h2>Billing Information</h2><br>    
                         Home #: <input type="text" name="billHomeNo" size="7"><br>

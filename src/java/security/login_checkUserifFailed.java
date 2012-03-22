@@ -146,16 +146,18 @@ public class login_checkUserifFailed
         return isIdentified;
     }
   
-    public boolean checkOldPassword(String password)
+    public boolean checkOldPassword(String password) throws NoSuchAlgorithmException
     {
         boolean isIdentified = false;
         int i = 1;
+        hasher hs = new hasher();
+        String passwordHash = hs.setHash(password);
         ConnectionFactory myFactory = ConnectionFactory.getFactory();
         Connection conn = myFactory.getConnection();
         try 
         {
             PreparedStatement pstmt = conn.prepareStatement("select * from oldpass where password = ?");
-            pstmt.setString(i++, password);
+            pstmt.setString(i++, passwordHash);
             
             ResultSet rs = pstmt.executeQuery();
             
