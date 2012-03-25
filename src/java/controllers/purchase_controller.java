@@ -125,7 +125,7 @@ public class purchase_controller extends HttpServlet {
             Connection conn = myFactory.getConnection();
             
                         
-            PreparedStatement pstmt0 = conn.prepareStatement("SELECT order_id FROM cust_order WHERE billing_add IS NULL AND cust_id = ?");
+            PreparedStatement pstmt0 = conn.prepareStatement("SELECT order_id FROM cust_order WHERE billing_id IS NULL AND cust_id = ?");
             pstmt0.setString(1, user1);
           
             
@@ -262,7 +262,7 @@ public class purchase_controller extends HttpServlet {
             Connection conn = myFactory.getConnection();
             
                         
-            PreparedStatement pstmt0 = conn.prepareStatement("SELECT order_id FROM cust_order WHERE billing_add IS NULL AND cust_id = ?");
+            PreparedStatement pstmt0 = conn.prepareStatement("SELECT order_id FROM cust_order WHERE billing_id IS NULL AND cust_id = ?");
             pstmt0.setString(1, user1);
           
             
@@ -555,7 +555,8 @@ public class purchase_controller extends HttpServlet {
                     Connection conn = myFactory.getConnection();
                 
                     String user = session.getAttribute("UserName").toString();
-                     String billingAdd = "";
+                    String billingAdd_txt = request.getParameter("billingAddr");
+                    int billingAdd = Integer.parseInt(billingAdd_txt);
                      String card_name = "" ;
                         int card_num = 0;
                      String exp_date = "";
@@ -566,7 +567,7 @@ public class purchase_controller extends HttpServlet {
                     int orderId = Integer.parseInt(orderId_text);
                     
                      
-                
+                /*
                      PreparedStatement pstmt0 = conn.prepareStatement("select billing_add from cust_acct where cust_id = ?");
                      pstmt0.setString(1, user);
                      
@@ -575,6 +576,8 @@ public class purchase_controller extends HttpServlet {
                     {
                         billingAdd = rs2.getString("billing_add");
                     }
+                     */
+                   
                      
                      PreparedStatement pstmt1 = conn.prepareStatement("select card_name, card_num, card_type, exp_date from info_tracker where cust_id = ?");
                      pstmt1.setString(1, user);
@@ -591,9 +594,9 @@ public class purchase_controller extends HttpServlet {
                     }
                      
                       //SQL Query
-                    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE cust_order SET billing_add = ?, paid_date = ? , card_name = ?, card_num = ?, card_type = ?, exp_date =? where order_id = ?");
+                    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE cust_order SET billing_id = ?, paid_date = ? , card_name = ?, card_num = ?, card_type = ?, exp_date =? where order_id = ?");
 
-                    pstmt2.setString(1, billingAdd);
+                    pstmt2.setInt(1, billingAdd);
                     pstmt2.setString(2, today);
                     pstmt2.setString(3,  card_name);
                     pstmt2.setInt(4, card_num);

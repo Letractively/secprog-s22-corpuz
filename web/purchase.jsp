@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
+<%@page import = "classes.view_getAddress" %>
 
 <!DOCTYPE html>
 <html>
@@ -45,16 +46,18 @@
     <body>
         <%
                         out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
-                         out.print( "<b>Welcome " +  session.getAttribute("loggedIn") + "!<br/></b>");
+                      //   out.print( "<b>Welcome " +  session.getAttribute("loggedIn") + "!<br/></b>");
                       //  Logged in as: <%=  <br> 
         %>
         
         
          <%
-                if( request.getAttribute("clear")!= null)
+                if( request.getAttribute("clear") != null )
                 {
-                    out.println("No Pending Order");
-                    
+                    out.println("<br><br>  No Pending Order <br><br>");
+                   %>  
+            <a href="home.jsp">Home</a> 
+            <%
                 }
                else
                 {
@@ -108,7 +111,7 @@
                         
                         for(int i=0; i<result.size();i++)
                         { 
-                            out.print("<h3><b> TOTAL PRICE: " + result.get(i) + "</h3>");
+                            out.print("<h3><b> TOTAL PRICE: PHP " + result.get(i) + "</h3>");
                         }
                     }
                     
@@ -119,8 +122,28 @@
           <input type="submit" name ="removeProd" value="Remove Product"> <br> <br>
           
           <hr>
-          <input type="submit" name ="buyMore" value="Buy More"> 
+          <input type="submit" name ="buyMore" value="Buy More">  <br> <br>
           
+          <hr>
+          Select Address: 
+          <select name="billingAddr">
+           
+            <%
+            
+              ArrayList result = new view_getAddress().getBillingAddress(session.getAttribute("user").toString());
+              int counter2 = 0;
+            //    for(int counter2 = 0; counter2 < result.size(); counter2++)
+                    while(counter2 < result.size())
+                    { %>
+                    <option value= <%= result.get(counter2) %>>  <% counter2++; %> <%= result.get(counter2) %> <% counter2++; %> </option>
+                    <%
+                    }
+            
+           
+                    %>
+                  
+      </select>
+                    <br>
           <input type="submit" name ="checkout" value="Check-Out"> 
           </form>
          <% 
