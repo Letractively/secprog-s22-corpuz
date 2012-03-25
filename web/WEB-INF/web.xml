@@ -32,6 +32,10 @@
         <servlet-name>addcustomer_controller2</servlet-name>
         <servlet-class>controllers.addcustomer_controller2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>reset_adminpass</servlet-name>
+        <servlet-class>controllers.reset_adminpass</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>customer_controller</servlet-name>
         <url-pattern>/customer_controller</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>addcustomer_controller2</servlet-name>
         <url-pattern>/addcustomer_controller2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reset_adminpass</servlet-name>
+        <url-pattern>/reset_adminpass</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -40,9 +40,6 @@ public class reset_password extends HttpServlet {
             boolean checkOldPassword;
             login_checkUserifFailed temp = new login_checkUserifFailed();
             login_temp newPass = new login_temp();
-            System.out.print((String) session.getAttribute("Password"));
-            System.out.print((String) session.getAttribute("UserName"));
-            System.out.print((String) session.getAttribute("nPassword"));
             checkOldPassword = temp.checkOldPassword((String) session.getAttribute("nPassword"));
             if(checkOldPassword)
             {

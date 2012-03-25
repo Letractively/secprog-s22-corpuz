@@ -69,8 +69,9 @@ public class admin_login_controller extends HttpServlet {
                         }
                         else
                         {
-      
-                            request.getRequestDispatcher("accounting.jsp").forward(request,response);
+                            session.setAttribute("passChange", "true");
+                            session.setAttribute("sessionName", "accounting");
+                            response.sendRedirect("changeadmin_pass.jsp");
                         }
                    }
                    else
@@ -87,8 +88,9 @@ public class admin_login_controller extends HttpServlet {
                         }
                         else
                         {
-                            
-                            request.getRequestDispatcher("product_manager.jsp").forward(request,response);
+                            session.setAttribute("passChange", "true");
+                            session.setAttribute("sessionName", "product");
+                            request.getRequestDispatcher("changeadmin_pass.jsp").forward(request,response);
                         }
                    }
                    else
@@ -102,7 +104,7 @@ public class admin_login_controller extends HttpServlet {
                session.setAttribute("loggedIn_admin", null);
              //  session.setAttribute("user", login_user.getUsername());
     //           session.setMaxInactiveInterval(60);                     
-               request.getRequestDispatcher("staff_login.jsp").forward(request,response);
+               response.sendRedirect("staff_login.jsp");
 
             }
         } finally {            

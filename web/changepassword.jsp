@@ -26,10 +26,10 @@
             String password = request.getParameter("password");
             String repass = request.getParameter("repass");
             String npass = request.getParameter("npassword");
-            if(!password.contentEquals(repass))
+            if(!npass.contentEquals(repass))
                 {
                     %>
-                <script type="text/javascript">alert("Passwords dont match");</script>
+                <script type="text/javascript">alert("New passwords dont match");</script>
                 <%
                 }
             else
@@ -55,8 +55,8 @@
                     <h3>Change Password:</h3>
                 <form method ="post" action ="">
                     Old Password: <input type="password" name="password"><br>
-                    Retype Password: <input type="password" name="repass"><br>
                     New Password: <input type="password" name="npassword"><br>
+                    Retype New Password: <input type="password" name="repass"><br>
                     <input type="submit"  class="registerButton" name ="changePass" value="Change"><br>
                     <hr>
                     <br><br><br><br><br><br><br>

@@ -13,5 +13,9 @@
     </head>
     <body>
         <h1>ACCOUNTING JSP PAGE</h1>
+        
+        <form name ="changePassword" value="">
+            
+        </form>
     </body>
 </html>

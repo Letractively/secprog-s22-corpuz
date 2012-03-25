@@ -17,7 +17,7 @@ else
 {      
 
 %>
-<script language="javascript">alert('You are now entering Foobar Bookstore Management System. You are not authorized to access this system. Please Register or Log-in.')</script>
+<script language="javascript">alert('You are not authorized to access this system. Please Register or Log-in.')</script>
 <%--<script type="text/javascript">document.location="index.jsp";</script>--%>
 <%
 }

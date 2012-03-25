@@ -247,4 +247,30 @@ public class login_checkUserifFailed
         
        
     }
+    public void changeAdminPassword(login_temp temp)
+    {
+        boolean isIdentified = false;
+        int i = 1;
+        
+        try 
+        {
+            ConnectionFactory myFactory = ConnectionFactory.getFactory();
+            Connection conn = myFactory.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("update staff set password = ?, pass_changed = ? where staff_id = ?");
+            pstmt.setString(i++, temp.getPassword());
+            pstmt.setBoolean(i++, true);
+            pstmt.setString(i++, temp.getUsername());
+            pstmt.executeUpdate();
+            
+            conn.close();
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        
+       
+    }
 }
