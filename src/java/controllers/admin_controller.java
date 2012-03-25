@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import security.login_temp;
+import security.retriever;
 
 /**
  *
@@ -285,6 +287,27 @@ public class admin_controller {
             }
             return result;
         }
+    public boolean checkExpiration(java.sql.Timestamp ts)
+    {
+        boolean isExpired = false;
+        
+        java.util.Date javaDate = new java.util.Date();
+        java.sql.Timestamp curr_time = new java.sql.Timestamp(javaDate.getTime());
+        
+        long ts1 = curr_time.getTime();
+        long ts2 = ts.getTime();
+        
+        long span = Math.abs(ts1 - ts2);
+        if((span/(60*1000)) >= 1440)
+            isExpired = true;
+        
+        
+        
+        
+        
+        
+        return isExpired;
+    }
         
     }
 

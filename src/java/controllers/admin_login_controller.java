@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import security.login_checkUserifFailed;
 import security.login_temp;
+import security.retriever;
 
 /**
  *
@@ -40,25 +41,59 @@ public class admin_login_controller extends HttpServlet {
              * TODO output your page here. You may use following sample code.
              */
             String check_staff;
+            int forJs = 0;
+            retriever ret = new retriever();
             login_temp login_user = new login_temp();
+            admin_controller checker = new admin_controller();
             login_user.setUsername(request.getParameter("username"));
             login_user.setPassword(request.getParameter("password"));
                        
             login_checkUserifFailed temp_check = new login_checkUserifFailed();
-            check_staff = temp_check.checkStaff(login_user);
-            
-            if(check_staff != null)
+            ret = temp_check.checkStaff(login_user);
+            if(ret.getUsername() != null)
             {
                
                session.setAttribute("loggedIn_admin", "true");
                session.setAttribute("user", login_user.getUsername());
               // session.setMaxInactiveInterval(60);
-               if(check_staff.contentEquals("admin"))
+               if((ret.getPosition()).contentEquals("admin"))
                     request.getRequestDispatcher("administrator.jsp").forward(request,response);
-               else if(check_staff.contentEquals("A-AM"))
+               else if((ret.getPosition()).contentEquals("A-AM"))
+               {
+                   if(!ret.isPass_changed())
+                   {
+                        boolean isExpired = checker.checkExpiration(ret.getTs());
+                        if(isExpired)
+                        {
+                            request.getRequestDispatcher("exit_controller").forward(request,response);
+                        }
+                        else
+                        {
+      
+                            request.getRequestDispatcher("accounting.jsp").forward(request,response);
+                        }
+                   }
+                   else
                    request.getRequestDispatcher("accounting.jsp").forward(request,response);
+               }
                else
+               {
+                   if(!ret.isPass_changed())
+                   {
+                        boolean isExpired = checker.checkExpiration(ret.getTs());
+                        if(isExpired)
+                        {
+                            request.getRequestDispatcher("exit_controller").forward(request,response);
+                        }
+                        else
+                        {
+                            
+                            request.getRequestDispatcher("product_manager.jsp").forward(request,response);
+                        }
+                   }
+                   else
                    request.getRequestDispatcher("product_manager.jsp").forward(request,response);
+               }
 
             }
             else

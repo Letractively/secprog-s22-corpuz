@@ -115,9 +115,10 @@ public class login_checkUserifFailed
         return isIdentified;
     }
 
-     public String checkStaff(login_temp temp)
+     public retriever checkStaff(login_temp temp)
     {
-        String pos = null;
+        retriever gr = new retriever();
+        gr.setUsername(null);
         int i = 1;
         
         try 
@@ -132,7 +133,10 @@ public class login_checkUserifFailed
             
             while(rs.next())
             {
-              pos = rs.getString("position");
+              gr.setUsername(rs.getString("staff_id"));
+              gr.setPosition(rs.getString("position"));
+              gr.setTs(rs.getTimestamp("pass_tracker"));
+              gr.setPass_changed(rs.getBoolean("pass_changed"));
             }
             conn.close();
         } catch (SQLException ex) {
@@ -143,7 +147,7 @@ public class login_checkUserifFailed
         
         
         
-        return pos;
+        return gr;
     }
   
     public boolean checkOldPassword(String password) throws NoSuchAlgorithmException
