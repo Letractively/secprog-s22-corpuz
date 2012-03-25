@@ -115,9 +115,9 @@ public class login_checkUserifFailed
         return isIdentified;
     }
 
-     public boolean checkStaff(login_temp temp)
+     public String checkStaff(login_temp temp)
     {
-        boolean isIdentified = false;
+        String pos = null;
         int i = 1;
         
         try 
@@ -130,9 +130,9 @@ public class login_checkUserifFailed
             
             ResultSet rs = pstmt.executeQuery();
             
-            if(rs.next())
+            while(rs.next())
             {
-              isIdentified = true;
+              pos = rs.getString("position");
             }
             conn.close();
         } catch (SQLException ex) {
@@ -143,7 +143,7 @@ public class login_checkUserifFailed
         
         
         
-        return isIdentified;
+        return pos;
     }
   
     public boolean checkOldPassword(String password) throws NoSuchAlgorithmException

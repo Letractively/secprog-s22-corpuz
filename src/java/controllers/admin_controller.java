@@ -7,7 +7,11 @@ package controllers;
 import classes.*;
 import dbconnection.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -15,7 +19,7 @@ import java.util.ArrayList;
  */
 public class admin_controller {
     
-    public boolean addAccount(staff newStaff)
+    public boolean addAccount(staff newStaff) throws ParseException
     {
         boolean result = false;
         
@@ -24,12 +28,15 @@ public class admin_controller {
             //opens DB Connection
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
+            java.util.Date javaDate = new java.util.Date();
+            long javaTime = javaDate.getTime();
+            java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(javaTime);
             
              //include parameters
             int i = 1;
             
             //SQL Query
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff(staff_id, password, state, fname, lname, mname, email_add, address, position) VALUES(?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff(staff_id, password, state, fname, lname, mname, email_add, address, position, pass_tracker) VALUES(?,?,?,?,?,?,?,?,?,?)");
             
             pstmt.setString(i++, newStaff.getStaff_id());
             pstmt.setString(i++, newStaff.getPassword());
@@ -40,6 +47,7 @@ public class admin_controller {
             pstmt.setString(i++, newStaff.getEmail());
             pstmt.setString(i++, newStaff.getAddress());
             pstmt.setString(i++, newStaff.getPosition());
+            pstmt.setTimestamp(i++, sqlTimestamp);
           
             //execute query
             pstmt.executeUpdate();

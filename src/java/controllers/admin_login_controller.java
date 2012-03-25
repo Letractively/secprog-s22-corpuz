@@ -39,21 +39,26 @@ public class admin_login_controller extends HttpServlet {
             /*
              * TODO output your page here. You may use following sample code.
              */
-            boolean check_admin;
+            String check_staff;
             login_temp login_user = new login_temp();
             login_user.setUsername(request.getParameter("username"));
             login_user.setPassword(request.getParameter("password"));
                        
             login_checkUserifFailed temp_check = new login_checkUserifFailed();
-            check_admin = temp_check.checkStaff(login_user);
+            check_staff = temp_check.checkStaff(login_user);
             
-            if(check_admin == true)
+            if(check_staff != null)
             {
-
+               
                session.setAttribute("loggedIn_admin", "true");
                session.setAttribute("user", login_user.getUsername());
-              // session.setMaxInactiveInterval(60);                     
-               request.getRequestDispatcher("administrator.jsp").forward(request,response);
+              // session.setMaxInactiveInterval(60);
+               if(check_staff.contentEquals("admin"))
+                    request.getRequestDispatcher("administrator.jsp").forward(request,response);
+               else if(check_staff.contentEquals("A-AM"))
+                   request.getRequestDispatcher("accounting.jsp").forward(request,response);
+               else
+                   request.getRequestDispatcher("product_manager.jsp").forward(request,response);
 
             }
             else
