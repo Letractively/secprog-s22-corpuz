@@ -53,11 +53,14 @@ public class admin_login_controller extends HttpServlet {
             if(ret.getUsername() != null)
             {
                
-               session.setAttribute("loggedIn_admin", "true");
-               session.setAttribute("user", login_user.getUsername());
+               
               // session.setMaxInactiveInterval(60);
                if((ret.getPosition()).contentEquals("admin"))
+               {
+                   session.setAttribute("loggedIn_admin", "true");
+                     session.setAttribute("user", login_user.getUsername());
                     request.getRequestDispatcher("administrator.jsp").forward(request,response);
+               }
                else if((ret.getPosition()).contentEquals("A-AM"))
                {
                    if(!ret.isPass_changed())
@@ -75,7 +78,11 @@ public class admin_login_controller extends HttpServlet {
                         }
                    }
                    else
+                   {
+                       session.setAttribute("loggedIn_acct", "true");
+                     session.setAttribute("user", login_user.getUsername());
                    request.getRequestDispatcher("accounting.jsp").forward(request,response);
+                   }
                }
                else
                {
