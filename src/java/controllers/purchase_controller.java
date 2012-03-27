@@ -621,14 +621,21 @@ public class purchase_controller extends HttpServlet {
                  
                  request.getRequestDispatcher("home.jsp").forward(request,response);
             }
-        
-        } finally {            
+            
+            else if(request.getAttribute("ProdManager")!=null)
+            {
+                
+            }
+        } 
+        finally 
+        {            
             out.close();
         }
         
         
         
-    } 
+    } //outer branch
+ 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP

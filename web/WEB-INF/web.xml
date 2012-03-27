@@ -36,6 +36,10 @@
         <servlet-name>reset_adminpass</servlet-name>
         <servlet-class>controllers.reset_adminpass</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>product_mgt_controller</servlet-name>
+        <servlet-class>controllers.product_mgt_controller</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>customer_controller</servlet-name>
         <url-pattern>/customer_controller</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>reset_adminpass</servlet-name>
         <url-pattern>/reset_adminpass</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>product_mgt_controller</servlet-name>
+        <url-pattern>/product_mgt_controller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
