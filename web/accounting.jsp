@@ -4,8 +4,10 @@
     Author     : unseen
 --%>
 
+<%@page import="controllers.admin_controller"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -67,7 +69,7 @@
                 out.println("<h3> Sales per Product Result from " + date1 + " to " + date2 + ": </h3> <br><br>");
                  %>
                  
-                 
+                 Summary: <br><br>
                  <table border ="1">
                 <tr>
                 
@@ -99,6 +101,10 @@
                 %>
                  </table>
                  
+                
+                 
+                 
+                 
                  <%
         if((ArrayList) request.getAttribute("queryResult1")!=null)
         {
@@ -110,7 +116,7 @@
                 out.println("<h3> Sales per Product Type Result from " + date1 + " to " + date2 + ": </h3> <br><br>");
                  %>
                  
-                 
+                 Summary: <br><br>
                  <table border ="1">
                 <tr>
                 
@@ -139,7 +145,7 @@
                    
                 %>
                  </table>
-                  <%
+                 <%
         if((ArrayList) request.getAttribute("queryResult2")!=null)
         {
             
@@ -150,7 +156,7 @@
                 out.println("<h3> Total Sales Result from " + date1 + " to " + date2 + ": </h3> <br><br>");
                  %>
                  
-                 
+                 Summary: <br><br>
                  <table border ="1">
                 <tr>
                 
@@ -179,9 +185,106 @@
                    
                 %>
                  </table>
+                 
+                  <%
+        if((ArrayList) request.getAttribute("queryResultA")!=null)
+        {
+            
+                 ArrayList result = (ArrayList) request.getAttribute("queryResultA");
+                
+                 %>
+                 
+                 <br><br>
+                 Breakdown: <br><br>
+                 <table border ="1">
+                <tr>
+                
+                
+                <th>Paid Date</th>
+                <th>Order ID</th>
+                <th>Product Type</th>
+                <th>Product ID</th>
+                <th>Product Title</th>
+                <th>Quantity</th>
+                <th>Selling Price (PHP)</th>
+                </tr>
+                <%
+                 if (!(result.isEmpty())) {
+                     int i = 0;
+                     //   for (int i = 0; i < result.size(); i++) {
+                        while (i<result.size()){
+                         %>
+                            <tr>
+                               
+                                <td> <%  out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++;%> </td>
+                                <td> <% out.println(result.get(i)); i++;%> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                            </tr> <%
+                            //  System.out.println(result2.get(i));
+                        }
+                    }
+                }
+          
+                   
+                %>
+                 </table>
+                  
+                  <%
+        if((ArrayList) request.getAttribute("queryResultB")!=null)
+        {
+            
+                 ArrayList result = (ArrayList) request.getAttribute("queryResultB");
+                
+                 %>
+                 
+                 <br><br>
+                
+                 <table border ="1">
+                <tr>
+                
+                
+                <th>Paid Date</th>
+                <th>Order ID</th>
+                <th>Product Type</th>
+                <th>Product ID</th>
+                <th>Product Title</th>
+                <th>Quantity</th>
+                <th>Selling Price (PHP)</th>
+                <th>Total (PHP)</th>
+                </tr>
+                <%
+                 if (!(result.isEmpty())) {
+                     int i = 0;
+                     //   for (int i = 0; i < result.size(); i++) {
+                        while (i<result.size()){
+                         %>
+                            <tr>
+                               
+                                <td> <%  out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++;%> </td>
+                                <td> <% out.println(result.get(i)); i++;%> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <% out.println(result.get(i)); i++; %> </td>
+                            </tr> <%
+                            //  System.out.println(result2.get(i));
+                        }
+                    }
+                }
+          
+                   
+                %>
+                 </table>
+                 
                  <br> <br> <br>
         
-          <form method ="post" action="acct_query">
+          <form method ="post" action="acct_query1">
                         
        
               
@@ -197,6 +300,35 @@
         <br><br>
         <input type="submit" name ="Go" value="Go"><br>
         </form>
+                 
+                 
+                 <br> <hr> <br>
+                 
+          <form method ="post" action="acct_query1">
+         Get Transaction Lists from: 
+        <select name="acct_query">
+           
+            <%
+            
+            ArrayList result = new admin_controller().getAccount( "Customer" );
+                
+            
+        for(int counter2 = 0; counter2 < result.size(); counter2++)
+                    { %>
+                    <option value= <%= result.get(counter2) %>> <%= result.get(counter2) %> </option>
+                    <%
+                    }
+            
+           
+                    %>
+                  
+      </select>
+        <br>
+       
+        <br><br>
+        <input type="submit" name ="Go" value="Go"><br>
+        </form>
+        
          <% } %>
     </body>
 </html>
