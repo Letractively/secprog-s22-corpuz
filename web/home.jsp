@@ -10,7 +10,7 @@ HomeSessionChecker = request.getSession(false);
 if(session.getAttribute("flagLoggedIn")!=null&&HomeSessionChecker!=null)  
 {    
 %>
-<script language="javascript">alert('Welcome to Foobar Bookstore Management System!')</script> 
+
  <%
 }
 else

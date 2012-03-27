@@ -24,7 +24,7 @@
                 String password = request.getParameter("password");
                 String repass = request.getParameter("repass");
                 String npass = request.getParameter("npassword");
-                
+                System.out.print("yey");
                 if(!npass.contentEquals(repass))
                 {
                     %>

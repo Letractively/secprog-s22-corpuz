@@ -6,11 +6,15 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import security.hasher;
 import security.login_checkUserifFailed;
 import security.login_temp;
 import security.retriever;
@@ -32,7 +36,7 @@ public class admin_login_controller extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NoSuchAlgorithmException {
         HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -41,25 +45,23 @@ public class admin_login_controller extends HttpServlet {
              * TODO output your page here. You may use following sample code.
              */
             String check_staff;
+            hasher hs = new hasher();
             int forJs = 0;
             retriever ret = new retriever();
             login_temp login_user = new login_temp();
             admin_controller checker = new admin_controller();
             login_user.setUsername(request.getParameter("username"));
-            login_user.setPassword(request.getParameter("password"));
+            login_user.setPassword(hs.setHash(request.getParameter("password")));
                        
             login_checkUserifFailed temp_check = new login_checkUserifFailed();
             ret = temp_check.checkStaff(login_user);
             if(ret.getUsername() != null)
             {
-               
-               
-              // session.setMaxInactiveInterval(60);
                if((ret.getPosition()).contentEquals("admin"))
                {
                    session.setAttribute("loggedIn_admin", "true");
-                     session.setAttribute("user", login_user.getUsername());
-                    request.getRequestDispatcher("administrator.jsp").forward(request,response);
+                   session.setAttribute("user", login_user.getUsername());
+                   request.getRequestDispatcher("administrator.jsp").forward(request,response);
                }
                else if((ret.getPosition()).contentEquals("A-AM"))
                {
@@ -75,13 +77,14 @@ public class admin_login_controller extends HttpServlet {
                             session.setAttribute("passChange", "true");
                             session.setAttribute("sessionName", "accounting");
                             response.sendRedirect("changeadmin_pass.jsp");
+                            //request.getRequestDispatcher("changeadmin_pass.jsp").forward(request,response);
                         }
                    }
                    else
                    {
-                       session.setAttribute("loggedIn_acct", "true");
-                     session.setAttribute("user", login_user.getUsername());
-                   request.getRequestDispatcher("accounting.jsp").forward(request,response);
+                        session.setAttribute("loggedIn_acct", "true");
+                        session.setAttribute("user", login_user.getUsername());
+                        request.getRequestDispatcher("accounting.jsp").forward(request,response);
                    }
                }
                else
@@ -97,7 +100,7 @@ public class admin_login_controller extends HttpServlet {
                         {
                             session.setAttribute("passChange", "true");
                             session.setAttribute("sessionName", "product");
-                            request.getRequestDispatcher("changeadmin_pass.jsp").forward(request,response);
+                            response.sendRedirect("changeadmin_pass.jsp");
                         }
                    }
                    else
@@ -132,7 +135,11 @@ public class admin_login_controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(admin_login_controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -147,7 +154,11 @@ public class admin_login_controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(admin_login_controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
