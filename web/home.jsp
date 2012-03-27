@@ -135,7 +135,7 @@ else
                 
                 
                 <form method ="post" action="purchase_controller">
-                 <input type="hidden" value = "<%=  (String) session.getAttribute("user") %>" name="userId">
+              
                 <%
                 
                  
@@ -193,6 +193,10 @@ else
                  
                   <form method ="post" action ="purchase_controller">
                      <input type="submit"  class="registerButton" name ="viewCart" value="View Cart"><br>
+                 </form>
+                 
+                  <form method ="post" action ="view_purchase_product">
+                     <input type="submit"  name ="viewProduct" value="View Purchase Product"><br>
                  </form>
                  
             </div><br>
