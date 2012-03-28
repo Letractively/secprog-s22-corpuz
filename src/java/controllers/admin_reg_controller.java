@@ -79,6 +79,7 @@ public class admin_reg_controller extends HttpServlet {
                     {
                        String resultChecker1 = "tama";
                        request.setAttribute("flagKo", resultChecker1);
+                       boolean insertLog = new log_admin().addLogsAdmin("Username " + newStaff.getStaff_id().concat(", ").concat(newStaff.getPosition()).concat(", ").concat("has Created."));
                        request.getRequestDispatcher("administrator.jsp").forward(request,response);
 
                       
