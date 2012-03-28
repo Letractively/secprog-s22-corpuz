@@ -39,20 +39,13 @@ if(MainMgrSession.getAttribute("Success")!=null)
 }
 
 if(MainMgrSession.getAttribute("Eradicate")!=null)
-{%><script language="javascript">alert('Product Successfully Deleted.');</script><%
+{%><script langiage="javascript">alert('Product Successfully Deleted.');</script><%
     
-}
-
-if(MainMgrSession.getAttribute("FlagUpdate")!=null)
-{
-%><script language="javascript">alert('Product Successfully Updated.');</script><% 
-session.setAttribute("FlagUpdate", null);  
 }
         
 
     
 %>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -61,7 +54,7 @@ session.setAttribute("FlagUpdate", null);
     <body>
         <h1>Welcome Product Manager!</h1>
         <h2> Manage Products Here: </h2>
-        <form method="post" action="product_mgt_controller">
+        <form method="post" action="">
         
             <%
         
@@ -85,7 +78,7 @@ session.setAttribute("FlagUpdate", null);
                 <th>Price (PHP)</th>
                 </tr>
                 
-             
+                <form method="post" action="product_mgt_controller">
                 
                 <%
                  if (!(FinalRes.isEmpty())) 
@@ -115,36 +108,15 @@ session.setAttribute("FlagUpdate", null);
                 %>
          </table>
          <br>
-          Select action for selected product:
+          Manage selected product:
           <br>
          <select name="Operation">
              <option value="Modify">Modify Product Information</option>
              <option value="Delete">Delete Product Information</option>
          </select>
+        
          <input type="submit" name="ManageProds" value="Manage">
          </form>
-         <%
-         if(session.getAttribute("PortaltoEdit")!=null)
-         {
-         
-         
-         %>
-         <h2> Update Product Details for: <%out.println((String)session.getAttribute("EDnewPID"));%> </h2>
-         <form method="post" action="product_mgt_controller">
-          Product ID:<input type="text" name="GetPID" value="<%=session.getAttribute("EDnewPID") %>"><br>
-          New Product Type:<input type="text" name="GetPType" value="<%=session.getAttribute("EDnewPType") %>"><br>
-          New Product Title:<input type="text" name="GetPTitle" value="<%=session.getAttribute("EDnewPTitle") %>"><br>
-          New Product Price:<input type="text" name="GetPPrice" value="<%=session.getAttribute("EDnewPPrice")%>"><br>
-          New Product Synopsis:<br><textarea name="GetPSyn" cols="40" rows="5"> <%=session.getAttribute("EDnewPSyn") %></textarea><br>
-          <input type="submit" name="UpdateDetails" value="Update Products Details">
-         </form>
-          <%
-           session.setAttribute("PortaltoEdit",null);
-         }
-          else
-          {    
-         %>
-         
    
          <br>
          <h2> Add a new product here: </h2>
@@ -163,9 +135,7 @@ session.setAttribute("FlagUpdate", null);
           <input type="submit" value="Change Managerial Role" name="ChangeRole">
          
          </form>
-         <%
-         }
-         %>
+         
         
     
 </body>

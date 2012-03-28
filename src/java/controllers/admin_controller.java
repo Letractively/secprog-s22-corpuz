@@ -145,7 +145,7 @@ public class admin_controller {
             name.add("Please Supply Last Name Field.");
         if(!(newStaff.getPosition().contentEquals("A-AM") || newStaff.getPosition().contentEquals("B-ACM") ||  newStaff.getPosition().contentEquals("B-DM") || newStaff.getPosition().contentEquals("B-BM") || newStaff.getPosition().contentEquals("B-MM"))) 
             name.add("Position Input is not Valid.");
-        if(searchAccount(newStaff) == true)
+        if(searchAccount(newStaff, "any") == true)
             name.add("Username is already Taken.");
         
         // detecting  HTML tags to prevent XSS 
@@ -179,7 +179,7 @@ public class admin_controller {
             name.add("Position Input is not Valid.");
         if(!(newStaff.getState().contentEquals("Lock") || newStaff.getState().contentEquals("UnLock") )) 
             name.add("State Input is not Valid.");
-        if(searchAccount(newStaff) == false)
+        if(searchAccount(newStaff, Position) == false)
             name.add("Username is not exist.");
 
         return name;
@@ -218,11 +218,11 @@ public class admin_controller {
              if(positionName.contentEquals("Customer"))
             {
                 
-                int stateNum = 0;
+                int stateNum = 1;
                 
                 if(newStaff.getState().contentEquals("Lock"))
                 {
-                    stateNum = 1;
+                    stateNum = 0;
                 }
                 
             //include parameters
@@ -252,7 +252,7 @@ public class admin_controller {
         return result;
     }
     
-    public boolean searchAccount(staff newStaff)
+    public boolean searchAccount(staff newStaff, String Position)
     {
        // String[] name = new String[100];
         
@@ -264,9 +264,23 @@ public class admin_controller {
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
                        
+            if(Position.contentEquals("Customer"))
+            {
+                PreparedStatement pstmt = conn.prepareStatement("SELECT cust_id FROM customer WHERE cust_id = ?");
+                pstmt.setString(1, newStaff.getStaff_id());
+            
+            ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next())
+                    {
+                        result = true;
+                    }
+            }
+            
+            else if(!(Position.contentEquals("Customer")))
+            {
             //SQL Query
             PreparedStatement pstmt = conn.prepareStatement("SELECT staff_id FROM staff WHERE staff_id = ?");
-            
             pstmt.setString(1, newStaff.getStaff_id());
             
             ResultSet rs = pstmt.executeQuery();
@@ -275,6 +289,8 @@ public class admin_controller {
                     {
                         result = true;
                     }
+            }
+            
             
              //close DB connection
             conn.close();

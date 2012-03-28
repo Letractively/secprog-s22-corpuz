@@ -173,12 +173,13 @@
         
         
         <form method ="post" action="admin_lock_controller">
-            <input type="hidden" name="positionName" value = "<%= (String) request.getAttribute("positionName") %>">
+         
             
             <h3> List of Username from 
         <%  if((String) request.getAttribute("positionName") != null)
             {
                 out.print( (String) request.getAttribute("positionName"));
+                session.setAttribute("Position", request.getAttribute("positionName").toString());
             }
             
             
@@ -213,6 +214,8 @@
         
         <input type="submit" name ="changeState" value="Submit"><br>
         </form>
+                    <br> <br>
+                    <a href ="admin_viewLogs.jsp">VIEW LOGS</a>
         <% } %>
     </body>
 </html>

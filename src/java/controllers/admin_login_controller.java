@@ -18,6 +18,7 @@ import security.hasher;
 import security.login_checkUserifFailed;
 import security.login_temp;
 import security.retriever;
+import classes.log_admin;
 
 /**
  *
@@ -61,6 +62,7 @@ public class admin_login_controller extends HttpServlet {
                {
                    session.setAttribute("loggedIn_admin", "true");
                    session.setAttribute("user", login_user.getUsername());
+                   boolean insertLog = new log_admin().addLogsAdmin(session.getAttribute("user").toString().concat(", ").concat(ret.getPosition()).concat(", ").concat("has Logged-In."));
                    request.getRequestDispatcher("administrator.jsp").forward(request,response);
                }
                else if((ret.getPosition()).contentEquals("A-AM"))
@@ -84,6 +86,7 @@ public class admin_login_controller extends HttpServlet {
                    {
                         session.setAttribute("loggedIn_acct", "true");
                         session.setAttribute("user", login_user.getUsername());
+                        boolean insertLog = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(", ").concat(ret.getPosition()).concat(", ").concat("has Logged-In."));
                         request.getRequestDispatcher("accounting.jsp").forward(request,response);
                    }
                }
@@ -104,7 +107,10 @@ public class admin_login_controller extends HttpServlet {
                         }
                    }
                    else
+                   {
+                  boolean insertLog = new log_admin().addLogsProduct(session.getAttribute("user").toString().concat(", ").concat(ret.getPosition()).concat(", ").concat("has Logged-In."));
                    request.getRequestDispatcher("product_manager.jsp").forward(request,response);
+                   }
                }
 
             }
