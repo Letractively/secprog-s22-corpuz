@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import classes.*;
 import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,6 +34,7 @@ public class admin_lock_controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -53,7 +55,7 @@ public class admin_lock_controller extends HttpServlet {
                 
                 newStaff.setStaff_id(request.getParameter("staffID"));
                 newStaff.setState(request.getParameter("choose"));
-                String positionName = request.getParameter("positionName");
+                String positionName = session.getAttribute("Position").toString();
                 
            //     out.println(request.getParameter("staffID"));
             //    out.println(request.getParameter("choose"));
