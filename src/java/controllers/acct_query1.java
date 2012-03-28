@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import classes.*;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,6 +37,7 @@ public class acct_query1 extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         HttpSession session = request.getSession(false); 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -109,6 +112,7 @@ public class acct_query1 extends HttpServlet {
 
                         request.setAttribute("queryResult", name);
                         request.setAttribute("queryResultA", name1);
+                        boolean insertLog = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(" viewed Sales-per-Product report from the day of ").concat(date1).concat(" to ").concat(date2).concat("."));
                         request.getRequestDispatcher("accounting.jsp").forward(request,response);
                         
                         
@@ -154,6 +158,7 @@ public class acct_query1 extends HttpServlet {
 
                     request.setAttribute("queryResult1", name);
                     request.setAttribute("queryResultA", name1);
+                     boolean insertLog = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(" viewed Sales-per-Product Type report from the day of ").concat(date1).concat(" to ").concat(date2).concat("."));
                     request.getRequestDispatcher("accounting.jsp").forward(request,response);
                 }
                 else if (acct_query.contentEquals("totalSales"))
@@ -197,6 +202,7 @@ public class acct_query1 extends HttpServlet {
 
                     request.setAttribute("queryResult2", name);
                     request.setAttribute("queryResultA", name1);
+                     boolean insertLog = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(" viewed Total Sales report from the day of ").concat(date1).concat(" to ").concat(date2).concat("."));
                     request.getRequestDispatcher("accounting.jsp").forward(request,response);
                 }
                 else if(!(acct_query.isEmpty()))
@@ -207,7 +213,7 @@ public class acct_query1 extends HttpServlet {
 
 
                     pstmt.setString(1, acct_query);
-                   
+                  
 
                 ResultSet rs = pstmt.executeQuery();
 
@@ -226,6 +232,7 @@ public class acct_query1 extends HttpServlet {
                       conn.close();
 
                         request.setAttribute("queryResultB", name);
+                         boolean insertLog = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(" viewed Transactions List report of Username ").concat(acct_query).concat("."));
                         request.getRequestDispatcher("accounting.jsp").forward(request,response);
                 }
              

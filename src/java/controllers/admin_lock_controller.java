@@ -75,6 +75,7 @@ public class admin_lock_controller extends HttpServlet {
                     {
                        String resultChecker1 = "tama";
                        request.setAttribute("flagKo2", resultChecker1);
+                       boolean insertLog = new log_admin().addLogsAdmin("Username " + newStaff.getStaff_id().concat(", ").concat(positionName).concat(", ").concat("has changed state to ").concat(newStaff.getState()));
                        request.getRequestDispatcher("administrator.jsp").forward(request,response);
 
                       
