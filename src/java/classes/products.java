@@ -84,5 +84,6 @@ public class products {
     public void setProd_price(float prod_price) {
         this.prod_price = prod_price;
     }
-    
+
+
 }
