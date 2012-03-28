@@ -62,7 +62,7 @@ public class view_purchase_product extends HttpServlet {
                 
             //SQL Query
                 
-                    PreparedStatement pstmt = conn.prepareStatement("select a.paid_date, a.order_id, c.prod_type, b.prod_id, c.prod_title, b.quantity, b.sell_price, (b.quantity * b.sell_price) as E from cust_order  as a inner join order_acct as b on a.order_id = b.order_id inner join products as c on b.prod_id = c.prod_id where cust_id = ? and a.paid_date IS NOT NULL");
+                    PreparedStatement pstmt = conn.prepareStatement("select  b.prod_id ,a.paid_date, a.order_id, c.prod_type, c.prod_title, b.quantity, b.sell_price, (b.quantity * b.sell_price) as E from cust_order  as a inner join order_acct as b on a.order_id = b.order_id inner join products as c on b.prod_id = c.prod_id where cust_id = ? and a.paid_date IS NOT NULL");
 
 
                     pstmt.setString(1, user1);
@@ -72,10 +72,10 @@ public class view_purchase_product extends HttpServlet {
 
                     while(rs.next())
                         {
-                             name.add(rs.getString("a.paid_date"));
-                            name.add(rs.getString("a.order_id"));
-                            name.add(rs.getString("c.prod_type"));
                             name.add(rs.getString("b.prod_id"));
+                            name.add(rs.getString("a.paid_date"));
+                            name.add(rs.getString("c.prod_type"));
+                            
                             name.add(rs.getString("c.prod_title"));
                             name.add(rs.getInt("b.quantity"));
                             name.add(rs.getFloat("b.sell_price"));

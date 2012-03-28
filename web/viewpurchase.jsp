@@ -47,8 +47,10 @@
         %>
         
         <h1>View Purchase Product</h1>
-        
+        <form name="addComment" method="post" action="purchase_controller">
         <%
+        session.setAttribute("user", session.getAttribute("user"));
+        session.setAttribute("isView", "false");
         if((ArrayList) request.getAttribute("queryResultA")!=null)
         {
             
@@ -61,11 +63,9 @@
                  <table border ="1">
                 <tr>
                 
-                
+                <th>Select</th>
                 <th>Paid Date</th>
-                <th>Order ID</th>
                 <th>Product Type</th>
-                <th>Product ID</th>
                 <th>Product Title</th>
                 <th>Quantity</th>
                 <th>Selling Price (PHP)</th>
@@ -79,14 +79,14 @@
                          %>
                             <tr>
                                
-                                <td> <%  out.println(result.get(i)); i++; %> </td>
-                                <td> <% out.println(result.get(i)); i++; %> </td>
+                                <td> <input type="radio" name="choice" value="<%= result.get(i) %>"></td>
+                                <td> <% i++; out.println(result.get(i)); i++; %> </td>
                                 <td> <% out.println(result.get(i)); i++;%> </td>
                                 <td> <% out.println(result.get(i)); i++;%> </td>
                                 <td> <% out.println(result.get(i)); i++; %> </td>
                                 <td> <% out.println(result.get(i)); i++; %> </td>
                                 <td> <% out.println(result.get(i)); i++; %> </td>
-                                <td> <% out.println(result.get(i)); i++; %> </td>
+          
                             </tr> <%
                             //  System.out.println(result2.get(i));
                         }
@@ -96,6 +96,9 @@
                    
                 %>
                  </table>
+           
+                    <input type="submit" name="comment" value="View/Make Reviews"> 
+                </form>
                  <br><br>
                  <a href ="home.jsp">Home</a>
     </body>

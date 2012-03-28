@@ -206,7 +206,7 @@ Captchas captchas = new security.Captchas(
                         while (j<result.size()){
                          %>
                             <tr>
-                                     result.get(j); j++;
+                                    <% result.get(j); j++; %>
                                 <td> <% out.println(result.get(j)); j++; %> </td>
                                 <td> <% out.println(result.get(j)); j++; %> </td>
                                 <td> <% out.println(result.get(j)); j++;%> </td>

@@ -69,6 +69,8 @@
            
             
         <%
+        session.setAttribute("isView", "true");
+        session.setAttribute("user", session.getAttribute("user"));
          if((ArrayList) request.getAttribute("purchaseResult")!= null)
         {
                  ArrayList result = (ArrayList) request.getAttribute("purchaseResult");
@@ -120,7 +122,7 @@
                 
           <br><br><br>
           <input type="submit" name ="removeProd" value="Remove Product"> <br> <br>
-          
+          <input type="submit" name ="comment" value="View Reviews"> <br> <br>
           <hr>
           <input type="submit" name ="buyMore" value="Buy More">  <br> <br>
           
