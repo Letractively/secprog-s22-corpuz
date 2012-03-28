@@ -214,6 +214,8 @@
         
         <input type="submit" name ="changeState" value="Submit"><br>
         </form>
+                    <br> <br>
+                    <a href ="admin_viewLogs.jsp">VIEW LOGS</a>
         <% } %>
     </body>
 </html>

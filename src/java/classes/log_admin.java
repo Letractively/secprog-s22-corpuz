@@ -9,8 +9,10 @@ package classes;
 import dbconnection.ConnectionFactoryLogs;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  *
@@ -153,6 +155,150 @@ public class log_admin {
                 ex.printStackTrace();
                 }
             return result;
+ }
+        
+        public ArrayList viewLogsAdmin()
+        {
+            ArrayList name = new ArrayList();
+            try
+            {
+                //opens DB Connection
+                ConnectionFactoryLogs myFactory1 = ConnectionFactoryLogs.getFactory();
+                Connection conn = myFactory1.getConnection();
+
+
+                //include parameters
+               
+
+                //SQL Query
+                PreparedStatement pstmt = conn.prepareStatement("select * from administrators order by A_DATE_TIME desc");
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next())
+                    {
+                        name.add(rs.getString("A_DATE_TIME"));
+                        name.add(rs.getString("A_LOGS"));
+                    }
+
+                //close DB connection
+                conn.close();
+
+               
+            }
+            catch(SQLException ex)
+                {
+                ex.printStackTrace();
+                }
+            return name;
+ }
+        
+         public ArrayList viewLogsCustomer()
+        {
+            ArrayList name = new ArrayList();
+            try
+            {
+                //opens DB Connection
+                ConnectionFactoryLogs myFactory1 = ConnectionFactoryLogs.getFactory();
+                Connection conn = myFactory1.getConnection();
+
+
+                //include parameters
+               
+
+                //SQL Query
+                PreparedStatement pstmt = conn.prepareStatement("select * from customer order by DATE_TIME desc");
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next())
+                    {
+                        name.add(rs.getString("DATE_TIME"));
+                        name.add(rs.getString("LOGS"));
+                    }
+
+                //close DB connection
+                conn.close();
+
+               
+            }
+            catch(SQLException ex)
+                {
+                ex.printStackTrace();
+                }
+            return name;
+ }
+         
+          public ArrayList viewLogsFinancial()
+        {
+            ArrayList name = new ArrayList();
+            try
+            {
+                //opens DB Connection
+                ConnectionFactoryLogs myFactory1 = ConnectionFactoryLogs.getFactory();
+                Connection conn = myFactory1.getConnection();
+
+
+                //include parameters
+               
+
+                //SQL Query
+                PreparedStatement pstmt = conn.prepareStatement("select * from financial order by F_DATE_TIME desc");
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next())
+                    {
+                        name.add(rs.getString("F_DATE_TIME"));
+                        name.add(rs.getString("F_LOGS"));
+                    }
+
+                //close DB connection
+                conn.close();
+
+               
+            }
+            catch(SQLException ex)
+                {
+                ex.printStackTrace();
+                }
+            return name;
+ }
+          
+           public ArrayList viewLogsProducts()
+        {
+            ArrayList name = new ArrayList();
+            try
+            {
+                //opens DB Connection
+                ConnectionFactoryLogs myFactory1 = ConnectionFactoryLogs.getFactory();
+                Connection conn = myFactory1.getConnection();
+
+
+                //include parameters
+               
+
+                //SQL Query
+                PreparedStatement pstmt = conn.prepareStatement("select * from product order by P_DATE_TIME desc");
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next())
+                    {
+                        name.add(rs.getString("P_DATE_TIME"));
+                        name.add(rs.getString("P_LOGS"));
+                    }
+
+                //close DB connection
+                conn.close();
+
+               
+            }
+            catch(SQLException ex)
+                {
+                ex.printStackTrace();
+                }
+            return name;
  }
 }
 
