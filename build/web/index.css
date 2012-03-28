@@ -1,0 +1,104 @@
+                body{
+			background:url(Images/header-1.png) repeat-x;
+                        background-color:#f8f8f8;
+			font-family:Verdana,sans-serif;
+			color:#111111;
+			font-size:9px;
+                        
+
+		}
+
+                ::selection {
+                        background: #d2ebaf; /* Safari */
+                }
+                
+                ::-moz-selection {
+                        background: #d2ebaf; /* Firefox */
+                }
+                
+		h1{
+			font-family:Verdana,sans-serif;
+			color:#111111;
+			font-size:12px;
+			font-weight:bold;
+			text-align:right;
+			padding-top:20px;
+			padding-right:5px;
+		}
+
+                h2{
+			font-family:Verdana,sans-serif;
+			color:#111111;
+			font-size:12px;
+			font-weight:bold;
+			text-align:left;
+			padding-top:20px;
+			padding-right:5px;
+		}
+
+                a{
+                        color:#2981b8;
+                        text-decoration: none;
+                        
+                }
+                
+                a:hover{
+                        color:#7ec61c;
+                        font-weight: bold;
+                }
+
+                input.loginButton{
+			font-size:9px;
+			font-family:Verdana,sans-serif;
+			text-align:center;
+                        font-weight:bold;
+			color:#ffffff;
+			width:55px;
+			height:18px;
+			background-color:#7ec61c;
+			border-top-style:solid;
+			border-top-color:#4a7312;
+			border-top-width:1px;
+			border-bottom-style:solid;
+			border-bottom-color:#4a7312;
+			border-bottom-width:1px;
+			border-left-style:solid;
+			border-left-color:#4a7312;
+			border-left-width:1px;
+			border-right-style:solid;
+			border-right-color:#4a7312;
+			border-right-width:1px;
+		}
+
+
+                iframe{
+                    border:0px;
+                    height:275px;
+                    width:500px;
+                }
+
+                logo{
+                    border:0px;
+                    width:260px;
+                    height:65px;
+                    text-align: left;
+                }
+                
+                div.space{
+                    border:0px;
+                    width:740px;
+                    height:65px;
+                }
+                
+                div.login{
+                    width:240px;
+                    height:110px;
+                    background-color: white;
+                    overflow-y: none;
+                    text-align: right;
+                    padding-right: 5px;
+                    box-shadow: #000000 2px 3px 10px #121212;
+                    -moz-border-radius: 15px;
+                    border-radius: 5px;
+                    
+                }
