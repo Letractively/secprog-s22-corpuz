@@ -72,6 +72,39 @@ public class productmanagement
        }
        return false;
    }
-    
-    
+   
+   public boolean UpdateProduct(products UpdateType)
+   {
+       boolean result=false;
+       
+       try
+       {
+           ConnectionFactory myFactory = ConnectionFactory.getFactory();
+           Connection conn = myFactory.getConnection();
+           
+           int m=1;
+           
+           PreparedStatement UpdateStmt = conn.prepareStatement("UPDATE PRODUCTS SET PROD_TYPE = ?, PROD_TITLE = ?, PROD_SYN = ?, PROD_PRICE = ? WHERE PROD_ID = ?");
+           
+           UpdateStmt.setString(m++,UpdateType.getProd_type());
+           UpdateStmt.setString(m++,UpdateType.getProd_title());
+           UpdateStmt.setString(m++,UpdateType.getProd_syn());
+           
+           Float TranscribeString = UpdateType.getProd_price();
+           String TransString = TranscribeString.toString();
+           UpdateStmt.setString(m++,TransString);
+           UpdateStmt.setString(m++,UpdateType.getProd_id());
+          
+           UpdateStmt.executeUpdate();
+           conn.close();
+           result = true;
+       }
+       catch(SQLException ex)
+       {
+               System.out.println(ex.getMessage());   
+       }
+       
+       return result;
+   
+   }  
 }
