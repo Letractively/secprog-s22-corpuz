@@ -38,7 +38,11 @@ if(MainMgrSession.getAttribute("Success")!=null)
 %><script language="javascript">alert('Successful Product Adding!');</script><%    
 }
 
-
+if(MainMgrSession.getAttribute("Eradicate")!=null)
+{%><script langiage="javascript">alert('Product Successfully Deleted.');</script><%
+    
+}
+        
 
     
 %>
@@ -74,7 +78,7 @@ if(MainMgrSession.getAttribute("Success")!=null)
                 <th>Price (PHP)</th>
                 </tr>
                 
-                <form method="post" action="">
+                <form method="post" action="product_mgt_controller">
                 
                 <%
                  if (!(FinalRes.isEmpty())) 

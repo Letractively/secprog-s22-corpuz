@@ -48,7 +48,30 @@ public class productmanagement
        return result;
    }
     
-    
+   public boolean DeleteProduct(products DeletedType)
+   {
+       boolean result = false;
+       
+       try
+       {
+           ConnectionFactory myFactory = ConnectionFactory.getFactory();
+           Connection conn = myFactory.getConnection();
+           
+           int m=1;
+           
+           PreparedStatement DeleteStmt = conn.prepareStatement("DELETE FROM PRODUCTS WHERE PROD_ID = ?");
+           DeleteStmt.setString(m,DeletedType.getProd_id());
+           DeleteStmt.executeUpdate();
+           
+           conn.close();
+           result=true;
+       }
+       catch(SQLException ex)
+       {
+          System.out.println(ex.getMessage());   
+       }
+       return false;
+   }
     
     
 }

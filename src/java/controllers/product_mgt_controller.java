@@ -64,7 +64,27 @@ public class product_mgt_controller extends HttpServlet {
      
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
-
+            
+           if("Delete".equals(request.getParameter("Operation"))&&request.getParameter("choice")!=null)
+           {
+                String getSelectedRadio = request.getParameter("choice");
+                products PrepDelete = new products();
+                PrepDelete.setProd_id(getSelectedRadio);
+                
+                boolean EradicateItem = new productmanagement().DeleteProduct(PrepDelete);
+                
+                if(EradicateItem==true)
+                {
+                  session.setAttribute("Eradicate",true);
+                }
+                else
+                {
+                  session.setAttribute("FailDel",true);
+                }
+           }
+            
+            
+            
             if(request.getParameter("AddProds")!=null)
             { 
                 String ManagerType = (String)session.getAttribute("ProductType");
@@ -109,7 +129,7 @@ public class product_mgt_controller extends HttpServlet {
                     //session.setAttribute("",);
                 }
                
-            }
+            }//by DB adding
             
             
    
@@ -129,6 +149,8 @@ public class product_mgt_controller extends HttpServlet {
                   ResultCatcher.add(GenerateRS.getString("prod_price"));
                 //  i++;
               }
+              
+        
               //System.out.println("Rows:"+i);
               
             /*
@@ -154,6 +176,7 @@ public class product_mgt_controller extends HttpServlet {
                 out.println("has laman");
             }
             
+           
             
             
                 
