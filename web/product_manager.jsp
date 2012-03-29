@@ -34,23 +34,36 @@ response.sendRedirect("index.jsp");
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Foobar Bookshop | Product Management</title>
+        
+        <link rel="stylesheet" href="users.css">
     </head>
     <body>
-        <h1>Product Manager:</h1>
-        <h2>You can add manage products here: (Select Managerial Level):</h2>
-        <br>
+        <table class=""><tr><td>
+        
+        <img src="Images/uLogo.png">
+        
+        </td>
+        <td><div class="space"></div></td>
         <form name="ProductMgt" method="post" action="product_mgt_controller">
+        <td><div class="login">
+                <br><br>
+            <input type="submit" name="ExitSystem" value="Logout" class="loginButton">
+        </div></td></tr>
+        <tr><td></td>
+        <td><div align="center">
+            <h2><p align="center">Product:</p></h2>
+        
             <select name="ProdType">
-                <option value="Book">Book Manager</option>
-                <option value="Magazine">Magazine Manager</option>
-                <option value="CD">CD Manager</option>
-                <option value="DVD">DVD Manager</option>
+                <option value="Book">Books</option>
+                <option value="Magazine">Magazines</option>
+                <option value="CD">CDs</option>
+                <option value="DVD">DVDs</option>
             </select>
-            <input type="submit" value="Manage Products">
+            <input type="submit" value="Manage" class="loginButton">
             <br>
             <br>
-            <input type="submit" name="ExitSystem" value="Logout Product Management">
+            </div></td></tr>
         </form>
     </body>
 </html>

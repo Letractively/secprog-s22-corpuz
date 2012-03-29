@@ -63,7 +63,9 @@ session.setAttribute("FlagUpdate", null);
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Foobar Bookshop | Product Management</title>
+        
+        <link rel="stylesheet" href="admin.css"
     </head>
     <body>
         <h1>Welcome Product Manager!</h1>
@@ -128,7 +130,7 @@ session.setAttribute("FlagUpdate", null);
              <option value="Modify">Modify Product Information</option>
              <option value="Delete">Delete Product Information</option>
          </select>
-         <input type="submit" name="ManageProds" value="Manage">
+         <input type="submit" name="ManageProds" value="Manage" class="linkButton">
          </form>
          <%
          if(session.getAttribute("PortaltoEdit")!=null)
@@ -164,10 +166,10 @@ session.setAttribute("FlagUpdate", null);
           </textarea>
           <br>
     
-          <input type="submit" value="Add Product" name="AddProds">
+          <input type="submit" value="Add" name="AddProds" class="linkButton">
           <br>
           <br>
-          <input type="submit" value="Change Managerial Role" name="ChangeRole">
+          <input type="submit" value="Change" name="ChangeRole" class="linkButton">
          
          </form>
          <%
