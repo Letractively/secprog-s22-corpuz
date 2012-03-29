@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import security.inputValidator;
 import security.login_temp;
 import security.retriever;
 
@@ -126,6 +127,8 @@ public class admin_controller {
     {
                
         ArrayList name = new ArrayList();
+        String checker[] = {newStaff.getStaff_id(), newStaff.getAddress(), newStaff.getEmail()
+        , newStaff.getFname(), newStaff.getLname(), newStaff.getMname(), newStaff.getPassword()};
      //   boolean result = new admin_controller().searchAccount(newStaff);
         
         if(newStaff.getStaff_id().isEmpty() || newStaff.getPassword().isEmpty() || rePass.isEmpty() || newStaff.getEmail().isEmpty() || newStaff.getFname().isEmpty() || newStaff.getMname().isEmpty() || newStaff.getLname().isEmpty() || newStaff.getPosition().isEmpty())
@@ -149,7 +152,10 @@ public class admin_controller {
             name.add("Username is already Taken.");
         
         // detecting  HTML tags to prevent XSS 
-         if(newStaff.getStaff_id().matches("  <(\"[^\"]*\"|'[^']*'|[^'\">])*> "))
+         inputValidator iv = new inputValidator();
+         if(!iv.isValid7(checker))
+             name.add("Script Tags is not allowed in any fields.");
+         /*if(newStaff.getStaff_id().matches("  <(\"[^\"]*\"|'[^']*'|[^'\">])*> "))
              name.add("Script Tags is not allowed in any fields.");
          if(newStaff.getAddress().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
              name.add("Script Tags is not allowed in any fields.");
@@ -162,7 +168,7 @@ public class admin_controller {
          if(newStaff.getMname().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
              name.add("Script Tags is not allowed in any fields.");
          if(newStaff.getPassword().matches("<(\"[^\"]*\"|'[^']*'|[^'\">])*>"))
-             name.add("Script Tags is not allowed in any fields.");
+             name.add("Script Tags is not allowed in any fields.");*/
          
         return name;
         }

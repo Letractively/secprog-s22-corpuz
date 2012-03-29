@@ -46,24 +46,6 @@ if(session.getAttribute("Retries")!=null)
         <title>Foobar Bookshop</title>
     </head>
     <body>
-               <%
-// Construct the captchas object (Default Values)
-Captchas captchas = new security.Captchas(
-  request.getSession(true),     // Ensure session
-  "demo",                       // client
-  "secret"                      // secret
-  );
-// Construct the captchas object (Extended example)
-// CaptchasDotNet captchas = new captchas.CaptchasDotNet(
-//  request.getSession(true),     // Ensure session
-//  "demo",                       // client
-//  "secret",                     // secret
-//  "01",                         // alphabet
-//  16,                           // letters
-//  500,                          // width
-//  80                            // height
-//  );
-%>
         
         <div>
             <table class=""><tr><td>
@@ -96,25 +78,21 @@ Captchas captchas = new security.Captchas(
             
             if(session.getAttribute("CaptchaError") == "true")
             {
-                out.println("Wrong captcha");
+                //out.println("Wrong captcha");
             }
             if(request.getParameter("loginButton")!=null)
             {
-                
-                //code proper
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
-                //data validation
-                
-                if(username.matches(" <(\"[^\"]*\"|'[^']*'|[^'\">])*> "))
-                {   System.out.println("malicious");   %>
-                    <script language="javascript">alert('Malicious Input');</script>
-                <% }
+                String checker[] = {(String)request.getParameter("username"), (String)request.getParameter("password")};
+                inputValidator iv = new inputValidator();
+                if(!iv.isValid2(checker))
+                {
+                    %><script type="text/javascript">alert("Special characters not allowed");</script><%
+                }
                 else
                 {
                     //if data validation passed, eto na gagawin niya
-                    request.setAttribute("UserName",username);
-                    request.setAttribute("Password",password);
+                    request.setAttribute("UserName",(String)request.getParameter("username"));
+                    request.setAttribute("Password",(String)request.getParameter("password"));
                     String strViewPage="login_controller";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
                     if (dispatcher != null)

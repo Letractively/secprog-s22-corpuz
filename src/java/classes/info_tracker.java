@@ -16,6 +16,21 @@ public class info_tracker {
     private String card_num;
     private String card_type;
     private Date exp_date;
+    private String shipping;
+
+    /**
+     * @return the customerID
+     */
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    /**
+     * @param customerID the customerID to set
+     */
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
 
     /**
      * @return the card_name
@@ -74,20 +89,16 @@ public class info_tracker {
     }
 
     /**
-     * @return the customerID
+     * @return the shipping
      */
-    public String getCustomerID() {
-        return customerID;
+    public String getShipping() {
+        return shipping;
     }
 
     /**
-     * @param customerID the customerID to set
+     * @param shipping the shipping to set
      */
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
+    public void setShipping(String shipping) {
+        this.shipping = shipping;
     }
-
-
-
-    
 }
