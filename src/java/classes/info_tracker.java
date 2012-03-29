@@ -13,7 +13,7 @@ import java.sql.Date;
 public class info_tracker {
     private String customerID;
     private String card_name;
-    private int card_num;
+    private String card_num;
     private String card_type;
     private Date exp_date;
 
@@ -34,14 +34,14 @@ public class info_tracker {
     /**
      * @return the card_num
      */
-    public int getCard_num() {
+    public String getCard_num() {
         return card_num;
     }
 
     /**
      * @param card_num the card_num to set
      */
-    public void setCard_num(int card_num) {
+    public void setCard_num(String card_num) {
         this.card_num = card_num;
     }
 

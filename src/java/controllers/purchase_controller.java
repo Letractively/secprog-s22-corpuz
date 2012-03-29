@@ -22,7 +22,8 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 import classes.*;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Lyle
@@ -558,7 +559,7 @@ public class purchase_controller extends HttpServlet {
                     String billingAdd_txt = request.getParameter("billingAddr");
                     int billingAdd = Integer.parseInt(billingAdd_txt);
                      String card_name = "" ;
-                        int card_num = 0;
+                        String card_num = "";
                      String exp_date = "";
                       String card_type = "";                  
                     Date today1 = Calendar.getInstance().getTime();
@@ -587,7 +588,7 @@ public class purchase_controller extends HttpServlet {
                      while(rs3.next())
                     {
                          card_name = rs3.getString("card_name");
-                         card_num = rs3.getInt("card_num");
+                         card_num = rs3.getString("card_num");
                         card_type = rs3.getString("card_type");
                          exp_date = rs3.getString("exp_date");
 
@@ -599,7 +600,7 @@ public class purchase_controller extends HttpServlet {
                     pstmt2.setInt(1, billingAdd);
                     pstmt2.setString(2, today);
                     pstmt2.setString(3,  card_name);
-                    pstmt2.setInt(4, card_num);
+                    pstmt2.setString(4, card_num);
                     pstmt2.setString(5, card_type);
                     pstmt2.setString(6, exp_date);
                     pstmt2.setInt(7, orderId);
@@ -620,6 +621,49 @@ public class purchase_controller extends HttpServlet {
                  request.setAttribute("hasBuy", null);
                  
                  request.getRequestDispatcher("home.jsp").forward(request,response);
+            }
+            else if(request.getParameter("comment") != null)
+            {
+                
+                
+                session.setAttribute("isView", session.getAttribute("isView"));
+                System.out.print(request.getParameter("choice").toString());
+                ArrayList name = new ArrayList();
+                ConnectionFactory myFactory = ConnectionFactory.getFactory();
+                Connection conn = myFactory.getConnection();
+                try {
+                    int i = 1;
+                    String prod_title = null;
+                    PreparedStatement view = conn.prepareStatement("select * from cust_act where prod_id = ?");
+                    view.setString(i++, request.getParameter("choice").toString());
+                    
+                    ResultSet rs = view.executeQuery();
+                    
+                    while(rs.next())
+                    {
+                        name.add(rs.getString("cust_id"));
+                        name.add(rs.getDate("prod_com_date"));
+                        name.add(rs.getString("prod_com"));
+                    }
+                    i=1;
+                   view = conn.prepareStatement("select prod_title from products where prod_id = ?");
+                    view.setString(i++, request.getParameter("choice"));
+                    
+                    rs = view.executeQuery();
+                    while(rs.next())
+                    {
+                        
+                        prod_title = rs.getString("prod_title");
+                    }
+                    conn.close();
+                    session.setAttribute("user", session.getAttribute("user"));
+                    session.setAttribute("choice", request.getParameter("choice"));
+                    session.setAttribute("product", prod_title);
+                    request.setAttribute("a", name);
+                    request.getRequestDispatcher("review.jsp").forward(request,response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(purchase_controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
            

@@ -8,6 +8,7 @@ import classes.info_tracker;
 import dbconnection.ConnectionFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import security.hasher;
 
 /**
  *
@@ -45,10 +47,22 @@ public class addcustomer_controller2 extends HttpServlet {
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
             try {
+                
+                
+                    hasher hs = new hasher();
+                    String credit_card = null;
+                    try {
+                        credit_card = hs.setHash(newTracker.getCard_num());
+                        System.out.println(credit_card);
+                    } catch (NoSuchAlgorithmException ex) {
+                        Logger.getLogger(addcustomer_controller.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            
+                
                 PreparedStatement pstmt = conn.prepareStatement("insert into info_tracker(cust_id, card_name,card_num,card_type, exp_date) values(?,?,?,?,?)");
                 pstmt.setString(i++, newTracker.getCustomerID());
                 pstmt.setString(i++, newTracker.getCard_name());
-                pstmt.setInt(i++, newTracker.getCard_num());
+                pstmt.setString(i++, credit_card);
                 pstmt.setString(i++, newTracker.getCard_type());
                 pstmt.setDate(i++, newTracker.getExp_date());
                 
