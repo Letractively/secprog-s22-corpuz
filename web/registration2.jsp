@@ -46,7 +46,7 @@
   
                 newTracker.setCustomerID((String) session.getAttribute("customerID"));
                 newTracker.setCard_name(request.getParameter("firstName") + " " + request.getParameter("middleName") + " " + request.getParameter("lastName"));
-                newTracker.setCard_num(Integer.parseInt(request.getParameter("ccNo")));
+                newTracker.setCard_num(request.getParameter("ccNo"));
                 newTracker.setCard_type(request.getParameter("ccType"));
                 java.util.Date date = formatter.parse(request.getParameter("datum1"));
                
@@ -65,6 +65,12 @@
                 String[] errors = new String[100];
                 int counter = 0;
                 
+                
+                if(!(request.getParameter("ccNo").toString().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
+                {
+                   errors[counter] = "Not a valid card number";
+                    counter++;
+                }
                 
                 
                  
@@ -125,7 +131,7 @@
                             dispatcher.forward(request, response);
                             
                         }
-                        %><script type="text/javascript">document.location="addcustomer_controlle2r";</script><%
+                        %><script type="text/javascript">document.location="addcustomer_controlle2";</script><%
                                            
                 }
 
