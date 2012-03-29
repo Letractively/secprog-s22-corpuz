@@ -216,23 +216,28 @@ public class login_checkUserifFailed
        
     }
     
-    public void changePassword(login_temp temp)
+    public void changePassword(login_temp temp) throws NoSuchAlgorithmException
     {
         boolean isIdentified = false;
         int i = 1;
         
+        hasher hs = new hasher();
+        String passChecksum = hs.setHash(temp.getPassword());
+            
         try 
         {
+            
+        
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
             PreparedStatement pstmt = conn.prepareStatement("insert into oldpass values(?,?)");
             pstmt.setString(i++, temp.getUsername());
-            pstmt.setString(i++, temp.getPassword());
+            pstmt.setString(i++,  passChecksum);
             pstmt.executeUpdate();
             
             i = 1;
             pstmt = conn.prepareStatement("update customer set password = ? where cust_id = ?");
-            pstmt.setString(i++, temp.getPassword());
+            pstmt.setString(i++,  passChecksum);
             pstmt.setString(i++, temp.getUsername());
             pstmt.executeUpdate();
             
