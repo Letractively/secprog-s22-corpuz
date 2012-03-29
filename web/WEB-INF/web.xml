@@ -37,30 +37,25 @@
         <servlet-class>controllers.reset_adminpass</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>view_purchase_product</servlet-name>
         <servlet-class>controllers.view_purchase_product</servlet-class>
-
-
     </servlet>
     <servlet>
-
         <servlet-name>purchase_controller</servlet-name>
         <servlet-class>controllers.purchase_controller</servlet-class>
-
-
     </servlet>
-    
-    <servlet> 
-       <servlet-name>product_mgt_controller</servlet-name>
-       <servlet-class>controllers.product_mgt_controller</servlet-class>
+    <servlet>
+        <servlet-name>product_mgt_controller</servlet-name>
+        <servlet-class>controllers.product_mgt_controller</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>add_comment</servlet-name>
         <servlet-class>controllers.add_comment</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>NewServlet</servlet-name>
+        <servlet-class>controllers.addcustomer_controller2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>product_mgt_controller</servlet-name>
         <url-pattern>/product_mgt_controller</url-pattern>
@@ -102,24 +97,21 @@
         <url-pattern>/reset_adminpass</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>view_purchase_product</servlet-name>
         <url-pattern>/view_purchase_product</url-pattern>
-
-
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>purchase_controller</servlet-name>
         <url-pattern>/purchase_controller</url-pattern>
-
-
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>add_comment</servlet-name>
         <url-pattern>/add_comment</url-pattern>
-        </servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewServlet</servlet-name>
+        <url-pattern>/NewServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

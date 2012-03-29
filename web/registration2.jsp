@@ -60,17 +60,17 @@
                 String billCity = request.getParameter("billCity");
                 String billCountry = request.getParameter("billCountry");
                 String billPostal = request.getParameter("billPostal");
-                String billing_add = billHomeNo + " " + billStreet + " " + billCity + " " + billCountry + " " + billPostal;                             
+                newTracker.setShipping(billHomeNo + " " + billStreet + " " + billCity + " " + billCountry + " " + billPostal);                             
 
                 String[] errors = new String[100];
                 int counter = 0;
                 
                 
-                if(!(request.getParameter("ccNo").toString().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
+                /*if(!(request.getParameter("ccNo").toString().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
                 {
                    errors[counter] = "Not a valid card number";
                     counter++;
-                }
+                }*/
                 
                 
                  
@@ -131,7 +131,7 @@
                             dispatcher.forward(request, response);
                             
                         }
-                        %><script type="text/javascript">document.location="addcustomer_controlle2";</script><%
+                        %><script type="text/javascript">document.location="addcustomer_controller2";</script><%
                                            
                 }
 
