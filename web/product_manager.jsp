@@ -22,8 +22,9 @@ if(ProdMgrSession!=null)
 else
 {
 %>
-<script language="javascript">alert('You are not authorized to access this system.')</script>
+<script language="javascript">alert('You are not authorized to access this system.');</script>
 <%
+ProdMgrSession.invalidate();
 response.sendRedirect("index.jsp");
 }
 
@@ -46,7 +47,10 @@ response.sendRedirect("index.jsp");
                 <option value="CD">CD Manager</option>
                 <option value="DVD">DVD Manager</option>
             </select>
-            <input type="submit" value="Manage Products">    
+            <input type="submit" value="Manage Products">
+            <br>
+            <br>
+            <input type="submit" name="ExitSystem" value="Logout Product Management">
         </form>
     </body>
 </html>
