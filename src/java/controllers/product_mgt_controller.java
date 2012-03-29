@@ -42,16 +42,19 @@ public class product_mgt_controller extends HttpServlet {
       
         ArrayList ResultCatcher = new ArrayList();
         HttpSession session = request.getSession(false);
+        
+        try
+        {
       
         session.setAttribute("Success",null);
         
-        try {
+
             String ManageType = null;
             
             if(session.getAttribute("DefaultPN")!=null) 
             {
                 ManageType = (String)session.getAttribute("DefaultPN");
-                out.println(ManageType);
+                //out.println(ManageType);
             }
   
             if(session.getAttribute("SignalNew")!=null)
@@ -64,6 +67,51 @@ public class product_mgt_controller extends HttpServlet {
      
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
+         
+          if("Modify".equals(request.getParameter("Operation"))&&request.getParameter("choice")!=null)
+            {
+              String newPID = null,newPType = null, newPTitle=null,newPSyn=null,newPPrice=null;
+              
+              String getSelectedUpdated = request.getParameter("choice");
+              PreparedStatement UpdaterFetcher = conn.prepareStatement("SELECT * FROM PRODUCTS WHERE PROD_ID = ?");
+              
+              UpdaterFetcher.setString(1,""+getSelectedUpdated+"");
+              
+              ResultSet GenThrower = UpdaterFetcher.executeQuery();
+              
+              while(GenThrower.next())
+              {
+                  newPID = GenThrower.getString("prod_id");
+                  newPType = GenThrower.getString("prod_type");
+                  newPTitle = GenThrower.getString("prod_title");
+                  newPSyn= GenThrower.getString("prod_syn");
+                  newPPrice = GenThrower.getString("prod_price");
+                  
+              }
+              out.println(""+newPID+""+newPType+""+newPTitle+""+newPSyn+""+newPPrice);
+              
+              session.setAttribute("PortaltoEdit",true);
+              session.setAttribute("EDnewPID",newPID);
+              session.setAttribute("EDnewPType",newPType);
+              session.setAttribute("EDnewPTitle",newPTitle);
+              session.setAttribute("EDnewPSyn",newPSyn);
+              session.setAttribute("EDnewPPrice",newPPrice);
+
+            }
+          else
+          {
+               
+              session.setAttribute("PortaltoEdit",null);
+              session.setAttribute("EDnewPID",null);
+              session.setAttribute("EDnewPType",null);
+              session.setAttribute("EDnewPTitle",null);
+              session.setAttribute("EDnewPSyn",null);
+              session.setAttribute("EDnewPPrice",null);
+   
+          }
+        
+            //out.println(request.getParameter("Operation"));
+            
             
            if("Delete".equals(request.getParameter("Operation"))&&request.getParameter("choice")!=null)
            {
@@ -83,6 +131,51 @@ public class product_mgt_controller extends HttpServlet {
                 }
            }
             
+           if(request.getParameter("UpdateDetails")!=null)
+           {
+             out.println("Potential update");  
+               
+              products UpdateProducts = new products();  
+             
+             String StayingIDType = request.getParameter("GetPID");
+             String UpdtdProdType = request.getParameter("GetPType");
+             String UpdtdProdRecName = request.getParameter("GetPTitle");
+             String UpdtdProdRecPrice = request.getParameter("GetPPrice");
+             
+             StringBuffer text = new StringBuffer(request.getParameter("GetPSyn"));
+ 
+                int loc = (new String(text)).indexOf('\n');
+                while(loc > 0)
+                {
+                text.replace(loc, loc+1, "<BR>");
+                 loc = (new String(text)).indexOf('\n');
+                
+                    
+                }
+              String UpdtdSynopsis = text.toString();
+            
+              float floatPrice = new Float(UpdtdProdRecPrice);
+              
+              UpdateProducts.setProd_id(StayingIDType);
+              UpdateProducts.setProd_price(floatPrice);
+              UpdateProducts.setProd_title(UpdtdProdRecName);
+              UpdateProducts.setProd_type(UpdtdProdType);
+              UpdateProducts.setProd_syn(UpdtdSynopsis);
+            
+              System.out.println(StayingIDType+","+floatPrice+","+UpdtdProdRecName+","+UpdtdProdType+","+UpdtdSynopsis);
+              
+              boolean PerformUpdate = new productmanagement().UpdateProduct(UpdateProducts);
+              
+              if(PerformUpdate==true)
+              {
+                  System.out.println("update was successful");
+                  session.setAttribute("FlagUpdate",true);
+              }
+              else
+              {
+                 
+              }
+           }
             
             
             if(request.getParameter("AddProds")!=null)
@@ -178,7 +271,7 @@ public class product_mgt_controller extends HttpServlet {
             
            
             
-            
+    
                 
         } 
         catch(SQLException ex)
