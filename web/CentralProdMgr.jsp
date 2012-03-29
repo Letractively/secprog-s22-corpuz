@@ -13,9 +13,9 @@
 <%
 HttpSession MainMgrSession;
 
-MainMgrSession = request.getSession(false);
+MainMgrSession = request.getSession();
 
-if(MainMgrSession!=null)
+if(!MainMgrSession.isNew())
 {
 String ProdName;
 ArrayList TransferProds;
@@ -25,7 +25,14 @@ System.out.println("ProductName:"+ ProdName);
 
 
 MainMgrSession.setAttribute("DefaultPN",ProdName);
-
+}
+else
+{
+%>
+<script language="javascript">alert('You are not authorized to access this page.')</script>
+<%
+MainMgrSession.invalidate();
+response.sendRedirect("index.jsp");
 }
 
 if(MainMgrSession.getAttribute("DefaultPN")!=null)

@@ -67,7 +67,18 @@ public class product_mgt_controller extends HttpServlet {
      
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
+            
+          if(request.getParameter("ChangeRole")!=null)
+          {
+             request.getRequestDispatcher("product_manager.jsp").forward(request,response); 
+          }
          
+          if(request.getParameter("ExitSystem")!=null)
+          {
+            session.setMaxInactiveInterval(10);
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+          }
+          
           if("Modify".equals(request.getParameter("Operation"))&&request.getParameter("choice")!=null)
             {
               String newPID = null,newPType = null, newPTitle=null,newPSyn=null,newPPrice=null;
