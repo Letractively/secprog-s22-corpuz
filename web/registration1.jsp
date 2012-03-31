@@ -4,6 +4,7 @@
     Author     : Loowah
 --%>
 
+<%@page import="security.inputValidator"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import=" classes.*" %>
 <!DOCTYPE html>
@@ -53,11 +54,24 @@
                 String shipPostal = request.getParameter("shipPostal");
                 newCustomer.setBilling(shipHomeNo + " " + shipStreet + " " + shipCity+ " " + shipCountry + " " + shipPostal);
                 
+                String checker[] = {(String)request.getParameter("username"), (String) request.getParameter("firstName"), (String)request.getParameter("middleName"), (String)request.getParameter("lastName"), (String) request.getParameter("email"), (String)  request.getParameter("shipHomeNo"), (String)  request.getParameter("shipStreet"), (String) request.getParameter("shipCity"), (String)  request.getParameter("shipCountry"),(String) request.getParameter("shipPostal")};
+                inputValidator iv = new inputValidator();
+                
 
                 String[] errors = new String[100];
                 int counter = 0;
                 
-                if( newCustomer.getCust_id().length()<8)
+                if(!iv.isValid10(checker))
+                {
+                   errors[counter] = "Special characters not allowed!";
+                   counter++;
+                }
+                else if(iv.searchUser(newCustomer.getCust_id()))   
+                {
+                    errors[counter] = "Username is already taken!";
+                    counter++;                                                 
+                }
+                else if( newCustomer.getCust_id().length()<8)
                 {
                     errors[counter] = "Your username is too short!";
                     counter++;
