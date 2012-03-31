@@ -43,11 +43,12 @@ System.out.println("Item Restored.");
 if(MainMgrSession.getAttribute("Success")!=null)
 {
 %><script language="javascript">alert('Successful Product Adding!');</script><%    
+    session.setAttribute("Success", null); 
 }
 
 if(MainMgrSession.getAttribute("Eradicate")!=null)
 {%><script language="javascript">alert('Product Successfully Deleted.');</script><%
-    
+  session.setAttribute("Eradicate", null); 
 }
 
 if(MainMgrSession.getAttribute("FlagUpdate")!=null)
@@ -64,11 +65,75 @@ session.setAttribute("FlagUpdate", null);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Foobar Bookshop | Product Management</title>
-        
+         <%
+            session.setAttribute("exists", null);
+            response.setHeader("Pragma","no-cache");
+            response.setHeader("Cache-Control","no-store");
+            response.setHeader("Expires","0");
+            response.setDateHeader("Expires",-1);
+        %>
+        <%
+            if(session.getAttribute("loggedIn_prod")==null)
+            {
+                %>
+                <br><br><br><br><br>
+                <center><div class="redirect"><br>You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</div></center>
+                <script type="text/javascript">
+                    var redirect=4;
+                    setInterval(
+                    function()
+                    {
+                        if(redirect<1)
+                        {
+                            window.location='index.jsp';
+                        }
+                            else
+                            {
+                                document.getElementById('redirect').innerHTML = redirect--;
+                            }
+                    }
+                    , 1000); 
+               
+                </script>
+              <%  } 
+              
+         else 
+            {%>
         <link rel="stylesheet" href="admin.css"
     </head>
     <body>
-        <h1>Welcome Product Manager!</h1>
+        <h1><font color ="white">Welcome Product Manager!</font></h1>
+        
+        <form name="loginForm" method="post" action="exit_controller">
+                        
+                        <%
+                        out.print( "<b>Welcome " +  session.getAttribute("user") + "!<br/></b>");
+                        
+                         if(session.getAttribute("mgr_pos").toString().contentEquals("B-DM"))
+                        {
+                              out.print( "<b>Position: DVD Manager!<br/></b>");
+                           
+                        }
+                        if(session.getAttribute("mgr_pos").toString().contentEquals("B-ACM"))
+                        {
+                            out.print( "<b>Position: CD Manager!<br/></b>");
+                           
+                        }
+                        if(session.getAttribute("mgr_pos").toString().contentEquals("B-BM"))
+                        {
+                            out.print( "<b>Position: Book Manager!<br/></b>");
+                           
+                        }
+                        if(session.getAttribute("mgr_pos").toString().contentEquals("B-MM"))
+                        {
+                            out.print( "<b>Position: Magazine Manager!<br/></b>");
+                           
+                        }
+                        
+                        %>
+                        <input type="submit" class="loginButton" name="logoutButton" value="Logout"><br><br>
+                    </form>
+                        
         <h2> Manage Products Here: </h2>
         <form method="post" action="product_mgt_controller">
         
@@ -140,8 +205,7 @@ session.setAttribute("FlagUpdate", null);
          %>
          <h2> Update Product Details for: <%out.println((String)session.getAttribute("EDnewPID"));%> </h2>
          <form method="post" action="product_mgt_controller">
-          Product ID:<input type="text" name="GetPID" value="<%=session.getAttribute("EDnewPID") %>"><br>
-          New Product Type:<input type="text" name="GetPType" value="<%=session.getAttribute("EDnewPType") %>"><br>
+          
           New Product Title:<input type="text" name="GetPTitle" value="<%=session.getAttribute("EDnewPTitle") %>"><br>
           New Product Price:<input type="text" name="GetPPrice" value="<%=session.getAttribute("EDnewPPrice")%>"><br>
           New Product Synopsis:<br><textarea name="GetPSyn" cols="40" rows="5"> <%=session.getAttribute("EDnewPSyn") %></textarea><br>
@@ -169,13 +233,13 @@ session.setAttribute("FlagUpdate", null);
           <input type="submit" value="Add" name="AddProds" class="linkButton">
           <br>
           <br>
-          <input type="submit" value="Change" name="ChangeRole" class="linkButton">
+          <input type="submit" value="BACK/REFRESH" name="ChangeRole" class="linkButton">
          
          </form>
          <%
          }
          %>
         
-    
+    <% } %>
 </body>
 </html>

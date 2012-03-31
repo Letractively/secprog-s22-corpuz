@@ -56,7 +56,8 @@ public class product_mgt_controller extends HttpServlet {
                 ManageType = (String)session.getAttribute("DefaultPN");
                 //out.println(ManageType);
             }
-  
+            
+            /*
             if(session.getAttribute("SignalNew")!=null)
             {
                 ManageType = (String)request.getParameter("ProdType");
@@ -64,13 +65,37 @@ public class product_mgt_controller extends HttpServlet {
                 session.setAttribute("DefaultPN", ManageType);
                 session.setAttribute("SignalNew",null);
             }
-     
+            */
+            
+            if(session.getAttribute("loggedIn_prod")!=null)
+            {
+                if(session.getAttribute("mgr_pos").toString().contentEquals("B-DM"))
+                {
+                    ManageType = "DVD";
+                }
+                if(session.getAttribute("mgr_pos").toString().contentEquals("B-ACM"))
+                {
+                    ManageType = "CD";
+                }
+                if(session.getAttribute("mgr_pos").toString().contentEquals("B-BM"))
+                {
+                    ManageType = "Book";
+                }
+                if(session.getAttribute("mgr_pos").toString().contentEquals("B-MM"))
+                {
+                    ManageType = "Magazine";
+                }
+                
+             
+            }
+            
+            
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
             
           if(request.getParameter("ChangeRole")!=null)
           {
-             request.getRequestDispatcher("product_manager.jsp").forward(request,response); 
+             request.getRequestDispatcher("CentralProdMgr.jsp").forward(request,response); 
           }
          
           if(request.getParameter("ExitSystem")!=null)
@@ -113,11 +138,14 @@ public class product_mgt_controller extends HttpServlet {
           {
                
               session.setAttribute("PortaltoEdit",null);
+              /*
               session.setAttribute("EDnewPID",null);
               session.setAttribute("EDnewPType",null);
               session.setAttribute("EDnewPTitle",null);
               session.setAttribute("EDnewPSyn",null);
               session.setAttribute("EDnewPPrice",null);
+              * 
+              */
    
           }
         
@@ -132,24 +160,30 @@ public class product_mgt_controller extends HttpServlet {
                 
                 boolean EradicateItem = new productmanagement().DeleteProduct(PrepDelete);
                 
-                if(EradicateItem==true)
+                if(EradicateItem == true)
                 {
-                  session.setAttribute("Eradicate",true);
+                  session.setAttribute("Eradicate", true);
+                  System.out.println("Delete success");
                 }
                 else
                 {
                   session.setAttribute("FailDel",true);
+                  System.out.println("Delete fail");
                 }
            }
             
            if(request.getParameter("UpdateDetails")!=null)
            {
-             out.println("Potential update");  
-               
+          //   out.println("Potential update");  
+               out.println("Error!");
+                out.println("<a href = 'CentralProdMgr.jsp'>Back</a>");
               products UpdateProducts = new products();  
              
-             String StayingIDType = request.getParameter("GetPID");
-             String UpdtdProdType = request.getParameter("GetPType");
+             String StayingIDType = session.getAttribute("EDnewPID").toString();
+             String UpdtdProdType = session.getAttribute("EDnewPType").toString();
+             
+          //   out.println(session.getAttribute("EDnewPType").toString());
+             
              String UpdtdProdRecName = request.getParameter("GetPTitle");
              String UpdtdProdRecPrice = request.getParameter("GetPPrice");
              
@@ -191,8 +225,10 @@ public class product_mgt_controller extends HttpServlet {
             
             if(request.getParameter("AddProds")!=null)
             { 
+                out.println("Error!");
+                out.println("<a href = 'CentralProdMgr.jsp'>Back</a>");
                 String ManagerType = (String)session.getAttribute("ProductType");
-                
+                System.out.println("Product type is : " + ManagerType);
                 products AddProduct = new products();
                 
                 
@@ -219,14 +255,23 @@ public class product_mgt_controller extends HttpServlet {
                 
                 String Synopsis = text.toString();
                 AddProduct.setProd_syn(Synopsis);
+                
+                System.out.println("Product type is : " + ProdID);
+                System.out.println("Product type is : " + ProdRecName);
+                System.out.println("Product type is : " + Price);
+                System.out.println("Product type is : " + ManagerType);
+                System.out.println("Product type is : " + Synopsis);
+                
+                
                 //out.println(text); 
                 
                 boolean execute = new productmanagement().AddProduct(AddProduct);
                 
                 if(execute==true)
                 {
+                    System.out.println("Pasok");
                      session.setAttribute("Success",true);
-                   
+                  //  ManageType = "DVD";
                 }
                 else
                 {
@@ -237,7 +282,7 @@ public class product_mgt_controller extends HttpServlet {
             
             
    
-              PreparedStatement CentralCatcher = conn.prepareStatement("SELECT * FROM PRODUCTS WHERE PROD_TYPE = ?");
+              PreparedStatement CentralCatcher = conn.prepareStatement("SELECT prod_id, prod_type, prod_title, prod_syn, prod_price  FROM PRODUCTS WHERE PROD_TYPE = ? and isDeleted = 0");
               CentralCatcher.setString(1,""+ManageType+"");
               
               ResultSet GenerateRS = CentralCatcher.executeQuery();

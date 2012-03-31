@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="security.inputValidator"%>
 <%@page import="java.sql.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -61,7 +62,10 @@
                 String billCountry = request.getParameter("billCountry");
                 String billPostal = request.getParameter("billPostal");
                 newTracker.setShipping(billHomeNo + " " + billStreet + " " + billCity + " " + billCountry + " " + billPostal);                             
-
+                
+                String checker[] = {(String) request.getParameter("firstName"), (String)request.getParameter("middleName"), (String)request.getParameter("lastName"), (String) request.getParameter("ccNo"),(String) request.getParameter("ccType"), (String) request.getParameter("datum1"), (String) request.getParameter("billHomeNo"), (String) request.getParameter("billStreet"), (String) request.getParameter("billCity"), (String) request.getParameter("billCountry"), (String) request.getParameter("billPostal")};
+                inputValidator iv = new inputValidator();
+                
                 String[] errors = new String[100];
                 int counter = 0;
                 
@@ -73,11 +77,15 @@
                 }*/
                 
                 
-                 
+                 if(!iv.isValid11(checker))
+                {
+                   errors[counter] = "Special characters not allowed!";
+                   counter++;
+                }
                 
                
 
-                 if (billHomeNo.length() < 1)
+                 else if (billHomeNo.length() < 1)
                 {
                     errors[counter] = "You did not input a Home No.";
                     counter++;

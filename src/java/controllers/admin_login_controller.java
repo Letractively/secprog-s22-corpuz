@@ -108,8 +108,11 @@ public class admin_login_controller extends HttpServlet {
                    }
                    else
                    {
-                  boolean insertLog = new log_admin().addLogsProduct(session.getAttribute("user").toString().concat(", ").concat(ret.getPosition()).concat(", ").concat("has Logged-In."));
-                   request.getRequestDispatcher("product_manager.jsp").forward(request,response);
+                     session.setAttribute("loggedIn_prod", true);
+                     session.setAttribute("user", login_user.getUsername());
+                     session.setAttribute("mgr_pos", ret.getPosition());
+                     boolean insertLog = new log_admin().addLogsProduct(session.getAttribute("user").toString().concat(", ").concat(ret.getPosition()).concat(", ").concat("has Logged-In."));
+                    request.getRequestDispatcher("product_mgt_controller").forward(request,response);
                    }
                }
 

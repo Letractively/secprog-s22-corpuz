@@ -59,7 +59,7 @@ public class product_controller extends HttpServlet {
                     {
                         
                         //SQL Query
-                        PreparedStatement pstmt = conn.prepareStatement("SELECT  prod_id, prod_type, prod_title, prod_syn, prod_price FROM products where prod_title like ?");
+                        PreparedStatement pstmt = conn.prepareStatement("SELECT  prod_id, prod_type, prod_title, prod_syn, prod_price FROM products where prod_title like ? and isDeleted = 0");
                         pstmt.setString(1, "%"+stringed+"%");
                         
                         ResultSet rs = pstmt.executeQuery();
@@ -80,7 +80,7 @@ public class product_controller extends HttpServlet {
                     
                     if(!dropdowned.contentEquals("all"))
                     {
-                    PreparedStatement pstmt = conn.prepareStatement("SELECT  prod_id, prod_type, prod_title, prod_syn, prod_price FROM products where prod_title like ? and prod_type = ?");
+                    PreparedStatement pstmt = conn.prepareStatement("SELECT  prod_id, prod_type, prod_title, prod_syn, prod_price FROM products where prod_title like ? and prod_type = ? and isDeleted = 0");
                     
                     int i = 1;
                     

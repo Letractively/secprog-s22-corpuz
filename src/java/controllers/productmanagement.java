@@ -22,7 +22,7 @@ public class productmanagement
         
         int k=1;
         
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PRODUCTS VALUES(?,?,?,?,?)");
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PRODUCTS (prod_id, prod_type, prod_title, prod_syn, prod_price) VALUES(?,?,?,?,?)");
         
         pstmt.setString(k++,ProdType.getProd_id());
         pstmt.setString(k++,ProdType.getProd_type());
@@ -30,9 +30,9 @@ public class productmanagement
         pstmt.setString(k++,ProdType.getProd_syn());
         
         Float receive = ProdType.getProd_price();
-        String RecConv = receive.toString();
+      //  String RecConv = receive.toString();
         
-        pstmt.setString(k++,RecConv);
+        pstmt.setFloat(k++,receive);
         pstmt.executeUpdate();
         
         conn.close();
@@ -59,7 +59,7 @@ public class productmanagement
            
            int m=1;
            
-           PreparedStatement DeleteStmt = conn.prepareStatement("DELETE FROM PRODUCTS WHERE PROD_ID = ?");
+           PreparedStatement DeleteStmt = conn.prepareStatement("UPDATE PRODUCTS SET isDeleted = 1 WHERE PROD_ID = ?");
            DeleteStmt.setString(m,DeletedType.getProd_id());
            DeleteStmt.executeUpdate();
            
@@ -70,7 +70,7 @@ public class productmanagement
        {
           System.out.println(ex.getMessage());   
        }
-       return false;
+       return result;
    }
    
    public boolean UpdateProduct(products UpdateType)
@@ -91,8 +91,8 @@ public class productmanagement
            UpdateStmt.setString(m++,UpdateType.getProd_syn());
            
            Float TranscribeString = UpdateType.getProd_price();
-           String TransString = TranscribeString.toString();
-           UpdateStmt.setString(m++,TransString);
+         //  String TransString = TranscribeString.toString();
+           UpdateStmt.setFloat(m++,TranscribeString);
            UpdateStmt.setString(m++,UpdateType.getProd_id());
           
            UpdateStmt.executeUpdate();
