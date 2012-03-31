@@ -70,14 +70,25 @@
                 int counter = 0;
                 
                 
-                /*if(!(request.getParameter("ccNo").toString().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
+                if((request.getParameter("ccType").toString().contentEquals("visa")))
                 {
-                   errors[counter] = "Not a valid card number";
+                    if(!(request.getParameter("ccNo").toString().matches("^4[0-9]{12}(?:[0-9]{3})?$")))
+                     {
+                   errors[counter] = "Not a valid card number for Visa Card";
                     counter++;
-                }*/
+                     }
+                }
+                else if((request.getParameter("ccType").toString().contentEquals("mastercard")))
+                {
+                    if(!(request.getParameter("ccNo").toString().matches("^5[1-5][0-9]{14}$")))
+                     {
+                   errors[counter] = "Not a valid card number for Master Card";
+                    counter++;
+                     }
+                }
                 
                 
-                 if(!iv.isValid11(checker))
+                else if(!iv.isValid11(checker))
                 {
                    errors[counter] = "Special characters not allowed!";
                    counter++;
@@ -153,8 +164,7 @@
                         Type: <select name="ccType">
                             <option value="visa">Visa</option>
                             <option value="mastercard">MasterCard</option>
-                            <option value="americanex">American Express</option>
-                            <option value="jcb">JCB</option>
+                            
                         </select><br>
                         Expiry Date: <input type="text" name="datum1"><a href="#" onClick="setYears(2012, 2060);
                                         showCalender(this, 'datum1');">

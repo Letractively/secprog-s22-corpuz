@@ -91,6 +91,7 @@ public class admin_controller {
                 while(rs.next())
                     {
                         name.add(rs.getString("staff_id"));
+                        name.add(rs.getString("state"));
                     }
             
              //close DB connection
@@ -108,6 +109,7 @@ public class admin_controller {
                 while(rs.next())
                     {
                         name.add(rs.getString("cust_id"));
+                        name.add(rs.getInt("state"));
                     }
             
              //close DB connection

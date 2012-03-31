@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import classes.log_admin;
 import classes.products;
 import dbconnection.ConnectionFactory;
 import java.io.IOException;
@@ -163,6 +164,7 @@ public class product_mgt_controller extends HttpServlet {
                 if(EradicateItem == true)
                 {
                   session.setAttribute("Eradicate", true);
+                    boolean result = new log_admin().addLogsProduct("Username: " + session.getAttribute("user") + " , " + session.getAttribute("mgr_pos").toString() + " ,has deleted a product of  " + getSelectedRadio);
                   System.out.println("Delete success");
                 }
                 else
@@ -174,9 +176,8 @@ public class product_mgt_controller extends HttpServlet {
             
            if(request.getParameter("UpdateDetails")!=null)
            {
-          //   out.println("Potential update");  
-               out.println("Error!");
-                out.println("<a href = 'CentralProdMgr.jsp'>Back</a>");
+             out.println("Potential update");  
+               
               products UpdateProducts = new products();  
              
              String StayingIDType = session.getAttribute("EDnewPID").toString();
@@ -198,35 +199,40 @@ public class product_mgt_controller extends HttpServlet {
                     
                 }
               String UpdtdSynopsis = text.toString();
-            
               float floatPrice = new Float(UpdtdProdRecPrice);
               
+             
+                  
               UpdateProducts.setProd_id(StayingIDType);
               UpdateProducts.setProd_price(floatPrice);
               UpdateProducts.setProd_title(UpdtdProdRecName);
               UpdateProducts.setProd_type(UpdtdProdType);
               UpdateProducts.setProd_syn(UpdtdSynopsis);
             
+              
+              
+              
               System.out.println(StayingIDType+","+floatPrice+","+UpdtdProdRecName+","+UpdtdProdType+","+UpdtdSynopsis);
               
               boolean PerformUpdate = new productmanagement().UpdateProduct(UpdateProducts);
               
               if(PerformUpdate==true)
               {
-                  System.out.println("update was successful");
+                  System.out.println("update was successful"); 
                   session.setAttribute("FlagUpdate",true);
+                   boolean result = new log_admin().addLogsProduct("Username: " + session.getAttribute("user") + " , " + session.getAttribute("mgr_pos").toString() + " ,has updated a product of  " + StayingIDType);
               }
               else
               {
                  
               }
+             
            }
             
             
             if(request.getParameter("AddProds")!=null)
             { 
-                out.println("Error!");
-                out.println("<a href = 'CentralProdMgr.jsp'>Back</a>");
+                
                 String ManagerType = (String)session.getAttribute("ProductType");
                 System.out.println("Product type is : " + ManagerType);
                 products AddProduct = new products();
@@ -236,8 +242,8 @@ public class product_mgt_controller extends HttpServlet {
                 String ProdRecName = request.getParameter("ProdName");
                 String ProdRecPrice = request.getParameter("ProdPrice");
                 StringBuffer text = new StringBuffer(request.getParameter("Synopsis"));
- 
-                int loc = (new String(text)).indexOf('\n');
+                
+                 int loc = (new String(text)).indexOf('\n');
                 while(loc > 0)
                 {
                 text.replace(loc, loc+1, "<BR>");
@@ -246,6 +252,11 @@ public class product_mgt_controller extends HttpServlet {
                     
                 }
                 
+                 String Synopsis = text.toString();
+                 
+               
+              
+                
                 AddProduct.setProd_id(ProdID);
                 AddProduct.setProd_title(ProdRecName);
                 
@@ -253,8 +264,10 @@ public class product_mgt_controller extends HttpServlet {
                 AddProduct.setProd_price(Price);
                 AddProduct.setProd_type(ManagerType);
                 
-                String Synopsis = text.toString();
+                
                 AddProduct.setProd_syn(Synopsis);
+            
+              
                 
                 System.out.println("Product type is : " + ProdID);
                 System.out.println("Product type is : " + ProdRecName);
@@ -265,19 +278,22 @@ public class product_mgt_controller extends HttpServlet {
                 
                 //out.println(text); 
                 
+                
                 boolean execute = new productmanagement().AddProduct(AddProduct);
                 
                 if(execute==true)
                 {
                     System.out.println("Pasok");
                      session.setAttribute("Success",true);
+                     boolean result = new log_admin().addLogsProduct("Username: " + session.getAttribute("user") + " , " + session.getAttribute("mgr_pos").toString() + " ,has added a product of  " + ProdID);
                   //  ManageType = "DVD";
                 }
                 else
                 {
-                    //session.setAttribute("",);
+                   System.out.println("Failed");
                 }
-               
+                
+              
             }//by DB adding
             
             

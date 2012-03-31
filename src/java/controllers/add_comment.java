@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import classes.log_admin;
 import dbconnection.ConnectionFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,7 +61,7 @@ public class add_comment extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(add_comment.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            boolean result = new log_admin().addLogsCustomer("Username: " + session.getAttribute("user") + " comment on the product of " + session.getAttribute("choice").toString());
             response.sendRedirect("home.jsp");
         } finally {            
             out.close();

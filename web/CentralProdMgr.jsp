@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="classes.log_admin"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "java.util.ArrayList" %>
 
@@ -48,6 +49,7 @@ if(MainMgrSession.getAttribute("Success")!=null)
 
 if(MainMgrSession.getAttribute("Eradicate")!=null)
 {%><script language="javascript">alert('Product Successfully Deleted.');</script><%
+
   session.setAttribute("Eradicate", null); 
 }
 

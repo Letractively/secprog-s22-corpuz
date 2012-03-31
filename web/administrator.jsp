@@ -191,10 +191,11 @@
             if((ArrayList) request.getAttribute("resultSet") != null)
             {
                 ArrayList result = (ArrayList) request.getAttribute("resultSet");
-            
-        for(int counter2 = 0; counter2 < result.size(); counter2++)
+            int counter2 = 0;
+       // for(int counter2 = 0; counter2 < result.size(); counter2++)
+            while(counter2 < result.size())  
                     { %>
-                    <option value= <%= result.get(counter2) %>> <%= result.get(counter2) %> </option>
+                    <option value= <%= result.get(counter2) %>> <% out.print(result.get(counter2)); counter2++; out.print(" - " + result.get(counter2)); counter2++; %> </option>
                     <%
                     }
             }
@@ -207,8 +208,8 @@
       <br><br>
        Choose:
        <select name="choose">
-       <option value="Lock">Lock</option>
-       <option value="UnLock">Unlock</option>
+       <option value="Lock">Lock/(0)</option>
+       <option value="UnLock">Unlock/(1)</option>
        </select>
        <br><br>
         

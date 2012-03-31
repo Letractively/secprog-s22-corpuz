@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import classes.log_admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -155,6 +156,7 @@ public class login_controller extends HttpServlet {
                {
                session.setMaxInactiveInterval(60);
                session.setAttribute("flagLoggedIn",flagger);
+               boolean result = new log_admin().addLogsCustomer("Username: " + session.getAttribute("user") + " has Logged In.");
                request.getRequestDispatcher("home.jsp").forward(request,response);
                System.out.print("REDIRECTING");
                }
@@ -170,6 +172,7 @@ public class login_controller extends HttpServlet {
                 
                 session.setMaxInactiveInterval(60);
                 session.setAttribute("flagLoggedIn",flagger);
+                boolean result = new log_admin().addLogsCustomer("Username: " + session.getAttribute("user") + " has Logged In.");
                 request.getRequestDispatcher("home.jsp").forward(request,response);
            
                }

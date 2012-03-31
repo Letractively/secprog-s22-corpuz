@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import classes.log_admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
@@ -52,6 +53,7 @@ public class reset_password extends HttpServlet {
                 newPass.setUsername((String) session.getAttribute("UserName"));
                 newPass.setPassword((String) session.getAttribute("nPassword"));
                 temp.changePassword(newPass);
+                boolean result = new log_admin().addLogsCustomer("Username: " + session.getAttribute("user") + " changed the password.");
                 response.sendRedirect("home.jsp");
             }
         } finally {            

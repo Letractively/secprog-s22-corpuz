@@ -56,6 +56,8 @@
               <%  }  else { %>
     </head>
     <body>
+        
+        <a href ="administrator.jsp">BACK</a> <br>
         <h1>View Logs</h1>
         <form method ="post" action="">               
         Logs for: 

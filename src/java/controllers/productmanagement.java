@@ -15,6 +15,14 @@ public class productmanagement
    public boolean AddProduct(products ProdType)
    {
        boolean result = false;
+       if(ProdType.getProd_id().matches("(?i).*[<>/(){}=\\n].*") || ProdType.getProd_title().matches("(?i).*[<>/(){}=\\n].*") || ProdType.getProd_syn().matches("(?i).*[<>/(){}=\\n].*") || ProdType.getProd_price() < 0)
+        {
+                    System.out.println("bawalllllllllllllll");
+                   result = false;
+        }
+     
+       else
+       {
        try
        {
         ConnectionFactory myFactory = ConnectionFactory.getFactory();
@@ -44,7 +52,7 @@ public class productmanagement
        {
          System.out.println(ex.getMessage());  
        }
-       
+       }
        return result;
    }
     
@@ -76,7 +84,13 @@ public class productmanagement
    public boolean UpdateProduct(products UpdateType)
    {
        boolean result=false;
-       
+         if(UpdateType.getProd_title().matches("(?i).*[<>/(){}=\\n].*") || UpdateType.getProd_syn().matches("(?i).*[<>/(){}=\\n].*") || UpdateType.getProd_price() < 0)
+        {
+                    System.out.println("bawal");
+                   result = false;
+        }
+         else
+         {
        try
        {
            ConnectionFactory myFactory = ConnectionFactory.getFactory();
@@ -103,7 +117,7 @@ public class productmanagement
        {
                System.out.println(ex.getMessage());   
        }
-       
+         }
        return result;
    
    }  
