@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import classes.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import security.inputValidator;
 /**
  *
  * @author Lyle
@@ -139,7 +140,7 @@ public class purchase_controller extends HttpServlet {
                     }
                 System.out.println(orderId);
 
-           PreparedStatement pstmt4 = conn.prepareStatement("SELECT prod_price FROM products where prod_id = ?");
+           PreparedStatement pstmt4 = conn.prepareStatement("SELECT prod_price FROM products where prod_id = ? and isDeleted = 0");
            pstmt4.setString(1, choice_prod);
           
             
@@ -187,7 +188,7 @@ public class purchase_controller extends HttpServlet {
                 session.setAttribute("orderIDNum", orderId);
                 
              //SQL Query
-            PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?)");
+            PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?) where prod_id = (select prod_id from products where isDeleted = 0)");
             
             
             pstmt2.setInt(1, orderId);
@@ -391,7 +392,7 @@ public class purchase_controller extends HttpServlet {
          
                  
             
-           PreparedStatement pstmt4 = conn.prepareStatement("SELECT prod_price FROM products where prod_id = ?");
+           PreparedStatement pstmt4 = conn.prepareStatement("SELECT prod_price FROM products where prod_id = ? and isDeleted = 0");
            pstmt4.setString(1, choice_prod);
           
             
@@ -550,22 +551,59 @@ public class purchase_controller extends HttpServlet {
       
             else if (request.getParameter("checkout")!=null)
             {
+                
+                String user = session.getAttribute("UserName").toString();
+                    String card = request.getParameter("cCard");
+                    ArrayList errors = new ArrayList();
+                    
+                    inputValidator iv = new inputValidator();
+                    
+                    String orderId_text = session.getAttribute("orderIDNum").toString();
+                    int orderId = Integer.parseInt(orderId_text);
+                    
+                    if(!(iv.checkCard(card, user)))
+                    {
+                        out.println("Wrong Credit Card Number");
+                        
+                        out.println(" <form method ='post' action ='purchase_controller'>");
+                         out.println("<input type='submit'  class='registerButton' name ='viewCart' value='View Cart'><br>");
+                         out.println("</form>");
+                        
+                       // out.println("<a href = 'purchase.jsp'>BACK</a>");
+                    }
+                    else if(!(iv.checkCart(orderId)))
+                    {
+                        out.println("Cart is empty");
+                        
+                        out.println(" <form method ='post' action ='purchase_controller'>");
+                         out.println("<input type='submit'  class='registerButton' name ='viewCart' value='View Cart'><br>");
+                         out.println("</form>");
+                        
+                       // out.println("<a href = 'purchase.jsp'>BACK</a>");
+                    }
+                    
+                    else
+                    {
                 try
                 {
+                    
+                   
                     ConnectionFactory myFactory = ConnectionFactory.getFactory();
                     Connection conn = myFactory.getConnection();
                 
-                    String user = session.getAttribute("UserName").toString();
-                    String billingAdd_txt = request.getParameter("billingAddr");
+                    
+                    String billingAdd_txt = session.getAttribute("addressID").toString();
                     int billingAdd = Integer.parseInt(billingAdd_txt);
+                    
+                    
+                    
                      String card_name = "" ;
                         String card_num = "";
                      String exp_date = "";
                       String card_type = "";                  
                     Date today1 = Calendar.getInstance().getTime();
                     String today = new SimpleDateFormat("yyyy-MM-dd").format(today1);
-                     String orderId_text = session.getAttribute("orderIDNum").toString();
-                    int orderId = Integer.parseInt(orderId_text);
+                     
                     
                      
                 /*
@@ -619,8 +657,9 @@ public class purchase_controller extends HttpServlet {
            
                  request.setAttribute("buySuccessful", "true");
                  request.setAttribute("hasBuy", null);
-                 
+                 boolean result = new log_admin().addLogsCustomer("Username: " + session.getAttribute("user") + " made a transaction. (OrderID:" + orderId + " ) ");
                  request.getRequestDispatcher("home.jsp").forward(request,response);
+                    }
             }
             else if(request.getParameter("comment") != null)
             {
@@ -646,7 +685,7 @@ public class purchase_controller extends HttpServlet {
                         name.add(rs.getString("prod_com"));
                     }
                     i=1;
-                   view = conn.prepareStatement("select prod_title from products where prod_id = ?");
+                   view = conn.prepareStatement("select prod_title from products where prod_id = ? ");
                     view.setString(i++, request.getParameter("choice"));
                     
                     rs = view.executeQuery();

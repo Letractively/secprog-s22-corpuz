@@ -127,8 +127,25 @@
           <input type="submit" name ="buyMore" value="Buy More">  <br> <br>
           
           <hr>
-          Select Address: 
-          <select name="billingAddr">
+          
+          <%
+         /* if((ArrayList) request.getAttribute("errorResult12")!=null)
+          {
+            ArrayList result23 = (ArrayList) request.getAttribute("errorResult12");
+                    if (!(result23.isEmpty())) {
+                        for (int i = 0; i < result23.size(); i++) {
+                            out.println(result23.get(i) + "<br/>");
+                            //  System.out.println(result2.get(i));
+                        }
+                    }
+          }
+          */
+          %>
+          
+          
+          Enter Credit Card No: <input type="text" name ="cCard" value=""> <br>
+          Address: 
+          
            
             <%
             
@@ -136,15 +153,17 @@
               int counter2 = 0;
             //    for(int counter2 = 0; counter2 < result.size(); counter2++)
                     while(counter2 < result.size())
-                    { %>
-                    <option value= <%= result.get(counter2) %>>  <% counter2++; %> <%= result.get(counter2) %> <% counter2++; %> </option>
-                    <%
+                    {
+                        session.setAttribute("addressID", result.get(counter2));
+                        counter2++;
+                        session.setAttribute("address", result.get(counter2));
+                        counter2++;
+                        out.println(session.getAttribute("address").toString());
                     }
             
            
-                    %>
-                  
-      </select>
+                    %>            
+    
                     <br>
           <input type="submit" name ="checkout" value="Check-Out"> 
           </form>
