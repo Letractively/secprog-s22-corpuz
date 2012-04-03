@@ -26,7 +26,7 @@ public class login_AdmincheckUser {
         Connection conn = myFactory.getConnection();
         try 
         {
-            PreparedStatement pstmt = conn.prepareStatement("select * from staff where staff_id = ?");
+            PreparedStatement pstmt = conn.prepareStatement("select * from staff where staff_id = ? and state = 'unlock' or state = 'UnLock' ");
             pstmt.setString(i++, temp.getUsername());
             
             ResultSet rs = pstmt.executeQuery();

@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import classes.log_admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
@@ -47,11 +48,28 @@ public class reset_adminpass extends HttpServlet {
             newPass.setUsername((String) session.getAttribute("UserName"));
             newPass.setPassword(hs.setHash((String) session.getAttribute("Password")));
             
+            System.out.println( newPass.getPassword() );
+             System.out.println( newPass.getUsername() );
+            
             temp.changeAdminPassword(newPass);
             if(session.getAttribute("sessionName") == "accounting")
-                response.sendRedirect("accounting.jsp");
+            {
+                session.setAttribute("loggedIn_acct", "true");
+                session.setAttribute("user", session.getAttribute("user"));
+                session.setAttribute("mgr_pos", session.getAttribute("mgr_pos"));
+                 boolean insertLog1 = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(", ").concat(session.getAttribute("mgr_pos").toString()).concat(", ").concat("changed password."));
+                boolean insertLog = new log_admin().addLogsFinancial(session.getAttribute("user").toString().concat(", ").concat(session.getAttribute("mgr_pos").toString()).concat(", ").concat("has Logged-In."));
+                request.getRequestDispatcher("accounting.jsp").forward(request,response);
+            }
             else
-                response.sendRedirect("product_manager.jsp");
+            {
+                session.setAttribute("loggedIn_prod", true);
+                 session.setAttribute("user", session.getAttribute("user"));
+                 session.setAttribute("mgr_pos", session.getAttribute("mgr_pos"));
+                 boolean insertLog1 = new log_admin().addLogsProduct(session.getAttribute("user").toString().concat(", ").concat(session.getAttribute("mgr_pos").toString()).concat(", ").concat("changed password."));
+                 boolean insertLog = new log_admin().addLogsProduct(session.getAttribute("user").toString().concat(", ").concat(session.getAttribute("mgr_pos").toString()).concat(", ").concat("has Logged-In."));
+                 request.getRequestDispatcher("product_mgt_controller").forward(request,response);
+            }
         } finally {            
             out.close();
         }

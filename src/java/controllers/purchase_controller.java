@@ -108,7 +108,7 @@ public class purchase_controller extends HttpServlet {
             String today = new SimpleDateFormat("yyyy-MM-dd").format(today1);
       
             boolean  hasNull = false;
-            
+            boolean yes = false;
             int orderId = 0;
             float price = 0;
 
@@ -149,9 +149,13 @@ public class purchase_controller extends HttpServlet {
                 while(rs1.next())
                     {
                         price = rs1.getFloat("prod_price");
-                        
+                        yes = true;
                     }
                 
+                if(yes == false)
+                {
+                    choice_prod = "";
+                }
               //  out.print(price);
                 
              //include parameters
@@ -188,7 +192,7 @@ public class purchase_controller extends HttpServlet {
                 session.setAttribute("orderIDNum", orderId);
                 
              //SQL Query
-            PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?) where prod_id = (select prod_id from products where isDeleted = 0)");
+            PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?) ");
             
             
             pstmt2.setInt(1, orderId);
@@ -375,7 +379,7 @@ public class purchase_controller extends HttpServlet {
             int orderId = Integer.parseInt(orderId_text);
             float price = 0;
             
-            
+            boolean yes = false;
             
            
             ArrayList name = new ArrayList();
@@ -401,8 +405,12 @@ public class purchase_controller extends HttpServlet {
                 while(rs1.next())
                     {
                         price = rs1.getFloat("prod_price");
-                        
+                        yes = true;
                     }
+                if(yes == false)
+                {
+                    choice_prod = "";
+                }
                 
               //  out.print(price);
                 
@@ -411,7 +419,7 @@ public class purchase_controller extends HttpServlet {
             
             
              //SQL Query
-            PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?)");
+            PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO order_acct(order_id, prod_id, quantity, sell_price) VALUES(?,?,?,?) ");
             
             
             pstmt2.setInt(1, orderId);

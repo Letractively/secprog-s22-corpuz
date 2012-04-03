@@ -28,6 +28,7 @@ if(session.getAttribute("Retries")!=null)
  LockoutInt = Integer.parseInt(testLockout);
  
 
+ 
  if(LockoutInt == 5 || session.getAttribute("FlagLockout")!=null)
  {
  response.sendRedirect("banned.jsp");
@@ -84,6 +85,7 @@ if(session.getAttribute("Retries")!=null)
             {
                 String checker[] = {(String)request.getParameter("username"), (String)request.getParameter("password")};
                 inputValidator iv = new inputValidator();
+                
                 if(!iv.isValid2(checker))
                 {
                     %><script type="text/javascript">alert("Special characters not allowed");</script><%
@@ -93,6 +95,7 @@ if(session.getAttribute("Retries")!=null)
                     //if data validation passed, eto na gagawin niya
                     request.setAttribute("UserName",(String)request.getParameter("username"));
                     request.setAttribute("Password",(String)request.getParameter("password"));
+                    session.setAttribute("Username_log", (String)request.getParameter("username"));
                     String strViewPage="login_controller";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
                     if (dispatcher != null)
@@ -115,7 +118,7 @@ if(session.getAttribute("Retries")!=null)
             
         %>
                     <br>
-                    <form name="loginForm" method="post" action="">
+                    <form name="loginForm" method="post" action="" autocomplete="off">
                         
                         Username: <input type="text" name="username">*<br>
                         Password: <input type="password" name="password">*<br>
@@ -142,7 +145,7 @@ if(session.getAttribute("Retries")!=null)
                           <br>
                           --%>  
                         
-                        <input type="submit" class="loginButton" name="loginButton" value="Login"><br><br>
+                          <input type="submit" class="loginButton" name="loginButton" value="Login"><br><br>
                         
                     </form>
                 </div>
