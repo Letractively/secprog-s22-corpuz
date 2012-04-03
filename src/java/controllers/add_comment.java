@@ -42,6 +42,19 @@ public class add_comment extends HttpServlet {
         HttpSession session = request.getSession(false);
         PrintWriter out = response.getWriter();
         try {
+            
+            if(request.getParameter("comment_box").toString().matches("(?i).*[<>/();{}=\\n].*"))
+            {
+                out.println("Special Characters not allowed");
+                out.println("<a href = 'home.jsp'>BACK</a>");
+            }
+            else if(request.getParameter("comment_box").toString().isEmpty())
+            {
+                 out.println("Supply Characters in the textbox.");
+                out.println("<a href = 'home.jsp'>BACK</a>");
+            }
+            else {
+            
             int i = 1;
             java.util.Date javaDate = new java.util.Date();
             java.sql.Date sqlDate = new Date(javaDate.getTime());
@@ -63,6 +76,7 @@ public class add_comment extends HttpServlet {
             }
             boolean result = new log_admin().addLogsCustomer("Username: " + session.getAttribute("user") + " comment on the product of " + session.getAttribute("choice").toString());
             response.sendRedirect("home.jsp");
+            }
         } finally {            
             out.close();
         }

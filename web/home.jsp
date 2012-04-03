@@ -118,7 +118,7 @@ else
                         <option value="cd">Audio CDs</option>
                         <option value="dvd">DVDs</option>
                     </select>
-                    <input type="text" size="40" value="Search..." name="searchBox" autocomplete="off"> 
+                    <input type="text" size="40" value="" name="searchBox" autocomplete="off"> 
                     <%
                         if((String) request.getAttribute("hasBuy")!=null)
                         { %>
@@ -187,12 +187,14 @@ else
                  %>
                 
                  </form>
+                 
+                 <br><br>
                  <form method ="post" action ="changepassword.jsp">
-                     <input type="submit"  class="registerButton" name ="Submit" value="CP"><br>
+                     <input type="submit"   name ="Submit" value="Change Password"><br>
                  </form>
                  
                   <form method ="post" action ="purchase_controller">
-                     <input type="submit"  class="registerButton" name ="viewCart" value="View Cart"><br>
+                     <input type="submit"   name ="viewCart" value="View Cart"><br>
                  </form>
                  
                   <form method ="post" action ="view_purchase_product">

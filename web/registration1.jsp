@@ -167,6 +167,7 @@
                  else
                 {
                         session.setAttribute("customerID", newCustomer.getCust_id());
+                         session.setAttribute("reg_ok", true);
                         request.setAttribute("customer",newCustomer);
                         String strViewPage="addcustomer_controller";
                         
@@ -177,6 +178,7 @@
                             dispatcher.forward(request, response);
                             
                         }
+                       
                         %><script type="text/javascript">document.location="addcustomer_controller";</script><%
                                            
                 }
@@ -185,7 +187,7 @@
             }
         %>
         
-                    <form name="regForm1" method ="post" action="">
+                    <form name="regForm1" method ="post" action="" autocomplete="off">
                         
                         Username: <input type="text" name="username"><br>
                         Password: <input type="password" name="password"><br>

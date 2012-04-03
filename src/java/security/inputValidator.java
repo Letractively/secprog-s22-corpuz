@@ -26,7 +26,7 @@ public class inputValidator
         boolean isValid = true;
         for(i = 0; i <= 1; i++)
         {
-            if(inputs[i].matches("(?i).*[<>/(){}=\\n].*"))
+            if(inputs[i].matches("(?i).*[<>/();{}=\\n].*"))
             {
                 isValid = false;
             }
@@ -41,7 +41,7 @@ public class inputValidator
         boolean isValid = true;
         for(i = 0; i <= 2; i++)
         {
-            if(inputs[i].matches("(?i).*[<>/(){}=\\n].*"))
+            if(inputs[i].matches("(?i).*[<>/();{}=\\n].*"))
             {
                 isValid = false;
             }
@@ -57,7 +57,7 @@ public class inputValidator
         boolean isValid = true;
         for(i = 0; i <= 6; i++)
         {
-            if(inputs[i].matches("(?i).*[<>/(){}=\\n].*"))
+            if(inputs[i].matches("(?i).*[<>/();{}=\\n].*"))
             {
                 isValid = false;
             }
@@ -70,7 +70,7 @@ public class inputValidator
         boolean isValid = true;
         for(i = 0; i <= 9; i++)
         {
-            if(inputs[i].matches("(?i).*[<>/(){}=\\n].*"))
+            if(inputs[i].matches("(?i).*[<>/();{}=\\n].*"))
             {
                 isValid = false;
             }
@@ -84,7 +84,7 @@ public class inputValidator
         boolean isValid = true;
         for(i = 0; i <= 10; i++)
         {
-            if(inputs[i].matches("(?i).*[<>/(){}=\\n].*"))
+            if(inputs[i].matches("(?i).*[<>/();{}=\\n].*"))
             {
                 isValid = false;
             }

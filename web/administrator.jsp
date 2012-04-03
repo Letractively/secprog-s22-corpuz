@@ -94,7 +94,7 @@
          
                         
         <h2>Create Account</h2>
-        <form method ="post" action="admin_reg_controller">
+        <form method ="post" action="admin_reg_controller" autocomplete="off">
                         
         Username: <input type="text" name="username"><br>
         Password: <input type="password" name="password"><br>

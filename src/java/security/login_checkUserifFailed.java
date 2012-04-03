@@ -94,7 +94,7 @@ public class login_checkUserifFailed
         {
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("select * from customer where cust_id = ?");
+            PreparedStatement pstmt = conn.prepareStatement("select * from customer where cust_id = ? and state = 1");
             pstmt.setString(i++, temp.getUsername());
             
             ResultSet rs = pstmt.executeQuery();
@@ -261,15 +261,16 @@ public class login_checkUserifFailed
         {
             ConnectionFactory myFactory = ConnectionFactory.getFactory();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("update staff set password = ?, pass_changed = ? where staff_id = ?");
+            PreparedStatement pstmt = conn.prepareStatement("update staff set password = ?, pass_changed = 1 where staff_id = ?");
             pstmt.setString(i++, temp.getPassword());
-            pstmt.setBoolean(i++, true);
+          
             pstmt.setString(i++, temp.getUsername());
             pstmt.executeUpdate();
             
             conn.close();
             
             
+            System.out.println("PASOKKKKKKKKKKKKKKKK");
             
         } catch (SQLException ex) {
             Logger.getLogger(login_checkUserifFailed.class.getName()).log(Level.SEVERE, null, ex);

@@ -29,7 +29,7 @@
             <td>
                 <div class="login">
                     <br>
-                <form name="loginForm" method="post" action="admin_login_controller">
+                <form name="loginForm" method="post" action="admin_login_controller" autocomplete="off">
                         
                         Username: <input type="text" name="username">*<br>
                         Password: <input type="password" name="password">*<br>

@@ -18,6 +18,40 @@
         <link href="calendar.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Foobar Bookshop | Registration</title>
+         <%
+            session.setAttribute("exists", null);
+            response.setHeader("Pragma","no-cache");
+            response.setHeader("Cache-Control","no-store");
+            response.setHeader("Expires","0");
+            response.setDateHeader("Expires",-1);
+        %>
+        <%
+            if(session.getAttribute("reg_ok")==null)
+            {
+                %>
+                <br><br><br><br><br>
+                <center><div class="redirect"><br>You have not yet logged in! You will be redirected in <span id='redirect'>5</span> seconds.</div></center>
+                <script type="text/javascript">
+                    var redirect=4;
+                    setInterval(
+                    function()
+                    {
+                        if(redirect<1)
+                        {
+                            window.location='index.jsp';
+                        }
+                            else
+                            {
+                                document.getElementById('redirect').innerHTML = redirect--;
+                            }
+                    }
+                    , 1000); 
+               
+                </script>
+              <%  } 
+              
+         else 
+            {%>
     </head>
     <body>
         <div>
@@ -93,7 +127,11 @@
                    errors[counter] = "Special characters not allowed!";
                    counter++;
                 }
-                
+                else if(!(request.getParameter("ccType").toString().contentEquals("mastercard")) || !(request.getParameter("ccType").toString().contentEquals("visa")) )
+                {
+                   errors[counter] = "Mastercard or Visa is only allowed.";
+                   counter++;
+                }
                
 
                  else if (billHomeNo.length() < 1)
@@ -160,13 +198,13 @@
                     <form name="regForm2" method ="post" action="">
                        
                         Name on Card: <input type="text" name="firstName" size="7"> <input type="text" name="middleName" size="7"> <input type="text" name="lastName" size="7"><br>
-                        Credit Card #: <input type="text" name="ccNo"><br>
+                        Credit Card #: <input type="text" name="ccNo" ><br>
                         Type: <select name="ccType">
                             <option value="visa">Visa</option>
                             <option value="mastercard">MasterCard</option>
                             
                         </select><br>
-                        Expiry Date: <input type="text" name="datum1"><a href="#" onClick="setYears(2012, 2060);
+                        Expiry Date: <input type="text" name="datum1" ><a href="#" onClick="setYears(2012, 2060);
                                         showCalender(this, 'datum1');">
                                         <img src="Images/calender.png"></a>
                                             <br><br><hr>
@@ -220,5 +258,6 @@
                 
                 </div>
             </center>
+         <% } %>
     </body>
 </html>

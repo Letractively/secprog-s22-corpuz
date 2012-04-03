@@ -284,7 +284,7 @@
                  
                  <br> <br> <br>
         
-          <form method ="post" action="acct_query1">
+          <form method ="post" action="acct_query2">
                         
        
               
@@ -304,7 +304,7 @@
                  
                  <br> <hr> <br>
                  
-          <form method ="post" action="acct_query1">
+          <form method ="post" action="acct_query2">
          Get Transaction Lists from: 
         <select name="acct_query">
            

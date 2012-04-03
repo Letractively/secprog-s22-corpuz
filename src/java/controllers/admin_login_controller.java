@@ -76,6 +76,8 @@ public class admin_login_controller extends HttpServlet {
                         }
                         else
                         {
+                             session.setAttribute("user", login_user.getUsername());
+                             session.setAttribute("mgr_pos", ret.getPosition());
                             session.setAttribute("passChange", "true");
                             session.setAttribute("sessionName", "accounting");
                             response.sendRedirect("changeadmin_pass.jsp");
@@ -101,6 +103,8 @@ public class admin_login_controller extends HttpServlet {
                         }
                         else
                         {
+                             session.setAttribute("user", login_user.getUsername());
+                              session.setAttribute("mgr_pos", ret.getPosition());
                             session.setAttribute("passChange", "true");
                             session.setAttribute("sessionName", "product");
                             response.sendRedirect("changeadmin_pass.jsp");

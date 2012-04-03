@@ -50,6 +50,7 @@ public class login_controller extends HttpServlet {
             int flagger = 0, correctCaptcha = 0;
             int RawFiller=0, RetriesCatcher=0, test=0;
             String ValueTransformer = null;
+           
             
             Integer accessCount = (Integer)session.getAttribute("accessCount");
             
@@ -62,8 +63,8 @@ public class login_controller extends HttpServlet {
                    accessCount = new Integer(accessCount.intValue() + 1);
                }
             
-           if(accessCount>=3)
-           {
+         // if(accessCount>=3)
+          // {
                 
             /*    
             //
@@ -114,9 +115,10 @@ public class login_controller extends HttpServlet {
 }*/
             try
             {
+            System.err.print("Attempting captcha");
             String remoteAddr = request.getRemoteAddr();
             ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-            reCaptcha.setPrivateKey("6Lf2Z84SAAAAABPEKVj6o9hz3alo11oyQT8uwyN7");
+         //   reCaptcha.setPrivateKey("6Lf2Z84SAAAAABPEKVj6o9hz3alo11oyQT8uwyN7");
             
             String challenge = request.getParameter("recaptcha_challenge_field");
             String uresponse = request.getParameter("recaptcha_response_field");
@@ -132,13 +134,14 @@ public class login_controller extends HttpServlet {
                 System.out.print("Answer is wrong");
                 correctCaptcha=1;
             }
+            
             }
             catch(Exception ex)
             {
                 ex.printStackTrace();
             }
 
-         }
+         //}
            
             if((check_username == true && check_password == true))
             {
@@ -181,20 +184,24 @@ public class login_controller extends HttpServlet {
                 session.setAttribute("loggedIn", null);
                 session.setAttribute("brute", "set");  
                 session.setAttribute("CaptchaError","true");
+                // Log: brute
+               // System.out.println(login_user.getUsername());
+               // System.out.println(request.getAttribute("UserName").toString());
+                boolean result = new log_admin().addLogsCustomer("Username: " +  session.getAttribute("Username_log") + " Failed to Logged-In.");
                 response.sendRedirect("index.jsp");
-                
+               
                 
                }
                
-               }
+               }//inner else
                    
-            }
+            }//outer if
             else if(check_username == true && check_password == false)
             {
                
-               
-                ValueTransformer = Integer.toString(accessCount);   
-                session.setMaxInactiveInterval(2);
+                
+                ValueTransformer = Integer.toString(accessCount);
+                //session.setMaxInactiveInterval(2);
                 session.setAttribute("accessCount",accessCount);
                 session.setAttribute("Retries",ValueTransformer);
                 session.setAttribute("loggedIn", "false");
@@ -202,24 +209,27 @@ public class login_controller extends HttpServlet {
                 //session.setAttribute("flagLoggedIn",flagger);
                // session.getLastAccessedTime(); 
                 
-                 
+                  boolean result = new log_admin().addLogsCustomer("Username: " +  session.getAttribute("Username_log") + " Failed to Logged-In.");
                if(correctCaptcha == 0)
                  session.setAttribute("CaptchaError","true");
               
-            
+            // brute
               response.sendRedirect("index.jsp");  
             }
             else
             {  
                 System.out.print("Visits: "+ accessCount);
-              
+               boolean result = new log_admin().addLogsCustomer("Username: " +  session.getAttribute("Username_log") + " Failed to Logged-In.");
                 ValueTransformer = Integer.toString(accessCount);  
-                session.setMaxInactiveInterval(2);
+               // session.setMaxInactiveInterval(2);
                 session.setAttribute("accessCount",accessCount);
                 session.setAttribute("Retries",ValueTransformer);
                 session.setAttribute("loggedIn", null);
                 session.setAttribute("brute", "set");  
                 session.setAttribute("CaptchaError","true");
+                //System.out.println(request.getAttribute("UserName").toString());
+               
+             //   System.out.println(login_user.getUsername());
                 response.sendRedirect("index.jsp");
             }    
         }

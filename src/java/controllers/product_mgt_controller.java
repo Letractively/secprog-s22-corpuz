@@ -176,7 +176,8 @@ public class product_mgt_controller extends HttpServlet {
             
            if(request.getParameter("UpdateDetails")!=null)
            {
-             out.println("Potential update");  
+              out.println("Error!");
+                out.println("<a href ='CentralProdMgr.jsp'>BACK</a>"); 
                
               products UpdateProducts = new products();  
              
@@ -232,7 +233,8 @@ public class product_mgt_controller extends HttpServlet {
             
             if(request.getParameter("AddProds")!=null)
             { 
-                
+                out.println("Error!");
+                out.println("<a href ='CentralProdMgr.jsp'>BACK</a>");
                 String ManagerType = (String)session.getAttribute("ProductType");
                 System.out.println("Product type is : " + ManagerType);
                 products AddProduct = new products();
